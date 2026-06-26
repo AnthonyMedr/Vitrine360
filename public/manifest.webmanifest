@@ -1,0 +1,12 @@
+{
+  "name": "Vitrine360 - Central Comercial Digital",
+  "short_name": "Vitrine360",
+  "description": "Central Comercial Digital desenvolvida pela InfiniTI Labs para catalogo, campanhas, WhatsApp, IA, totem, vitrine em TV, SEO e analytics.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#050505",
+  "theme_color": "#050505",
+  "orientation": "any",
+  "icons": [{ "src": "/favicon.ico", "sizes": "any", "type": "image/x-icon" }]
+}

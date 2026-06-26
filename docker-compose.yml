@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: vitrine360-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: vitrine360
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - vitrine360-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d vitrine360"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  vitrine360-postgres-data:

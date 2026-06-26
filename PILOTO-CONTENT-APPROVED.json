@@ -1,0 +1,137 @@
+{
+  "store": {
+    "storeName": "Gamel Metal",
+    "whatsappNumber": "5585988887777",
+    "address": "Av. Principal, 1234 - Centro, Fortaleza/CE",
+    "openingHours": "Seg a Sex: 08h-12h e 13h30-17h30 | Sab: 08h-12h",
+    "instagramUrl": "https://instagram.com/lojaodopvc",
+    "websiteUrl": "",
+    "institutionalText": "Especialistas em forros, divisorias, chapas decorativas e solucoes modernas para construcao e reforma."
+  },
+  "categories": [
+    {
+      "slug": "forros-pvc",
+      "status": "publicada"
+    },
+    {
+      "slug": "forros-amadeirados",
+      "status": "publicada"
+    },
+    {
+      "slug": "chapas-uv",
+      "status": "publicada"
+    },
+    {
+      "slug": "ripados",
+      "status": "publicada"
+    },
+    {
+      "slug": "drywall",
+      "status": "publicada"
+    },
+    {
+      "slug": "telhas",
+      "status": "publicada"
+    },
+    {
+      "slug": "policarbonato",
+      "status": "publicada"
+    },
+    {
+      "slug": "aluminio",
+      "status": "publicada"
+    },
+    {
+      "slug": "pisos-vinilicos",
+      "status": "publicada"
+    }
+  ],
+  "products": [
+    {
+      "slug": "forro-hd-wood-marfim",
+      "status": "publicado",
+      "isFeatured": true,
+      "priceLabel": "Sob consulta"
+    },
+    {
+      "slug": "chapa-uv-nero-markina",
+      "status": "publicado",
+      "isFeatured": true,
+      "priceLabel": "Sob consulta"
+    },
+    {
+      "slug": "chapa-uv-calacata-nero",
+      "status": "publicado",
+      "isFeatured": true,
+      "priceLabel": "Sob consulta"
+    },
+    {
+      "slug": "ripado-wpc-interno",
+      "status": "publicado",
+      "isFeatured": true,
+      "priceLabel": "Sob consulta"
+    },
+    {
+      "slug": "telha-pvc",
+      "status": "publicado",
+      "isFeatured": true,
+      "priceLabel": "Sob consulta"
+    },
+    {
+      "slug": "drywall-linha-completa",
+      "status": "publicado",
+      "isFeatured": true,
+      "priceLabel": "Sob consulta"
+    },
+    {
+      "slug": "policarbonato-alveolar",
+      "status": "publicado",
+      "isFeatured": false,
+      "priceLabel": "Sob consulta"
+    },
+    {
+      "slug": "perfis-aluminio",
+      "status": "publicado",
+      "isFeatured": false,
+      "priceLabel": "Sob consulta"
+    },
+    {
+      "slug": "box-banheiro-aluminio",
+      "status": "publicado",
+      "isFeatured": true,
+      "priceLabel": "Sob consulta"
+    },
+    {
+      "slug": "piso-vinilico-carvalho",
+      "status": "publicado",
+      "isFeatured": false,
+      "priceLabel": "Sob consulta"
+    }
+  ],
+  "campaigns": [
+    {
+      "slug": "mes-da-construcao",
+      "status": "publicada",
+      "isFeatured": true,
+      "showOnHome": true,
+      "showOnTotem": true,
+      "showOnVitrine": true
+    },
+    {
+      "slug": "especial-chapas-uv",
+      "status": "publicada",
+      "isFeatured": true,
+      "showOnHome": true,
+      "showOnTotem": true,
+      "showOnVitrine": true
+    },
+    {
+      "slug": "semana-do-forro",
+      "status": "publicada",
+      "isFeatured": true,
+      "showOnHome": true,
+      "showOnTotem": true,
+      "showOnVitrine": true
+    }
+  ]
+}

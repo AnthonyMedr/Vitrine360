@@ -1,0 +1,396 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model analytics_events {
+  id         String   @id
+  event_type String
+  product_id String?
+  category   String?
+  metadata   Json?
+  session_id String?
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+}
+
+model audit_logs {
+  id          String   @id
+  store_id    String?
+  user_id     String?
+  action      String
+  entity_type String
+  entity_id   String?
+  metadata    Json     @default("{}")
+  created_at  DateTime @default(now()) @db.Timestamptz(6)
+  stores      stores?  @relation(fields: [store_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model auth_users {
+  id         String   @id
+  email      String   @unique
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+}
+
+model banners {
+  id                   String        @id
+  store_id             String?
+  title                String
+  slug                 String
+  media_asset_id       String?
+  target_url           String?
+  placement            String        @default("home")
+  status               String        @default("rascunho")
+  sort_order           Int           @default(0)
+  created_by           String?
+  updated_by           String?
+  created_at           DateTime      @default(now()) @db.Timestamptz(6)
+  updated_at           DateTime      @default(now()) @db.Timestamptz(6)
+  archived_at          DateTime?     @db.Timestamptz(6)
+  subtitle             String?
+  description          String?
+  cta_label            String?
+  linked_product_slug  String?
+  linked_campaign_slug String?
+  show_on_home         Boolean       @default(true)
+  show_on_totem        Boolean       @default(false)
+  show_on_vitrine      Boolean       @default(false)
+  starts_at            DateTime?     @db.Timestamptz(6)
+  ends_at              DateTime?     @db.Timestamptz(6)
+  media_assets         media_assets? @relation(fields: [media_asset_id], references: [id], onUpdate: NoAction)
+  stores               stores?       @relation(fields: [store_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([store_id, slug])
+}
+
+model campaign_products {
+  id          String    @id
+  campaign_id String
+  product_id  String
+  sort_order  Int       @default(0)
+  created_at  DateTime  @default(now()) @db.Timestamptz(6)
+  campaigns   campaigns @relation(fields: [campaign_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  products    products  @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([campaign_id, product_id])
+}
+
+model campaigns {
+  id                String              @id
+  store_id          String
+  title             String
+  slug              String
+  subtitle          String?
+  description       String?
+  banner_media_id   String?
+  cta_label         String?
+  whatsapp_message  String?
+  start_date        DateTime?           @db.Timestamptz(6)
+  end_date          DateTime?           @db.Timestamptz(6)
+  status            String              @default("rascunho")
+  is_featured       Boolean             @default(false)
+  show_on_home      Boolean             @default(false)
+  show_on_totem     Boolean             @default(false)
+  show_on_vitrine   Boolean             @default(false)
+  seo_title         String?
+  seo_description   String?
+  sort_order        Int                 @default(0)
+  created_by        String?
+  updated_by        String?
+  created_at        DateTime            @default(now()) @db.Timestamptz(6)
+  updated_at        DateTime            @default(now()) @db.Timestamptz(6)
+  published_at      DateTime?           @db.Timestamptz(6)
+  archived_at       DateTime?           @db.Timestamptz(6)
+  gallery_media_ids String[]            @default([])
+  totem_media_id    String?
+  vitrine_media_id  String?
+  campaign_products campaign_products[]
+  media_assets      media_assets?       @relation(fields: [banner_media_id], references: [id], onUpdate: NoAction)
+  stores            stores              @relation(fields: [store_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([store_id, slug])
+}
+
+model categories {
+  id              String        @id
+  store_id        String
+  name            String
+  slug            String
+  short_name      String?
+  description     String?
+  image_media_id  String?
+  seo_title       String?
+  seo_description String?
+  status          String        @default("publicada")
+  sort_order      Int           @default(0)
+  created_by      String?
+  updated_by      String?
+  created_at      DateTime      @default(now()) @db.Timestamptz(6)
+  updated_at      DateTime      @default(now()) @db.Timestamptz(6)
+  media_assets    media_assets? @relation(fields: [image_media_id], references: [id], onUpdate: NoAction)
+  stores          stores        @relation(fields: [store_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  products        products[]
+
+  @@unique([store_id, slug])
+}
+
+model content_items {
+  id         String   @id
+  store_id   String?
+  slug       String
+  title      String
+  type       String
+  body       String?
+  metadata   Json     @default("{}")
+  status     String   @default("rascunho")
+  created_by String?
+  updated_by String?
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @default(now()) @db.Timestamptz(6)
+  stores     stores?  @relation(fields: [store_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([store_id, slug, type])
+}
+
+model leads {
+  id            String   @id
+  product_id    String?
+  product_name  String?
+  category      String?
+  source        String?
+  message       String?
+  contact_name  String?
+  contact_phone String?
+  store_unit    String?
+  user_agent    String?
+  created_at    DateTime @default(now()) @db.Timestamptz(6)
+}
+
+model media_assets {
+  id                                                               String           @id
+  store_id                                                         String
+  file_name                                                        String
+  original_file_name                                               String
+  file_url                                                         String
+  storage_path                                                     String           @unique
+  mime_type                                                        String
+  size                                                             Int              @default(0)
+  width                                                            Int?
+  height                                                           Int?
+  type                                                             String
+  title                                                            String?
+  alt_text                                                         String?
+  description                                                      String?
+  tags                                                             Json             @default("[]")
+  status                                                           String           @default("rascunho")
+  created_by                                                       String?
+  updated_by                                                       String?
+  created_at                                                       DateTime         @default(now()) @db.Timestamptz(6)
+  updated_at                                                       DateTime         @default(now()) @db.Timestamptz(6)
+  archived_at                                                      DateTime?        @db.Timestamptz(6)
+  banners                                                          banners[]
+  campaigns                                                        campaigns[]
+  categories                                                       categories[]
+  stores                                                           stores           @relation(fields: [store_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  product_images                                                   product_images[]
+  products                                                         products[]
+  store_settings_store_settings_hero_banner_media_idTomedia_assets store_settings[] @relation("store_settings_hero_banner_media_idTomedia_assets")
+  store_settings_store_settings_logo_media_idTomedia_assets        store_settings[] @relation("store_settings_logo_media_idTomedia_assets")
+}
+
+model product_images {
+  id             String       @id
+  product_id     String
+  media_asset_id String
+  image_role     String       @default("galeria")
+  sort_order     Int          @default(0)
+  is_primary     Boolean      @default(false)
+  created_at     DateTime     @default(now()) @db.Timestamptz(6)
+  media_assets   media_assets @relation(fields: [media_asset_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  products       products     @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([product_id, media_asset_id])
+}
+
+model products {
+  id                String              @id
+  store_id          String
+  category_id       String?
+  primary_media_id  String?
+  name              String
+  slug              String
+  short_description String?
+  description       String?
+  technical_specs   Json                @default("[]")
+  benefits          Json                @default("[]")
+  applications      Json                @default("[]")
+  environments      Json                @default("[]")
+  tags              Json                @default("[]")
+  whatsapp_message  String?
+  seo_title         String?
+  seo_description   String?
+  status            String              @default("rascunho")
+  is_featured       Boolean             @default(false)
+  sort_order        Int                 @default(0)
+  unit              String?
+  price_label       String?
+  section_key       String?
+  created_by        String?
+  updated_by        String?
+  created_at        DateTime            @default(now()) @db.Timestamptz(6)
+  updated_at        DateTime            @default(now()) @db.Timestamptz(6)
+  published_at      DateTime?           @db.Timestamptz(6)
+  archived_at       DateTime?           @db.Timestamptz(6)
+  campaign_products campaign_products[]
+  product_images    product_images[]
+  categories        categories?         @relation(fields: [category_id], references: [id], onUpdate: NoAction)
+  media_assets      media_assets?       @relation(fields: [primary_media_id], references: [id], onUpdate: NoAction)
+  stores            stores              @relation(fields: [store_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([store_id, slug])
+}
+
+model qrcodes {
+  id          String   @id
+  store_id    String?
+  slug        String?
+  label       String?
+  target_url  String
+  context     String?
+  scans_count Int      @default(0)
+  status      String   @default("ativo")
+  created_by  String?
+  updated_by  String?
+  created_at  DateTime @default(now()) @db.Timestamptz(6)
+  updated_at  DateTime @default(now()) @db.Timestamptz(6)
+  stores      stores?  @relation(fields: [store_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model seo_audit_schedules {
+  id          String    @id
+  store_id    String?
+  route_path  String
+  frequency   String    @default("weekly")
+  status      String    @default("ativo")
+  last_run_at DateTime? @db.Timestamptz(6)
+  next_run_at DateTime? @db.Timestamptz(6)
+  created_by  String?
+  updated_by  String?
+  created_at  DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at  DateTime  @default(now()) @db.Timestamptz(6)
+  stores      stores?   @relation(fields: [store_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model seo_audits {
+  id         String   @id
+  store_id   String?
+  route_path String
+  score      Int?
+  summary    String?
+  payload    Json     @default("{}")
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  stores     stores?  @relation(fields: [store_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model store_settings {
+  store_id                                                       String        @id
+  store_name                                                     String
+  logo_media_id                                                  String?
+  whatsapp_number                                                String?
+  address                                                        String?
+  opening_hours                                                  String?
+  instagram_url                                                  String?
+  facebook_url                                                   String?
+  website_url                                                    String?
+  institutional_text                                             String?
+  primary_color                                                  String?
+  secondary_color                                                String?
+  seo_title                                                      String?
+  seo_description                                                String?
+  hero_banner_media_id                                           String?
+  updated_by                                                     String?
+  updated_at                                                     DateTime      @default(now()) @db.Timestamptz(6)
+  media_assets_store_settings_hero_banner_media_idTomedia_assets media_assets? @relation("store_settings_hero_banner_media_idTomedia_assets", fields: [hero_banner_media_id], references: [id], onUpdate: NoAction)
+  media_assets_store_settings_logo_media_idTomedia_assets        media_assets? @relation("store_settings_logo_media_idTomedia_assets", fields: [logo_media_id], references: [id], onUpdate: NoAction)
+  stores                                                         stores        @relation(fields: [store_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model stores {
+  id                  String                @id
+  code                String                @unique
+  name                String
+  status              String                @default("active")
+  created_at          DateTime              @default(now()) @db.Timestamptz(6)
+  updated_at          DateTime              @default(now()) @db.Timestamptz(6)
+  audit_logs          audit_logs[]
+  banners             banners[]
+  campaigns           campaigns[]
+  categories          categories[]
+  content_items       content_items[]
+  media_assets        media_assets[]
+  products            products[]
+  qrcodes             qrcodes[]
+  seo_audit_schedules seo_audit_schedules[]
+  seo_audits          seo_audits[]
+  store_settings      store_settings?
+  totem_settings      totem_settings?
+  user_roles          user_roles[]
+  vitrine_settings    vitrine_settings?
+}
+
+model totem_settings {
+  id                     String    @id
+  store_id               String    @unique
+  welcome_message        String?
+  idle_reset_seconds     Int       @default(60)
+  primary_qr_target      String?
+  show_featured_products Boolean   @default(true)
+  show_campaigns         Boolean   @default(true)
+  show_categories        Boolean   @default(true)
+  status                 String    @default("ativo")
+  last_seen_at           DateTime? @db.Timestamptz(6)
+  created_at             DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at             DateTime  @default(now()) @db.Timestamptz(6)
+  intro_title            String?
+  intro_subtitle         String?
+  hero_media_id          String?
+  category_slugs         String[]  @default([])
+  featured_product_slugs String[]  @default([])
+  campaign_slugs         String[]  @default([])
+  banner_slugs           String[]  @default([])
+  stores                 stores    @relation(fields: [store_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model user_roles {
+  id         String   @id
+  user_id    String
+  role       String
+  store_id   String?
+  created_by String?
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  stores     stores?  @relation(fields: [store_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([user_id, role, store_id])
+}
+
+model vitrine_settings {
+  id                     String   @id
+  store_id               String   @unique
+  slide_duration_seconds Int      @default(8)
+  orientation            String   @default("paisagem")
+  status                 String   @default("ativo")
+  show_campaigns         Boolean  @default(true)
+  show_featured_products Boolean  @default(true)
+  created_at             DateTime @default(now()) @db.Timestamptz(6)
+  updated_at             DateTime @default(now()) @db.Timestamptz(6)
+  hero_media_id          String?
+  show_qr_codes          Boolean  @default(true)
+  layout_mode            String   @default("automatico")
+  campaign_slugs         String[] @default([])
+  product_slugs          String[] @default([])
+  banner_slugs           String[] @default([])
+  stores                 stores   @relation(fields: [store_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}

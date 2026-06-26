@@ -1,0 +1,33 @@
+# Vitrine360 - Central Comercial Digital
+
+> Produto da InfiniTI Labs para operacao comercial digital em lojas fisicas e canais digitais, com catalogo, ofertas, vitrine para TV, totem e apoio comercial com IA.
+
+O Vitrine360 e a central comercial digital preparada pela InfiniTI Labs. Nesta implantacao, o cliente piloto operacional e a Gamel Metal, com catalogo navegavel, campanhas, simulador de ambientes e recomendador inteligente por cenario de uso.
+
+## Páginas
+
+- [Início](/): apresentação da plataforma e atalhos por módulo.
+- [Catálogo Digital](/catalogo): busca e filtros por categoria com ficha técnica e ambientes.
+- [Ofertas / Tabloide](/ofertas): destaques promocionais da semana.
+- [Vitrine TV](/vitrine): loop autoplay para mídia corporativa.
+
+## Categorias
+
+- [Forros PVC](/categoria/forros-pvc)
+- [Forros Amadeirados](/categoria/forros-amadeirados)
+- [Chapas UV](/categoria/chapas-uv)
+- [Ripados](/categoria/ripados)
+- [Drywall](/categoria/drywall)
+- [Telhas](/categoria/telhas)
+- [Policarbonato](/categoria/policarbonato)
+- [Perfis de Alumínio](/categoria/aluminio)
+- [Pisos Vinílicos](/categoria/pisos-vinilicos)
+- [Ferragens e Acessórios](/categoria/ferragens)
+
+## Campanhas em destaque
+
+- [Mês da Construção](/campanha/mes-da-construcao)
+- [Especial Chapas UV](/campanha/especial-chapas-uv)
+- [Semana do Forro](/campanha/semana-do-forro)
+- [Tendência Ripados](/campanha/tendencia-ripados)
+- [Festival Drywall](/campanha/festival-drywall)
