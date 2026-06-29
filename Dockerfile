@@ -35,8 +35,8 @@ COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/prisma.config.ts ./prisma.config.ts
-COPY --from=builder /app/vite.preview.config.ts ./vite.preview.config.ts
+COPY --from=builder /app/scripts/serve-dist.mjs ./scripts/serve-dist.mjs
 
 EXPOSE 3000
 
-CMD ["npx", "vite", "preview", "--config", "vite.preview.config.ts", "--host", "0.0.0.0", "--port", "3000"]
+CMD ["node", "scripts/serve-dist.mjs"]
