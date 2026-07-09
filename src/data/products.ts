@@ -1,9 +1,13 @@
 import forroMarfim from "@/assets/produto-forro-wood-marfim.jpg";
+import forroBranco from "@/assets/produto-forro-branco-neve.jpg";
 import forroPreto from "@/assets/produto-forro-preto.jpg";
 import forroCinza from "@/assets/produto-forro-cinza.jpg";
+import tetoLaminadoCarvalho from "@/assets/produto-teto-laminado-carvalho.jpg";
+import tetoLaminadoGrafite from "@/assets/produto-teto-laminado-grafite.jpg";
 import chapaNero from "@/assets/produto-chapa-nero.jpg";
 import chapaCalacata from "@/assets/produto-chapa-calacata.jpg";
 import chapaBranca from "@/assets/produto-chapa-branca.jpg";
+import acmGrafite from "@/assets/produto-acm-grafite-escovado.jpg";
 import ripadoWpc from "@/assets/produto-ripado-wpc.jpg";
 import ripadoEscuro from "@/assets/produto-ripado-escuro.jpg";
 import aluminio from "@/assets/produto-aluminio.jpg";
@@ -125,7 +129,7 @@ export const products: Product[] = [
     environments: [
       {
         title: "Teto clean para operacao comercial",
-        image: forroCinza,
+        image: forroBranco,
         description: "Base neutra para projetos que pedem claridade e organizacao visual.",
       },
     ],
@@ -137,8 +141,8 @@ export const products: Product[] = [
     related: ["forro-pvc-preto-premium", "perfil-aluminio-estrutural"],
     unit: "m2",
     price: "Sob consulta",
-    image: forroCinza,
-    gallery: [forroCinza, forroPreto],
+    image: forroBranco,
+    gallery: [forroBranco, forroCinza, forroPreto],
     featured: true,
     sectionId: "forros-pvc",
   },
@@ -195,7 +199,7 @@ export const products: Product[] = [
     environments: [
       {
         title: "Recepcao com teto laminado",
-        image: forroMarfim,
+        image: tetoLaminadoCarvalho,
         description: "Excelente para criar calor visual sem perder elegancia.",
       },
     ],
@@ -208,8 +212,8 @@ export const products: Product[] = [
     unit: "m2",
     price: "Sob consulta",
     badge: { label: "Ambiente premium", tone: "action" },
-    image: forroMarfim,
-    gallery: [forroMarfim, ripadoWpc],
+    image: tetoLaminadoCarvalho,
+    gallery: [tetoLaminadoCarvalho, forroMarfim, ripadoWpc],
     featured: true,
     sectionId: "tetos-laminados",
   },
@@ -231,7 +235,7 @@ export const products: Product[] = [
     environments: [
       {
         title: "Forro escuro para showroom",
-        image: forroPreto,
+        image: tetoLaminadoGrafite,
         description: "Reforca identidade visual de projetos mais ousados.",
       },
     ],
@@ -243,8 +247,8 @@ export const products: Product[] = [
     related: ["forro-pvc-preto-premium", "acm-grafite-escovado"],
     unit: "m2",
     price: "Sob consulta",
-    image: forroPreto,
-    gallery: [forroPreto, forroMarfim],
+    image: tetoLaminadoGrafite,
+    gallery: [tetoLaminadoGrafite, forroPreto, tetoLaminadoCarvalho],
     sectionId: "tetos-laminados",
   },
   {
@@ -403,7 +407,7 @@ export const products: Product[] = [
     environments: [
       {
         title: "Painel e fachada com ACM",
-        image: chapaCalacata,
+        image: acmGrafite,
         description: "Funciona muito bem em composicoes limpas e corporativas.",
       },
     ],
@@ -416,8 +420,8 @@ export const products: Product[] = [
     unit: "chapa",
     price: "Sob consulta",
     badge: { label: "Fachadas", tone: "action" },
-    image: chapaCalacata,
-    gallery: [chapaCalacata, aluminio],
+    image: acmGrafite,
+    gallery: [acmGrafite, aluminio],
     featured: true,
     sectionId: "acm",
   },
