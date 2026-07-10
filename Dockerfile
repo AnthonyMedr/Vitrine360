@@ -37,8 +37,9 @@ COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/prisma.config.ts ./prisma.config.ts
 COPY --from=builder /app/src/assets ./seed-assets
 COPY --from=builder /app/scripts/ensure-seed-media.mjs ./scripts/ensure-seed-media.mjs
+COPY --from=builder /app/scripts/sync-store-identity.mjs ./scripts/sync-store-identity.mjs
 COPY --from=builder /app/scripts/serve-dist.mjs ./scripts/serve-dist.mjs
 
 EXPOSE 3000
 
-CMD ["sh", "-c", "node scripts/ensure-seed-media.mjs && node scripts/serve-dist.mjs"]
+CMD ["sh", "-c", "node scripts/ensure-seed-media.mjs && node scripts/sync-store-identity.mjs && node scripts/serve-dist.mjs"]

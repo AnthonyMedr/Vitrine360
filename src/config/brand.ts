@@ -26,7 +26,7 @@ export const brandConfig = {
   defaultStoreInstitutionalText:
     "Gamel Distribuidora, nome fantasia da Garanhuns Metal LTDA, atua com materiais de construcao, ferragens, ferramentas, vidros, acabamentos e solucoes para obras em Garanhuns/PE.",
   defaultInstagramHandle: "@gamelmetal",
-  defaultInstagramUrl: "https://www.instagram.com/gamelmetal?igsh=aDg1cjN6dW8zMWJt",
+  defaultInstagramUrl: "",
   defaultLogoUrl: "/brands/gamel-logo.png",
   defaultBrandColor: "#232323",
   defaultActionColor: "#FF944D",

@@ -18,6 +18,8 @@
     "db:migrate:prod": "node scripts/run-with-env.mjs .env.production scripts/db-migrate.mjs",
     "db:seed": "node --env-file=.env scripts/db-seed.mjs",
     "db:seed:prod": "node scripts/run-with-env.mjs .env.production scripts/db-seed.mjs",
+    "store:identity:sync": "node --env-file=.env scripts/sync-store-identity.mjs",
+    "store:identity:sync:prod": "node scripts/run-with-env.mjs .env.production scripts/sync-store-identity.mjs",
     "db:reset": "docker compose down -v && docker compose up -d && node --env-file=.env scripts/db-migrate.mjs && node --env-file=.env scripts/db-seed.mjs",
     "prisma:generate": "prisma generate",
     "prisma:pull": "prisma db pull",
