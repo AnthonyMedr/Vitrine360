@@ -17,6 +17,15 @@ if (!connectionString) {
 
 const storeId = "default-store";
 const adminEmail = process.env.ADMIN_BOOTSTRAP_EMAIL || "admin@infinitilabs.com.br";
+const storeName = "Gamel Distribuidora";
+const storeCode = "gamel-distribuidora";
+const storeWhatsappNumber = "558781390957";
+const storeAddress =
+  "Rua Vereador Paulo Francisco Gomes, SN, Lot. Serra Branca, Quadra II, Lote 7 - Magano, Garanhuns/PE - CEP 55294-770";
+const storeOpeningHours = "Seg a Sex: 08h-12h e 13h30-17h30 | Sab: 08h-12h";
+const storeInstagramUrl = "";
+const storeInstitutionalText =
+  "Gamel Distribuidora, nome fantasia da Garanhuns Metal LTDA, atua com materiais de construcao, ferragens, ferramentas, vidros, acabamentos e solucoes para obras em Garanhuns/PE.";
 
 const categories = [
   ["forros-pvc", "forros-pvc", "Forros PVC", "Forros PVC"],
@@ -255,7 +264,7 @@ try {
           name = excluded.name,
           updated_at = now()
     `,
-    [storeId, "gamel-metal", "Gamel Metal"],
+    [storeId, storeCode, storeName],
   );
 
   await client.query(
@@ -451,11 +460,11 @@ try {
         seo_title, seo_description, updated_by
       )
       values (
-        $1, 'Gamel Metal', '5585988887777', 'Av. Principal, 1234 - Centro, Fortaleza/CE',
-        'Seg a Sex: 08h-12h e 13h30-17h30 | Sab: 08h-12h',
-        'https://instagram.com/lojaodopvc',
-        '', '', 'Especialistas em forros, divisorias, chapas decorativas e solucoes modernas para construcao e reforma.',
-        '#1f2329', '#F26B1F', 'Gamel Metal | Vitrine360', 'Catalogo, campanhas, vitrine TV e totem comercial assistido pela InfiniTI.',
+        $1, $2, $3, $4,
+        $5,
+        $6,
+        '', '', $7,
+        '#1f2329', '#F26B1F', $8, $9,
         'bootstrap-admin'
       )
       on conflict (store_id)
@@ -473,7 +482,17 @@ try {
         updated_by = excluded.updated_by,
         updated_at = now()
     `,
-    [storeId],
+    [
+      storeId,
+      storeName,
+      storeWhatsappNumber,
+      storeAddress,
+      storeOpeningHours,
+      storeInstagramUrl,
+      storeInstitutionalText,
+      `${storeName} | Vitrine360`,
+      "Catalogo, campanhas, vitrine TV e totem comercial assistido pela InfiniTI.",
+    ],
   );
 
   await client.query(

@@ -62,7 +62,7 @@ function AdminLogin() {
     <div className="mx-auto max-w-md px-4 py-12">
       <div className="border border-border bg-card p-8 text-card-foreground shadow-pop">
         <span className="inline-flex bg-action px-3 py-1 text-[10px] font-bold uppercase tracking-[0.22em] text-action-foreground">
-          Gamel Metal
+          {brandConfig.defaultStoreName}
         </span>
         <h1 className="mt-4 font-display text-5xl">Acessar painel</h1>
         <p className="mt-1 text-sm text-muted-foreground">

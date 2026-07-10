@@ -2,7 +2,7 @@
 
 > Produto da InfiniTI Labs para operacao comercial digital em lojas fisicas e canais digitais, com catalogo, ofertas, vitrine para TV, totem e apoio comercial com IA.
 
-O Vitrine360 e a central comercial digital preparada pela InfiniTI Labs. Nesta implantacao, o cliente piloto operacional e a Gamel Metal, com catalogo navegavel, campanhas, simulador de ambientes e recomendador inteligente por cenario de uso.
+O Vitrine360 e a central comercial digital preparada pela InfiniTI Labs. Nesta implantacao, o cliente piloto operacional e a Gamel Distribuidora, nome fantasia da Garanhuns Metal LTDA, com catalogo navegavel, campanhas, simulador de ambientes e recomendador inteligente por cenario de uso.
 
 ## Páginas
 

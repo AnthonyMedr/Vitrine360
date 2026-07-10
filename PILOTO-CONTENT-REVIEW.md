@@ -7,11 +7,11 @@
 
 Base atual carregada pelo seed/local store:
 
-- loja: `Gamel Metal`
-- WhatsApp atual: `5585988887777`
-- endereco atual: `Av. Principal, 1234 - Centro, Fortaleza/CE`
+- loja: `Gamel Distribuidora`
+- WhatsApp atual: `558781390957`
+- endereco atual: `Rua Vereador Paulo Francisco Gomes, SN, Lot. Serra Branca, Quadra II, Lote 7 - Magano, Garanhuns/PE - CEP 55294-770`
 - horario atual: `Seg a Sex: 08h-12h e 13h30-17h30 | Sab: 08h-12h`
-- Instagram atual: `https://instagram.com/lojaodopvc`
+- Instagram atual: ``
 - produtos atuais no seed: `10`
 - categorias atuais no seed: `9`
 - campanhas atuais no seed: `3`

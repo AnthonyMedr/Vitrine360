@@ -168,7 +168,7 @@ function createInitialState() {
     stores: [
       {
         id: storeId,
-        code: "lojao-do-pvc",
+        code: "gamel-distribuidora",
         name: brandConfig.defaultStoreName,
         status: "active",
         created_at: nowIso(),
@@ -209,14 +209,13 @@ function createInitialState() {
         store_id: storeId,
         store_name: brandConfig.defaultStoreName,
         logo_media_id: null,
-        whatsapp_number: "5500000000000",
-        address: "Av. Principal, 1234 - Centro, Sua Cidade",
-        opening_hours: "Seg a Sex: 08h-12h e 13h30-17h30 | Sab: 08h-12h",
-        instagram_url: "",
+        whatsapp_number: brandConfig.defaultStorePhoneNumber,
+        address: brandConfig.defaultStoreAddress,
+        opening_hours: brandConfig.defaultStoreOpeningHours,
+        instagram_url: brandConfig.defaultInstagramUrl,
         facebook_url: "",
         website_url: null,
-        institutional_text:
-          "Especialistas em ripados, forros PVC, tetos laminados, pisos vinilicos, chapas UV, aluminio e ACM.",
+        institutional_text: brandConfig.defaultStoreInstitutionalText,
         primary_color: "#1f2329",
         secondary_color: "#F26B1F",
         seo_title: brandConfig.defaultSeoTitle,

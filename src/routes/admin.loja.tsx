@@ -91,7 +91,7 @@ function StoreSettingsPage() {
                   onChange={(event) =>
                     setForm((current: any) => ({ ...current, storeName: event.target.value }))
                   }
-                  placeholder="Ex: Gamel Metal"
+                  placeholder="Ex: Gamel Distribuidora"
                   className={inputClassName()}
                 />
               </AdminField>
@@ -104,7 +104,7 @@ function StoreSettingsPage() {
                   onChange={(event) =>
                     setForm((current: any) => ({ ...current, whatsappNumber: event.target.value }))
                   }
-                  placeholder="5585988887777"
+                  placeholder="558781390957"
                   className={inputClassName()}
                 />
               </AdminField>
@@ -114,7 +114,7 @@ function StoreSettingsPage() {
                   onChange={(event) =>
                     setForm((current: any) => ({ ...current, address: event.target.value }))
                   }
-                  placeholder="Av. Principal, 1234 - Centro, Fortaleza/CE"
+                  placeholder="Rua Vereador Paulo Francisco Gomes, SN - Garanhuns/PE"
                   className={inputClassName()}
                 />
               </AdminField>

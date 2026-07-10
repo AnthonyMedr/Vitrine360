@@ -129,8 +129,8 @@ function CatalogoPage() {
               Solucoes visuais para acabamento e estrutura.
             </h1>
             <p className="mt-3 max-w-2xl text-sm text-brand-foreground/76 sm:text-base">
-              Navegue por categorias, busque por aplicacao e consulte as linhas comerciais da Gamel
-              com linguagem clara, tecnica e objetiva.
+              Navegue por categorias, busque por aplicacao e consulte as linhas comerciais da{" "}
+              {storeName} com linguagem clara, tecnica e objetiva.
             </p>
             <div className="relative mt-6 max-w-xl">
               <Search className="absolute left-4 top-1/2 size-5 -translate-y-1/2 text-brand/70" />

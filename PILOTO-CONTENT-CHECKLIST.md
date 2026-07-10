@@ -4,11 +4,11 @@ Gerado automaticamente em 2026-06-19T00:20:21.408Z.
 
 ## 1. Resumo atual do piloto
 
-- Loja atual: `Gamel Metal`
-- WhatsApp atual: `5585988887777`
-- Endereco atual: `Av. Principal, 1234 - Centro, Fortaleza/CE`
+- Loja atual: `Gamel Distribuidora`
+- WhatsApp atual: `558781390957`
+- Endereco atual: `Rua Vereador Paulo Francisco Gomes, SN, Lot. Serra Branca, Quadra II, Lote 7 - Magano, Garanhuns/PE - CEP 55294-770`
 - Horario atual: `Seg a Sex: 08h-12h e 13h30-17h30 | Sab: 08h-12h`
-- Instagram atual: `https://instagram.com/lojaodopvc`
+- Instagram atual: ``
 - Website atual: `nao definido`
 - Texto institucional preenchido: sim
 - Categorias mapeadas: `9`
@@ -97,11 +97,11 @@ Gerado automaticamente em: `2026-06-13T10:19:37.101Z`
 
 ## Loja
 
-- nome: `Gamel Metal`
-- WhatsApp: `5585988887777`
-- endereco: `Av. Principal, 1234 - Centro, Fortaleza/CE`
+- nome: `Gamel Distribuidora`
+- WhatsApp: `558781390957`
+- endereco: `Rua Vereador Paulo Francisco Gomes, SN, Lot. Serra Branca, Quadra II, Lote 7 - Magano, Garanhuns/PE - CEP 55294-770`
 - horario: `Seg a Sex: 08h-12h e 13h30-17h30 | Sab: 08h-12h`
-- Instagram: `https://instagram.com/lojaodopvc`
+- Instagram: ``
 - website: `nao definido`
 
 ## Texto institucional

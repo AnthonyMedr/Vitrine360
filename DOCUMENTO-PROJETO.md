@@ -5,7 +5,7 @@
 - Produto: `Vitrine360 - Central Comercial Digital`
 - Empresa responsavel: `InfiniTI Labs`
 - Assinatura oficial: `Desenvolvido por InfiniTI Labs.`
-- Cliente piloto atual: `Gamel Metal`
+- Cliente piloto atual: `Gamel Distribuidora` (`Garanhuns Metal LTDA`, CNPJ `64.156.323/0001-51`)
 
 ## Resumo executivo
 

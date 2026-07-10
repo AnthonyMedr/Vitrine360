@@ -17,10 +17,10 @@ export const campaign = {
 export const settings = {
   brand: brandConfig.defaultStoreName,
   tagline: "Operacao comercial digital assistida",
-  whatsappNumber: "5500000000000",
-  whatsappLabel: "(00) 00000-0000",
-  address: "Av. Principal, 1234 - Centro, Sua Cidade",
-  hours: "Segunda a sexta: 08:00 as 12:00 e 13:30 as 17:30 | Sabado: 08:00 as 12:00",
+  whatsappNumber: brandConfig.defaultStorePhoneNumber,
+  whatsappLabel: brandConfig.defaultStorePhoneLabel,
+  address: brandConfig.defaultStoreAddress,
+  hours: brandConfig.defaultStoreOpeningHours,
   instagram: brandConfig.defaultInstagramHandle,
   legal:
     "Ofertas validas por tempo limitado ou enquanto durar o estoque. Imagens meramente ilustrativas. Consulte disponibilidade, medidas, cores, modelos e condicoes diretamente com a loja.",

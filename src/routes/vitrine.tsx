@@ -185,7 +185,7 @@ function VitrinePage() {
               </div>
             </div>
             <div className="hidden border border-white/10 bg-black/50 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.24em] text-white/55 md:block">
-              Identidade Gamel
+              Identidade Gamel Distribuidora
             </div>
           </div>
 

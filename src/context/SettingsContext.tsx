@@ -38,10 +38,10 @@ export type AppSettings = {
 const DEFAULTS: AppSettings = {
   brand: brandConfig.defaultStoreName,
   tagline: "Acabamentos e construcao",
-  whatsappNumber: "5500000000000",
-  whatsappLabel: "(00) 00000-0000",
-  address: "Av. Principal, 1234 - Centro, Sua Cidade",
-  hours: "Seg a Sex: 08h-12h e 13h30-17h30 | Sab: 08h-12h",
+  whatsappNumber: brandConfig.defaultStorePhoneNumber,
+  whatsappLabel: brandConfig.defaultStorePhoneLabel,
+  address: brandConfig.defaultStoreAddress,
+  hours: brandConfig.defaultStoreOpeningHours,
   instagram: brandConfig.defaultInstagramHandle,
   logoUrl: brandConfig.defaultLogoUrl,
   actionColor: brandConfig.defaultActionColor,
@@ -241,8 +241,14 @@ function formatPhoneLabel(number: string) {
   if (digits.length === 13 && digits.startsWith("55")) {
     return `(${digits.slice(2, 4)}) ${digits.slice(4, 9)}-${digits.slice(9)}`;
   }
+  if (digits.length === 12 && digits.startsWith("55")) {
+    return `(${digits.slice(2, 4)}) ${digits.slice(4, 8)}-${digits.slice(8)}`;
+  }
   if (digits.length === 11) {
     return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`;
+  }
+  if (digits.length === 10) {
+    return `(${digits.slice(0, 2)}) ${digits.slice(2, 6)}-${digits.slice(6)}`;
   }
   return digits || DEFAULTS.whatsappLabel;
 }

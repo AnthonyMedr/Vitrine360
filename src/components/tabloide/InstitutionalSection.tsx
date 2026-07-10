@@ -20,7 +20,7 @@ export function InstitutionalSection({
         <div className="grid items-center gap-10 rounded-[calc(1.5rem-1px)] bg-card p-8 text-card-foreground lg:grid-cols-2 lg:p-12">
           <div>
             <span className="text-xs font-bold uppercase tracking-[0.24em] text-action">
-              Por que escolher a Gamel
+              Por que escolher a Gamel Distribuidora
             </span>
             <h2 className="mb-4 mt-3 text-balance font-display text-4xl sm:text-5xl">{title}</h2>
             <p className="max-w-md text-muted-foreground">{description}</p>

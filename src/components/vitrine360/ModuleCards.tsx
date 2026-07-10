@@ -41,7 +41,7 @@ export function ModuleCards() {
             <Sparkles className="size-3.5" /> Plataforma comercial integrada
           </span>
           <h2 className="mt-2 font-display text-4xl sm:text-5xl">
-            Escolha como apresentar a GAMEL
+            Escolha como apresentar a Gamel Distribuidora
           </h2>
           <div className="mt-3 h-1 w-12 bg-action" />
         </div>

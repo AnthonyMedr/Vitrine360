@@ -22,7 +22,7 @@ export type Campaign = {
 export const campaigns: Campaign[] = [
   {
     slug: "mix-principal-gamel",
-    name: "Mix Principal Gamel",
+    name: "Mix Principal Gamel Distribuidora",
     tagline: "Linhas comerciais para interiores, fachadas e acabamentos em destaque.",
     description:
       "Ripados, forros, tetos laminados, pisos vinilicos, chapas UV, aluminio e ACM reunidos em uma vitrine comercial unica.",
