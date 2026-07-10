@@ -25,8 +25,8 @@ export const brandConfig = {
   defaultStoreOpeningHours: "Seg a Sex: 08h-12h e 13h30-17h30 | Sab: 08h-12h",
   defaultStoreInstitutionalText:
     "Gamel Distribuidora, nome fantasia da Garanhuns Metal LTDA, atua com materiais de construcao, ferragens, ferramentas, vidros, acabamentos e solucoes para obras em Garanhuns/PE.",
-  defaultInstagramHandle: "",
-  defaultInstagramUrl: "",
+  defaultInstagramHandle: "@gamelmetal",
+  defaultInstagramUrl: "https://www.instagram.com/gamelmetal?igsh=aDg1cjN6dW8zMWJt",
   defaultLogoUrl: "/brands/gamel-logo.png",
   defaultBrandColor: "#232323",
   defaultActionColor: "#FF944D",
