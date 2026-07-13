@@ -18,8 +18,8 @@ export const brandConfig = {
   defaultStoreLegalName: "Garanhuns Metal LTDA",
   defaultStoreCnpj: "64.156.323/0001-51",
   defaultStoreEmail: "gameldistribuidora@hotmail.com",
-  defaultStorePhoneNumber: "558781390957",
-  defaultStorePhoneLabel: "(87) 8139-0957",
+  defaultStorePhoneNumber: "5587920000304",
+  defaultStorePhoneLabel: "(87) 92000-0304",
   defaultStoreAddress:
     "Rua Vereador Paulo Francisco Gomes, SN, Lot. Serra Branca, Quadra II, Lote 7 - Magano, Garanhuns/PE - CEP 55294-770",
   defaultStoreOpeningHours: "Seg a Sex: 08h-12h e 13h30-17h30 | Sab: 08h-12h",
