@@ -52,7 +52,16 @@ function CampaignsAdminPage() {
   });
 
   const mutation = useMutation({
-    mutationFn: (payload: any) => saveFn({ data: payload }),
+    mutationFn: (payload: any) =>
+      saveFn({
+        data: {
+          ...payload,
+          showOnTotem: false,
+          showOnVitrine: false,
+          totemMediaId: null,
+          vitrineMediaId: null,
+        },
+      }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-campaigns"] });
       setEditing(null);
@@ -83,7 +92,7 @@ function CampaignsAdminPage() {
       quickGuideTitle="Como usar esta tela"
       quickGuideItems={[
         "Defina o titulo, o periodo e a chamada principal da campanha.",
-        "Escolha onde a campanha deve aparecer: home, totem e vitrine.",
+        "Escolha se a campanha deve aparecer na home dentro do escopo atual.",
         "Relacione os produtos certos e revise banner, imagens e SEO antes de publicar.",
       ]}
       quickGuideNote="Campanhas publicadas podem impactar varias telas ao mesmo tempo. Antes de salvar, confirme datas, CTA e canais de exibicao."
@@ -102,8 +111,8 @@ function CampaignsAdminPage() {
               status: "rascunho",
               isFeatured: false,
               showOnHome: true,
-              showOnTotem: true,
-              showOnVitrine: true,
+              showOnTotem: false,
+              showOnVitrine: false,
               productIds: [],
               bannerMediaId: "",
               galleryMediaIds: [],
@@ -163,16 +172,6 @@ function CampaignsAdminPage() {
                     {item.show_on_home && (
                       <span className="bg-brand/15 px-2 py-0.5 text-[10px] font-bold uppercase text-brand">
                         home
-                      </span>
-                    )}
-                    {item.show_on_totem && (
-                      <span className="bg-highlight/25 px-2 py-0.5 text-[10px] font-bold uppercase">
-                        totem
-                      </span>
-                    )}
-                    {item.show_on_vitrine && (
-                      <span className="bg-action/15 px-2 py-0.5 text-[10px] font-bold uppercase text-action">
-                        vitrine
                       </span>
                     )}
                   </div>
@@ -439,44 +438,6 @@ function CampaignFormModal({
                   ))}
                 </select>
               </AdminField>
-              <AdminField label="Imagem do totem">
-                <select
-                  value={form.totemMediaId ?? ""}
-                  onChange={(event) =>
-                    setForm((current: any) => ({
-                      ...current,
-                      totemMediaId: event.target.value,
-                    }))
-                  }
-                  className={inputClassName()}
-                >
-                  <option value="">Selecione</option>
-                  {mediaItems.map((item: any) => (
-                    <option key={item.id} value={item.id}>
-                      {item.title || item.file_name} ({item.type})
-                    </option>
-                  ))}
-                </select>
-              </AdminField>
-              <AdminField label="Imagem da vitrine">
-                <select
-                  value={form.vitrineMediaId ?? ""}
-                  onChange={(event) =>
-                    setForm((current: any) => ({
-                      ...current,
-                      vitrineMediaId: event.target.value,
-                    }))
-                  }
-                  className={inputClassName()}
-                >
-                  <option value="">Selecione</option>
-                  {mediaItems.map((item: any) => (
-                    <option key={item.id} value={item.id}>
-                      {item.title || item.file_name} ({item.type})
-                    </option>
-                  ))}
-                </select>
-              </AdminField>
               <AdminField label="Galeria de apoio">
                 <div className="max-h-60 space-y-2 overflow-auto border border-border bg-background p-3">
                   {mediaItems.map((item: any) => {
@@ -528,20 +489,6 @@ function CampaignFormModal({
                   checked={Boolean(form.showOnHome)}
                   onChange={(checked) =>
                     setForm((current: any) => ({ ...current, showOnHome: checked }))
-                  }
-                />
-                <ToggleRow
-                  label="Exibir no totem"
-                  checked={Boolean(form.showOnTotem)}
-                  onChange={(checked) =>
-                    setForm((current: any) => ({ ...current, showOnTotem: checked }))
-                  }
-                />
-                <ToggleRow
-                  label="Exibir na vitrine TV"
-                  checked={Boolean(form.showOnVitrine)}
-                  onChange={(checked) =>
-                    setForm((current: any) => ({ ...current, showOnVitrine: checked }))
                   }
                 />
               </div>

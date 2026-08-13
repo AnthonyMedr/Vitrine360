@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
@@ -20,6 +20,9 @@ import { auditSeo } from "@/lib/seo-audit.functions";
 import { campaigns } from "@/data/campaigns";
 
 export const Route = createFileRoute("/admin/seo-agendamentos")({
+  beforeLoad: () => {
+    throw redirect({ to: "/admin" });
+  },
   component: SchedulesPage,
 });
 

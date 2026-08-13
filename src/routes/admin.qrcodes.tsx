@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
@@ -15,6 +15,9 @@ import { downloadQRCodePng, downloadQRCodeSvg } from "@/lib/qrcode-download";
 import { createQRCode, deleteQRCode, listQRCodes } from "@/lib/qrcodes.functions";
 
 export const Route = createFileRoute("/admin/qrcodes")({
+  beforeLoad: () => {
+    throw redirect({ to: "/admin" });
+  },
   component: QRCodesAdmin,
 });
 

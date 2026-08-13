@@ -1,6 +1,7 @@
 import type { AdminCapability, AdminRole } from "@/lib/admin-access";
+import { isHiddenAdminRoute } from "@/config/scope";
 
-export const adminNavigation = [
+const baseAdminNavigation = [
   { label: "Dashboard", to: "/admin", exact: true, capability: "view_dashboard" },
   { label: "Produtos", to: "/admin/produtos", capability: "manage_products" },
   { label: "Categorias", to: "/admin/categorias", capability: "manage_categories" },
@@ -23,6 +24,8 @@ export const adminNavigation = [
   exact?: boolean;
   capability: AdminCapability;
 }>;
+
+export const adminNavigation = baseAdminNavigation.filter((item) => !isHiddenAdminRoute(item.to));
 
 const adminRouteCapabilities: Array<{
   match: (pathname: string) => boolean;

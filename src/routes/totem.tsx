@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { ArrowLeft, ChevronRight, Home, MessageCircle } from "lucide-react";
 import { StoreLogo } from "@/components/brand/StoreLogo";
@@ -19,6 +19,9 @@ const EMPTY_CATEGORIES: Category[] = [];
 const EMPTY_PRODUCTS: Product[] = [];
 
 export const Route = createFileRoute("/totem")({
+  beforeLoad: () => {
+    throw redirect({ to: "/produtos" });
+  },
   loader: () => getPublicStorefront({}),
   head: () => ({
     meta: [
@@ -123,7 +126,7 @@ function TotemPage() {
   }
 
   return (
-    <div className="flex min-h-screen select-none flex-col bg-[#0e0e0e] text-white">
+    <div className="flex min-h-screen select-none flex-col bg-brand text-white">
       <StorefrontSettingsSync storefront={storefrontQuery.data} />
       <header className="border-b border-white/10 bg-black">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
@@ -281,7 +284,7 @@ function TotemPage() {
                         label: "totem",
                       });
                     }}
-                    className="overflow-hidden border border-white/10 bg-[#f4f5f6] text-left text-[#1f2327] shadow-pop transition-transform hover:-translate-y-1 hover:border-action active:scale-95"
+                    className="overflow-hidden border border-white/10 bg-surface text-left text-surface-foreground shadow-pop transition-transform hover:-translate-y-1 hover:border-action active:scale-95"
                   >
                     <img
                       src={item.image}

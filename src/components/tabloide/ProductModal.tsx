@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Product } from "@/data/products";
 import { findProduct } from "@/data/products";
+import { GamelAddToQuoteButton } from "@/components/public/GamelQuoteCart";
 import { useSettings } from "@/context/SettingsContext";
 import {
   MessageCircle,
@@ -294,6 +295,10 @@ export function ProductModal({
               )}
             </div>
             <div className="flex flex-col sm:flex-row gap-3">
+              <GamelAddToQuoteButton
+                product={product}
+                className="h-14 rounded-xl bg-action px-6 py-4 text-base font-black text-action-foreground shadow-card hover:brightness-110"
+              />
               <button
                 onClick={() => {
                   setShowQR((s) => {
@@ -322,7 +327,7 @@ export function ProductModal({
           </div>
 
           {showQR && (
-            <div className="mt-6 flex flex-col items-center bg-foreground text-background p-6 rounded-2xl animate-reveal">
+            <div className="mt-6 flex flex-col items-center bg-brand text-brand-foreground p-6 rounded-2xl animate-reveal">
               <p className="text-xs uppercase tracking-widest font-bold mb-3 text-highlight">
                 Aponte a câmera do seu celular
               </p>

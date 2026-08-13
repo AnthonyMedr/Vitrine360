@@ -15,9 +15,9 @@ import { useSettings, type BadgeTone, type ScheduledCampaign } from "@/context/S
 
 const TONES: { id: BadgeTone; label: string; cls: string }[] = [
   { id: "action", label: "Laranja", cls: "bg-action text-action-foreground" },
-  { id: "highlight", label: "Amarelo", cls: "bg-highlight text-highlight-foreground" },
+  { id: "highlight", label: "Laranja claro", cls: "bg-highlight text-highlight-foreground" },
   { id: "brand", label: "Marca", cls: "bg-brand text-brand-foreground" },
-  { id: "dark", label: "Escuro", cls: "bg-foreground text-background" },
+  { id: "dark", label: "Escuro", cls: "bg-brand text-brand-foreground" },
   { id: "whatsapp", label: "Verde", cls: "bg-whatsapp text-whatsapp-foreground" },
 ];
 
@@ -49,7 +49,7 @@ export function SettingsPanel() {
       <button
         onClick={() => setOpen(true)}
         aria-label="Configurações do tablóide"
-        className="fixed bottom-5 left-5 z-40 inline-flex items-center justify-center size-12 bg-foreground text-background rounded-full shadow-pop hover:scale-105 active:scale-95 transition-transform opacity-50 hover:opacity-100"
+        className="fixed bottom-5 left-5 z-40 inline-flex items-center justify-center size-12 bg-brand text-brand-foreground rounded-full shadow-pop hover:scale-105 active:scale-95 transition-transform opacity-50 hover:opacity-100"
       >
         <Settings className="size-5" />
       </button>
@@ -208,7 +208,7 @@ export function SettingsPanel() {
                 </Field>
                 <button
                   onClick={toggleFullscreen}
-                  className="inline-flex items-center gap-2 bg-foreground text-background px-3 py-2 rounded-lg text-sm font-bold"
+                  className="inline-flex items-center gap-2 bg-brand text-brand-foreground px-3 py-2 rounded-lg text-sm font-bold"
                 >
                   <Maximize2 className="size-4" /> Tela cheia
                 </button>

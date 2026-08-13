@@ -3,11 +3,6 @@ import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { Loader2, LogIn } from "lucide-react";
 import { brandConfig } from "@/config/brand";
-import {
-  DEFAULT_BOOTSTRAP_TOKEN,
-  DEFAULT_DEV_ADMIN_EMAIL,
-  matchesLocalAdminCredentials,
-} from "@/lib/admin-bootstrap.shared";
 import { loginAdmin } from "@/lib/admin-auth.functions";
 import { storeAdminSession } from "@/lib/admin-session";
 import { enableDevAdminBypass, getDevAdminEmail, isDevAdminBypassAvailable } from "@/lib/dev-admin";
@@ -24,26 +19,11 @@ function AdminLogin() {
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
 
-  function isLocalHostRuntime() {
-    if (typeof window === "undefined") return false;
-    const host = window.location.hostname;
-    return host === "127.0.0.1" || host === "localhost";
-  }
-
   async function submit(event: React.FormEvent) {
     event.preventDefault();
     setLoading(true);
     setMsg(null);
     try {
-      if (isLocalHostRuntime() && matchesLocalAdminCredentials(email, password)) {
-        storeAdminSession({
-          token: DEFAULT_BOOTSTRAP_TOKEN,
-          email: DEFAULT_DEV_ADMIN_EMAIL,
-        });
-        window.location.assign("/admin");
-        return;
-      }
-
       const session = await loginFn({ data: { email, password } });
       storeAdminSession({ token: session.token, email: session.email });
       if (typeof window !== "undefined") {

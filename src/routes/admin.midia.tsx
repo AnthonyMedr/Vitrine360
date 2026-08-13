@@ -147,11 +147,11 @@ function MediaAdminPage() {
   return (
     <AdminPageShell
       title="Biblioteca de midia"
-      description="Centralize imagens de produtos, ambientacoes, campanhas, totem e vitrine. Os arquivos ficam no storage, nao no codigo."
+      description="Centralize imagens de produtos, categorias, campanhas e conteudo institucional. Os arquivos ficam no storage, nao no codigo."
       quickGuideTitle="Como usar esta tela"
       quickGuideItems={[
         "Envie a imagem e depois complete titulo, ALT, tipo e status.",
-        "Publique apenas arquivos aprovados para aparecer no site, totem ou vitrine.",
+        "Publique apenas arquivos aprovados para aparecer no catalogo e nas paginas publicas.",
         "Use o tipo correto para facilitar filtros e relacoes com produtos e campanhas.",
       ]}
       quickGuideNote="Formatos aceitos nesta etapa: JPG, PNG e WEBP. Limite inicial por arquivo: 5 MB."
@@ -204,7 +204,7 @@ function MediaAdminPage() {
             Voce pode selecionar varios arquivos. O sistema vai colocar os proximos em fila e abrir
             o cadastro de metadados um por vez.
           </p>
-          <p>Proporcoes recomendadas: produto 1:1, banner 16:9, totem 9:16, vitrine 16:9.</p>
+          <p>Proporcoes recomendadas: produto 1:1, banner 16:9 e institucional 4:3.</p>
         </div>
       </AdminCard>
 
@@ -214,7 +214,7 @@ function MediaAdminPage() {
             <input
               value={search}
               onChange={(event) => setSearch(event.target.value)}
-              placeholder="Ex: banner, ripado, vitrine"
+              placeholder="Ex: banner, ripado, catalogo"
               className={inputClassName()}
             />
           </AdminField>
@@ -233,8 +233,6 @@ function MediaAdminPage() {
                 "campanha",
                 "categoria",
                 "banner",
-                "totem",
-                "vitrine",
                 "institucional",
               ].map((item) => (
                 <option key={item} value={item}>
@@ -395,8 +393,6 @@ function MediaAdminPage() {
                         "campanha",
                         "categoria",
                         "banner",
-                        "totem",
-                        "vitrine",
                         "institucional",
                       ].map((item) => (
                         <option key={item} value={item}>
@@ -433,7 +429,7 @@ function MediaAdminPage() {
                 </AdminField>
                 <AdminField
                   label="Tags"
-                  hint="Separe por virgula. Ex: campanha, madeira, sala, totem"
+                  hint="Separe por virgula. Ex: campanha, madeira, sala, catalogo"
                 >
                   <input
                     value={(draft.tags ?? []).join(", ")}

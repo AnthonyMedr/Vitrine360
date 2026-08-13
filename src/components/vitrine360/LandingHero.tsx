@@ -31,36 +31,31 @@ export function LandingHero({
       <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-10 px-4 py-14 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:py-24">
         <div className="animate-reveal">
           <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/6 px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.24em] text-brand-foreground">
-            <Zap className="size-3" /> Central Comercial Digital
+            <Zap className="size-3" /> GAMEL Digital
           </span>
           <h1 className="mb-5 font-display text-5xl leading-[0.92] sm:text-6xl lg:text-8xl">
-            Sua loja,{" "}
+            Gamel em modo{" "}
             <span className="inline-block rounded-2xl bg-action px-3 py-1 text-action-foreground shadow-[0_18px_40px_-18px_rgba(255,106,0,0.88)]">
               digital
             </span>
-            , em qualquer tela.
+            , comercial e integrada.
           </h1>
           <p className="mb-8 max-w-xl text-base text-brand-foreground/78 sm:text-lg">
-            Catalogo, vitrine, totem e campanhas promocionais com linguagem industrial premium para{" "}
+            Catalogo digital, carrinho de orcamento e admin comercial conectados para{" "}
             {storeName || settings.brand}.
           </p>
           <div className="flex flex-wrap gap-3">
             <Link
-              to="/catalogo"
+              to="/produtos"
               className="inline-flex items-center gap-2 rounded-xl bg-action px-6 py-3.5 font-bold text-action-foreground shadow-pop transition-transform hover:scale-[1.02]"
             >
               Explorar catalogo <ArrowRight className="size-4" />
             </Link>
             <Link
-              to={campaign.ctaHref.startsWith("/campanha/") ? "/campanha/$slug" : "/ofertas"}
-              params={
-                campaign.ctaHref.startsWith("/campanha/")
-                  ? { slug: campaign.ctaHref.replace("/campanha/", "") }
-                  : undefined
-              }
+              to="/carrinho"
               className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/6 px-6 py-3.5 font-bold text-brand-foreground shadow-card transition-transform hover:scale-[1.02] hover:bg-white/10"
             >
-              {campaign.ctaLabel}
+              Ver carrinho
             </Link>
             <a
               href={wa}

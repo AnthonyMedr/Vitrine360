@@ -56,7 +56,8 @@ function BannersAdminPage() {
   });
 
   const mutation = useMutation({
-    mutationFn: (payload: any) => saveFn({ data: payload }),
+    mutationFn: (payload: any) =>
+      saveFn({ data: { ...payload, showOnTotem: false, showOnVitrine: false } }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-banners"] });
       setEditing(null);
@@ -78,11 +79,11 @@ function BannersAdminPage() {
   return (
     <AdminPageShell
       title="Banners e destaques"
-      description="Gerencie banners operacionais para home, totem e vitrine sem depender de JSON solto ou edicao manual."
+      description="Gerencie banners operacionais para home e catalogo sem depender de JSON solto ou edicao manual."
       quickGuideTitle="Como usar esta tela"
       quickGuideItems={[
         "Crie um banner com titulo, criativo e destino comercial claros.",
-        "Defina em quais canais ele aparece: home, totem e vitrine.",
+        "Defina se ele aparece na home dentro do escopo atual.",
         "Use datas e status para controlar o periodo de exibicao sem apagar historico.",
       ]}
       quickGuideNote="Banners ajudam a destacar campanhas e produtos sem depender de alteracao manual no codigo."
@@ -120,7 +121,7 @@ function BannersAdminPage() {
             <input
               value={search}
               onChange={(event) => setSearch(event.target.value)}
-              placeholder="Ex: campanha principal, vitrine, destaque"
+              placeholder="Ex: campanha principal, catalogo, destaque"
               className={inputClassName()}
             />
           </AdminField>
@@ -168,8 +169,6 @@ function BannersAdminPage() {
                       {item.status}
                     </span>
                     {item.show_on_home && <ChannelBadge label="home" />}
-                    {item.show_on_totem && <ChannelBadge label="totem" />}
-                    {item.show_on_vitrine && <ChannelBadge label="vitrine" />}
                   </div>
                   <p className="mt-2 text-sm text-muted-foreground">
                     {item.subtitle || item.description || "Sem chamada configurada."}
@@ -433,20 +432,6 @@ function BannerFormModal({
                     setForm((current: any) => ({ ...current, showOnHome: checked }))
                   }
                 />
-                <ToggleRow
-                  label="Exibir no totem"
-                  checked={Boolean(form.showOnTotem)}
-                  onChange={(checked) =>
-                    setForm((current: any) => ({ ...current, showOnTotem: checked }))
-                  }
-                />
-                <ToggleRow
-                  label="Exibir na vitrine"
-                  checked={Boolean(form.showOnVitrine)}
-                  onChange={(checked) =>
-                    setForm((current: any) => ({ ...current, showOnVitrine: checked }))
-                  }
-                />
               </div>
             </AdminCard>
 
@@ -462,13 +447,7 @@ function BannerFormModal({
                 </p>
                 <p>
                   <strong className="text-foreground">Canais:</strong>{" "}
-                  {[
-                    form.showOnHome ? "home" : null,
-                    form.showOnTotem ? "totem" : null,
-                    form.showOnVitrine ? "vitrine" : null,
-                  ]
-                    .filter(Boolean)
-                    .join(", ") || "Nenhum canal ativo"}
+                  {form.showOnHome ? "home" : "Nenhum canal ativo"}
                 </p>
               </div>
             </AdminCard>

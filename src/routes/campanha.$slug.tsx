@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { ArrowLeft, Calendar, MessageCircle } from "lucide-react";
 import { FloatingWhatsApp } from "@/components/tabloide/FloatingWhatsApp";
@@ -24,10 +24,13 @@ const accentClass: Record<string, string> = {
   action: "bg-action text-action-foreground",
   highlight: "bg-highlight text-highlight-foreground",
   brand: "bg-brand text-brand-foreground",
-  dark: "bg-foreground text-background",
+  dark: "bg-brand text-brand-foreground",
 };
 
 export const Route = createFileRoute("/campanha/$slug")({
+  beforeLoad: () => {
+    throw redirect({ to: "/produtos" });
+  },
   loader: async ({ params }) => ({
     storefront: await getPublicStorefront({}),
     campaign: await getPublicCampaign({ data: { slug: params.slug } }),

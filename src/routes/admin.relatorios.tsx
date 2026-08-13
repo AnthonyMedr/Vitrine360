@@ -1,8 +1,11 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { BarChart3, QrCode, ScanSearch, ShieldCheck } from "lucide-react";
 import { AdminCard, AdminPageShell } from "@/components/admin/module-ui";
 
 export const Route = createFileRoute("/admin/relatorios")({
+  beforeLoad: () => {
+    throw redirect({ to: "/admin" });
+  },
   component: ReportsAdminPage,
 });
 

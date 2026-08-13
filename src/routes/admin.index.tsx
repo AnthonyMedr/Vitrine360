@@ -6,7 +6,6 @@ import {
   Eye,
   Loader2,
   MessageCircle,
-  QrCode,
   Search as SearchIcon,
   ShieldPlus,
 } from "lucide-react";
@@ -102,8 +101,8 @@ function AdminHome() {
 
   return (
     <AdminPageShell
-      title="Painel administrativo"
-      description="Leitura consolidada da operacao comercial para produtos, campanhas, leads, IA, QR Codes e comportamento do catalogo."
+      title="Backoffice GAMEL"
+      description="Gestao do catalogo, conteudos administrativos, leads e carrinho de orcamento no escopo aprovado."
       quickGuideTitle="Como usar esta tela"
       quickGuideItems={[
         "Ajuste o periodo e os filtros para isolar uma campanha, uma categoria ou uma janela especifica.",
@@ -168,7 +167,7 @@ function AdminHome() {
         </div>
       </AdminCard>
 
-      <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-5">
+      <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
         <Kpi
           icon={<MessageCircle className="size-4" />}
           label="Leads WhatsApp"
@@ -176,7 +175,6 @@ function AdminHome() {
           tone="bg-action text-action-foreground"
         />
         <Kpi icon={<Eye className="size-4" />} label="Visualizacoes" value={data.totals.views} />
-        <Kpi icon={<QrCode className="size-4" />} label="QR Codes" value={data.totals.qr} />
         <Kpi icon={<SearchIcon className="size-4" />} label="Buscas" value={data.totals.searches} />
         <Kpi icon={<Eye className="size-4" />} label="Eventos" value={data.totals.events} />
       </div>
@@ -218,16 +216,16 @@ function AdminHome() {
         <SummaryCard
           title="Atencao comercial"
           items={[
-            "Campanhas com muito acesso e pouco lead pedem CTA ou QR mais forte.",
+            "Campanhas com muito acesso e pouco lead pedem CTA mais claro.",
             "Produtos muito vistos sem conversa podem precisar de descricao mais objetiva.",
-            "Categorias com busca alta merecem destaque na home, totem ou vitrine.",
+            "Categorias com busca alta merecem destaque no catalogo.",
           ]}
         />
         <SummaryCard
           title="Proxima acao"
           items={[
             "Revisar banners e destaques da semana.",
-            "Checar SEO ou QR Codes antes de nova divulgacao.",
+            "Checar produtos e categorias antes de nova divulgacao.",
             "Exportar leads filtrados para atendimento e follow-up.",
           ]}
         />

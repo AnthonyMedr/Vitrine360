@@ -7,7 +7,7 @@ const toneClass: Record<string, string> = {
   action: "bg-action text-action-foreground",
   highlight: "bg-highlight text-highlight-foreground",
   brand: "bg-brand text-brand-foreground",
-  dark: "bg-foreground text-background",
+  dark: "bg-brand text-brand-foreground",
   whatsapp: "bg-whatsapp text-whatsapp-foreground",
 };
 

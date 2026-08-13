@@ -11,31 +11,31 @@ function readPublicSiteUrl() {
 }
 
 export const brandConfig = {
-  productName: "Vitrine360 - Central Comercial Digital",
-  companyName: "InfiniTI Labs",
+  productName: "GAMEL Digital",
+  companyName: "GAMEL Metal",
   signature: "Desenvolvido por InfiniTI Labs.",
   defaultStoreName: "Gamel Distribuidora",
   defaultStoreLegalName: "Garanhuns Metal LTDA",
   defaultStoreCnpj: "64.156.323/0001-51",
-  defaultStoreEmail: "gameldistribuidora@hotmail.com",
-  defaultStorePhoneNumber: "5587920000304",
-  defaultStorePhoneLabel: "(87) 92000-0304",
+  defaultStoreEmail: "comercial@gamelmetal.com",
+  defaultStorePhoneNumber: "5587981818752",
+  defaultStorePhoneLabel: "(87) 98181-8752",
   defaultStoreAddress:
     "Rua Vereador Paulo Francisco Gomes, SN, Lot. Serra Branca, Quadra II, Lote 7 - Magano, Garanhuns/PE - CEP 55294-770",
-  defaultStoreOpeningHours: "Seg a Sex: 08h-12h e 13h30-17h30 | Sab: 08h-12h",
+  defaultStoreOpeningHours: "Seg a Sex: 8h as 18h | Sabado: 8h as 12h",
   defaultStoreInstitutionalText:
     "Gamel Distribuidora, nome fantasia da Garanhuns Metal LTDA, atua com materiais de construcao, ferragens, ferramentas, vidros, acabamentos e solucoes para obras em Garanhuns/PE.",
-  defaultInstagramHandle: "@gamelmetal",
+  defaultInstagramHandle: "@GAMELMETAL",
   defaultInstagramUrl: "",
-  defaultLogoUrl: "/brands/gamel-logo.png",
-  defaultBrandColor: "#232323",
-  defaultActionColor: "#FF944D",
-  defaultHighlightColor: "#666666",
+  defaultLogoUrl: "/assets/brand/gamel-icon-512.png",
+  defaultBrandColor: "#050505",
+  defaultActionColor: "#FF7A1A",
+  defaultHighlightColor: "#F7B32B",
   defaultBackgroundColor: "#050505",
   publicSiteUrl: readPublicSiteUrl(),
-  defaultSeoTitle: "Vitrine360 - Central Comercial Digital",
+  defaultSeoTitle: "GAMEL Digital - Catalogo e Orcamento Online",
   defaultSeoDescription:
-    "Catalogo digital da Gamel Distribuidora para materiais de construcao, acabamentos, campanhas, WhatsApp, totem e vitrine em TV.",
+    "Catalogo digital da GAMEL Metal com produtos, carrinho de orcamento e painel administrativo para gestao comercial.",
 } as const;
 
 export function absoluteUrl(path = "/") {

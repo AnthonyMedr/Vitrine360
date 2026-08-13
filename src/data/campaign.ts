@@ -7,10 +7,10 @@ export const campaign = {
   title: "Sua operacao comercial mais visivel, organizada e digital.",
   highlight: "digital",
   subtitle:
-    "Catalogo, campanhas, QR Code, totem, vitrine TV e atendimento por WhatsApp em uma unica experiencia comercial.",
+    "Catalogo, carrinho de orcamento, atendimento por WhatsApp e admin comercial em uma experiencia objetiva.",
   validity: "Conteudos sujeitos a disponibilidade e vigencia comercial da loja.",
   validUntil: "Consulte campanhas e condicoes diretamente com a equipe comercial.",
-  cta: { label: "Ver ofertas", href: "#ofertas" },
+  cta: { label: "Ver catalogo", href: "/produtos" },
   heroImage,
 };
 

@@ -15,27 +15,27 @@ export function Footer() {
   );
 
   return (
-    <footer className="bg-foreground text-background pt-16 pb-24">
+    <footer className="bg-brand pt-16 pb-24 text-brand-foreground">
       <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
         <div className="md:col-span-2">
           <div className="flex items-center gap-3 mb-4">
-            <div className="bg-background/5 p-1.5 rounded-lg">
+            <div className="bg-white/5 p-1.5 rounded-lg">
               <StoreLogo
                 brand={settings.brand}
                 logoUrl={settings.logoUrl}
                 imageClassName="size-12"
-                fallbackClassName="size-12 bg-background/10 text-background"
+                fallbackClassName="size-12 bg-white/10 text-brand-foreground"
               />
             </div>
             <span className="font-display font-extrabold text-2xl tracking-tighter uppercase">
               {settings.brand}
             </span>
           </div>
-          <p className="text-background/60 text-sm leading-relaxed max-w-sm mb-6">
+          <p className="text-brand-foreground/60 text-sm leading-relaxed max-w-sm mb-6">
             {settings.tagline}
           </p>
 
-          <ul className="text-sm text-background/70 space-y-3">
+          <ul className="text-sm text-brand-foreground/70 space-y-3">
             <li className="flex items-start gap-2">
               <MapPin className="size-4 mt-0.5 shrink-0 text-action" /> {settings.address}
             </li>
@@ -52,10 +52,10 @@ export function Footer() {
         </div>
 
         <div>
-          <h4 className="font-bold text-xs uppercase tracking-widest mb-4 text-highlight">
+          <h4 className="font-bold text-xs uppercase tracking-widest mb-4 text-accent">
             Categorias
           </h4>
-          <ul className="text-sm text-background/70 space-y-2">
+          <ul className="text-sm text-brand-foreground/70 space-y-2">
             <li>Ripados internos e externos</li>
             <li>Forros PVC</li>
             <li>Tetos laminados</li>
@@ -67,16 +67,18 @@ export function Footer() {
         </div>
 
         <div className="flex flex-col items-start md:items-center">
-          <h4 className="font-bold text-xs uppercase tracking-widest mb-4 text-highlight">
+          <h4 className="font-bold text-xs uppercase tracking-widest mb-4 text-accent">
             Leve no celular
           </h4>
           <QRCode data={qrTarget} size={144} label="Aponte a camera para falar no WhatsApp" />
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 pt-8 border-t border-background/10">
-        <p className="text-[11px] leading-relaxed text-background/50 max-w-4xl">{LEGAL_NOTICE}</p>
-        <p className="text-[11px] leading-relaxed text-background/40 mt-3">
+      <div className="max-w-7xl mx-auto px-4 pt-8 border-t border-white/10">
+        <p className="text-[11px] leading-relaxed text-brand-foreground/50 max-w-4xl">
+          {LEGAL_NOTICE}
+        </p>
+        <p className="text-[11px] leading-relaxed text-brand-foreground/40 mt-3">
           {brandConfig.signature}
         </p>
       </div>

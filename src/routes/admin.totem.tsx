@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { Loader2 } from "lucide-react";
 import {
@@ -22,6 +22,9 @@ import {
 } from "@/lib/commercial.functions";
 
 export const Route = createFileRoute("/admin/totem")({
+  beforeLoad: () => {
+    throw redirect({ to: "/admin" });
+  },
   component: TotemSettingsPage,
 });
 

@@ -68,7 +68,7 @@ function StoreSettingsPage() {
   return (
     <AdminPageShell
       title="Configuracoes da loja"
-      description="Edite dados comerciais e institucionais exibidos no site, totem, vitrine e mensagens de WhatsApp."
+      description="Edite dados comerciais e institucionais exibidos no site, catalogo, carrinho e mensagens de WhatsApp."
       quickGuideTitle="Como usar esta tela"
       quickGuideItems={[
         "Preencha os dados principais da loja exatamente como devem aparecer ao publico.",
@@ -161,7 +161,7 @@ function StoreSettingsPage() {
                   className={inputClassName()}
                 />
               </AdminField>
-              <AdminField label="Cor principal" hint="Hexadecimal. Ex: #f97316">
+              <AdminField label="Cor principal" hint="Hexadecimal. Ex: #ff7a1a">
                 <input
                   value={form.primaryColor}
                   onChange={(event) =>
@@ -170,7 +170,7 @@ function StoreSettingsPage() {
                   className={inputClassName()}
                 />
               </AdminField>
-              <AdminField label="Cor secundaria" hint="Hexadecimal. Ex: #1f2937">
+              <AdminField label="Cor secundaria" hint="Hexadecimal. Ex: #050505">
                 <input
                   value={form.secondaryColor}
                   onChange={(event) =>
@@ -251,9 +251,9 @@ function StoreSettingsPage() {
                       </p>
                       <div
                         className="mt-2 h-10 border border-border"
-                        style={{ backgroundColor: form.primaryColor || "#23272B" }}
+                        style={{ backgroundColor: form.primaryColor || "#ff7a1a" }}
                       />
-                      <p className="mt-2 text-muted-foreground">{form.primaryColor || "#23272B"}</p>
+                      <p className="mt-2 text-muted-foreground">{form.primaryColor || "#ff7a1a"}</p>
                     </div>
                     <div className="border border-border bg-background p-3 text-sm">
                       <p className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">
@@ -261,10 +261,10 @@ function StoreSettingsPage() {
                       </p>
                       <div
                         className="mt-2 h-10 border border-border"
-                        style={{ backgroundColor: form.secondaryColor || "#0E0E0E" }}
+                        style={{ backgroundColor: form.secondaryColor || "#050505" }}
                       />
                       <p className="mt-2 text-muted-foreground">
-                        {form.secondaryColor || "#0E0E0E"}
+                        {form.secondaryColor || "#050505"}
                       </p>
                     </div>
                   </div>

@@ -11,9 +11,16 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as VitrineRouteImport } from './routes/vitrine'
 import { Route as TotemRouteImport } from './routes/totem'
+import { Route as SobreRouteImport } from './routes/sobre'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as RepresentanteRouteImport } from './routes/representante'
+import { Route as ProdutosRouteImport } from './routes/produtos'
+import { Route as OrcamentoRouteImport } from './routes/orcamento'
 import { Route as OfertasRouteImport } from './routes/ofertas'
+import { Route as ContatoRouteImport } from './routes/contato'
 import { Route as CatalogoRouteImport } from './routes/catalogo'
+import { Route as CarrinhoRouteImport } from './routes/carrinho'
+import { Route as AplicacoesRouteImport } from './routes/aplicacoes'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
@@ -51,9 +58,29 @@ const TotemRoute = TotemRouteImport.update({
   path: '/totem',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SobreRoute = SobreRouteImport.update({
+  id: '/sobre',
+  path: '/sobre',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RepresentanteRoute = RepresentanteRouteImport.update({
+  id: '/representante',
+  path: '/representante',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProdutosRoute = ProdutosRouteImport.update({
+  id: '/produtos',
+  path: '/produtos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OrcamentoRoute = OrcamentoRouteImport.update({
+  id: '/orcamento',
+  path: '/orcamento',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OfertasRoute = OfertasRouteImport.update({
@@ -61,9 +88,24 @@ const OfertasRoute = OfertasRouteImport.update({
   path: '/ofertas',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContatoRoute = ContatoRouteImport.update({
+  id: '/contato',
+  path: '/contato',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CatalogoRoute = CatalogoRouteImport.update({
   id: '/catalogo',
   path: '/catalogo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CarrinhoRoute = CarrinhoRouteImport.update({
+  id: '/carrinho',
+  path: '/carrinho',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AplicacoesRoute = AplicacoesRouteImport.update({
+  id: '/aplicacoes',
+  path: '/aplicacoes',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRoute = AdminRouteImport.update({
@@ -202,9 +244,16 @@ const ApiAdminMediaUploadRoute = ApiAdminMediaUploadRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
+  '/aplicacoes': typeof AplicacoesRoute
+  '/carrinho': typeof CarrinhoRoute
   '/catalogo': typeof CatalogoRoute
+  '/contato': typeof ContatoRoute
   '/ofertas': typeof OfertasRoute
+  '/orcamento': typeof OrcamentoRoute
+  '/produtos': typeof ProdutosRoute
+  '/representante': typeof RepresentanteRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/sobre': typeof SobreRoute
   '/totem': typeof TotemRoute
   '/vitrine': typeof VitrineRoute
   '/admin/campanhas': typeof AdminCampanhasRoute
@@ -234,9 +283,16 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/aplicacoes': typeof AplicacoesRoute
+  '/carrinho': typeof CarrinhoRoute
   '/catalogo': typeof CatalogoRoute
+  '/contato': typeof ContatoRoute
   '/ofertas': typeof OfertasRoute
+  '/orcamento': typeof OrcamentoRoute
+  '/produtos': typeof ProdutosRoute
+  '/representante': typeof RepresentanteRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/sobre': typeof SobreRoute
   '/totem': typeof TotemRoute
   '/vitrine': typeof VitrineRoute
   '/admin/campanhas': typeof AdminCampanhasRoute
@@ -268,9 +324,16 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
+  '/aplicacoes': typeof AplicacoesRoute
+  '/carrinho': typeof CarrinhoRoute
   '/catalogo': typeof CatalogoRoute
+  '/contato': typeof ContatoRoute
   '/ofertas': typeof OfertasRoute
+  '/orcamento': typeof OrcamentoRoute
+  '/produtos': typeof ProdutosRoute
+  '/representante': typeof RepresentanteRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/sobre': typeof SobreRoute
   '/totem': typeof TotemRoute
   '/vitrine': typeof VitrineRoute
   '/admin/campanhas': typeof AdminCampanhasRoute
@@ -303,9 +366,16 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/admin'
+    | '/aplicacoes'
+    | '/carrinho'
     | '/catalogo'
+    | '/contato'
     | '/ofertas'
+    | '/orcamento'
+    | '/produtos'
+    | '/representante'
     | '/sitemap.xml'
+    | '/sobre'
     | '/totem'
     | '/vitrine'
     | '/admin/campanhas'
@@ -335,9 +405,16 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/aplicacoes'
+    | '/carrinho'
     | '/catalogo'
+    | '/contato'
     | '/ofertas'
+    | '/orcamento'
+    | '/produtos'
+    | '/representante'
     | '/sitemap.xml'
+    | '/sobre'
     | '/totem'
     | '/vitrine'
     | '/admin/campanhas'
@@ -368,9 +445,16 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/admin'
+    | '/aplicacoes'
+    | '/carrinho'
     | '/catalogo'
+    | '/contato'
     | '/ofertas'
+    | '/orcamento'
+    | '/produtos'
+    | '/representante'
     | '/sitemap.xml'
+    | '/sobre'
     | '/totem'
     | '/vitrine'
     | '/admin/campanhas'
@@ -402,9 +486,16 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
+  AplicacoesRoute: typeof AplicacoesRoute
+  CarrinhoRoute: typeof CarrinhoRoute
   CatalogoRoute: typeof CatalogoRoute
+  ContatoRoute: typeof ContatoRoute
   OfertasRoute: typeof OfertasRoute
+  OrcamentoRoute: typeof OrcamentoRoute
+  ProdutosRoute: typeof ProdutosRoute
+  RepresentanteRoute: typeof RepresentanteRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  SobreRoute: typeof SobreRoute
   TotemRoute: typeof TotemRoute
   VitrineRoute: typeof VitrineRoute
   CampanhaSlugRoute: typeof CampanhaSlugRoute
@@ -433,11 +524,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TotemRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sobre': {
+      id: '/sobre'
+      path: '/sobre'
+      fullPath: '/sobre'
+      preLoaderRoute: typeof SobreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sitemap.xml': {
       id: '/sitemap.xml'
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/representante': {
+      id: '/representante'
+      path: '/representante'
+      fullPath: '/representante'
+      preLoaderRoute: typeof RepresentanteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/produtos': {
+      id: '/produtos'
+      path: '/produtos'
+      fullPath: '/produtos'
+      preLoaderRoute: typeof ProdutosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/orcamento': {
+      id: '/orcamento'
+      path: '/orcamento'
+      fullPath: '/orcamento'
+      preLoaderRoute: typeof OrcamentoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/ofertas': {
@@ -447,11 +566,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OfertasRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contato': {
+      id: '/contato'
+      path: '/contato'
+      fullPath: '/contato'
+      preLoaderRoute: typeof ContatoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/catalogo': {
       id: '/catalogo'
       path: '/catalogo'
       fullPath: '/catalogo'
       preLoaderRoute: typeof CatalogoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/carrinho': {
+      id: '/carrinho'
+      path: '/carrinho'
+      fullPath: '/carrinho'
+      preLoaderRoute: typeof CarrinhoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/aplicacoes': {
+      id: '/aplicacoes'
+      path: '/aplicacoes'
+      fullPath: '/aplicacoes'
+      preLoaderRoute: typeof AplicacoesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin': {
@@ -682,9 +822,16 @@ const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
+  AplicacoesRoute: AplicacoesRoute,
+  CarrinhoRoute: CarrinhoRoute,
   CatalogoRoute: CatalogoRoute,
+  ContatoRoute: ContatoRoute,
   OfertasRoute: OfertasRoute,
+  OrcamentoRoute: OrcamentoRoute,
+  ProdutosRoute: ProdutosRoute,
+  RepresentanteRoute: RepresentanteRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  SobreRoute: SobreRoute,
   TotemRoute: TotemRoute,
   VitrineRoute: VitrineRoute,
   CampanhaSlugRoute: CampanhaSlugRoute,

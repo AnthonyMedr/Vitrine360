@@ -40,6 +40,12 @@ type UserRoleRow = {
   store_id: string | null;
 };
 
+function isLocalBootstrapAdmin(userId: string) {
+  return (
+    userId === "bootstrap-admin" || (!hasDatabaseAdminAccess() && userId === "dev-admin-local")
+  );
+}
+
 const ROLE_CAPABILITIES: Record<AdminRole, AdminCapability[]> = {
   admin: [
     "view_dashboard",
@@ -118,10 +124,10 @@ export async function getDefaultStoreId() {
 }
 
 export async function getUserRoles(userId: string) {
-  if (!hasDatabaseAdminAccess() && userId === "dev-admin-local") {
+  if (isLocalBootstrapAdmin(userId)) {
     return [
       {
-        id: "dev-admin-local-role",
+        id: `${userId}-role`,
         role: "infiniti_master" as const,
         store_id: "dev-store-local",
       },
@@ -142,7 +148,7 @@ export async function assertRole(
   allowedRoles: readonly string[],
   storeId?: string | null,
 ) {
-  if (!hasDatabaseAdminAccess() && userId === "dev-admin-local") {
+  if (isLocalBootstrapAdmin(userId)) {
     return { role: "infiniti_master", storeId: storeId ?? "dev-store-local" };
   }
 
@@ -185,7 +191,7 @@ export async function assertCapability(
   capability: AdminCapability,
   storeId?: string | null,
 ) {
-  if (!hasDatabaseAdminAccess() && userId === "dev-admin-local") {
+  if (isLocalBootstrapAdmin(userId)) {
     return { role: "infiniti_master", storeId: storeId ?? "dev-store-local" };
   }
 

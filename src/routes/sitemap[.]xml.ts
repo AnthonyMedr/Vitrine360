@@ -20,8 +20,9 @@ export const Route = createFileRoute("/sitemap.xml")({
         return dataPromise.then((data) => {
           const urls = [
             renderUrl(absoluteUrl("/"), "1.0", "daily"),
-            renderUrl(absoluteUrl("/catalogo"), "0.9", "daily"),
-            renderUrl(absoluteUrl("/ofertas"), "0.9", "daily"),
+            renderUrl(absoluteUrl("/produtos"), "0.9", "daily"),
+            renderUrl(absoluteUrl("/carrinho"), "0.7", "weekly"),
+            renderUrl(absoluteUrl("/contato"), "0.6", "monthly"),
             ...data.categories
               .filter((category) => category.id !== "all")
               .map((category) =>
@@ -30,13 +31,6 @@ export const Route = createFileRoute("/sitemap.xml")({
             ...data.products.map((product) =>
               renderUrl(absoluteUrl(`/produto/${product.id}`), "0.7", "weekly"),
             ),
-            ...data.campaigns
-              .filter(
-                (campaign) => campaign.status === "publicado" && campaign.showOnHome !== false,
-              )
-              .map((campaign) =>
-                renderUrl(absoluteUrl(`/campanha/${campaign.slug}`), "0.8", "weekly"),
-              ),
           ];
 
           return new Response(

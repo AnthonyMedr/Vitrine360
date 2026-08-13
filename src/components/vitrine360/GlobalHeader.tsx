@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { LayoutGrid, Menu, MessageCircle, Monitor, Search, Tag, Tv, X } from "lucide-react";
+import { LayoutGrid, Menu, MessageCircle, Search, ShoppingCart, X } from "lucide-react";
 import { StoreLogo } from "@/components/brand/StoreLogo";
 import { brandConfig } from "@/config/brand";
 import { useSettings } from "@/context/SettingsContext";
@@ -8,10 +8,8 @@ import { buildGenericMessage, whatsappUrl } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { to: "/catalogo", label: "Catalogo", icon: LayoutGrid },
-  { to: "/ofertas", label: "Ofertas", icon: Tag },
-  { to: "/vitrine", label: "Vitrine", icon: Tv },
-  { to: "/totem", label: "Totem", icon: Monitor },
+  { to: "/produtos", label: "Catalogo", icon: LayoutGrid },
+  { to: "/carrinho", label: "Carrinho", icon: ShoppingCart },
 ] as const;
 
 export function GlobalHeader({ onSearch }: { onSearch?: (query: string) => void }) {
@@ -64,7 +62,7 @@ export function GlobalHeader({ onSearch }: { onSearch?: (query: string) => void 
         <div className="flex items-center gap-2">
           {onSearch && (
             <Link
-              to="/catalogo"
+              to="/produtos"
               aria-label="Buscar"
               className="hidden size-10 items-center justify-center rounded-full border border-white/10 bg-white/5 hover:bg-white/10 md:inline-flex"
             >

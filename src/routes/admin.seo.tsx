@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { CheckCircle2, Loader2, Search, XCircle } from "lucide-react";
 import { AdminCard, AdminPageShell } from "@/components/admin/module-ui";
 import { auditSeo } from "@/lib/seo-audit.functions";
 
 export const Route = createFileRoute("/admin/seo")({
+  beforeLoad: () => {
+    throw redirect({ to: "/admin" });
+  },
   component: SeoAuditPage,
 });
 
@@ -41,7 +44,7 @@ function SeoAuditPage() {
               onClick={() => setScope(item)}
               className={`rounded-full border px-3 py-1.5 text-xs font-bold uppercase tracking-wider ${
                 scope === item
-                  ? "border-foreground bg-foreground text-background"
+                  ? "border-foreground bg-brand text-brand-foreground"
                   : "border-border bg-background"
               }`}
             >

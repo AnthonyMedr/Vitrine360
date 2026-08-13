@@ -99,7 +99,7 @@ export function AnalyticsPanel() {
                   icon={<QrCode className="size-4" />}
                   label="QR Codes"
                   value={summary.byType.product_qr}
-                  accent="bg-foreground text-background"
+                  accent="bg-brand text-brand-foreground"
                 />
                 <KpiCard
                   icon={<TrendingUp className="size-4" />}

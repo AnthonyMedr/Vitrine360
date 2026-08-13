@@ -1,16 +1,15 @@
-import { MessageCircle, Plus } from "lucide-react";
-import { useSettings } from "@/context/SettingsContext";
+import { Plus } from "lucide-react";
+import { GamelAddToQuoteButton } from "@/components/public/GamelQuoteCart";
 import type { Product } from "@/data/products";
-import { trackEvent, trackWhatsApp } from "@/lib/analytics";
+import { trackEvent } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
-import { buildProductMessage, whatsappUrl } from "@/lib/whatsapp";
 
 const toneClass: Record<NonNullable<Product["badge"]>["tone"], string> = {
   action: "bg-action text-action-foreground",
   brand: "bg-brand text-brand-foreground",
   highlight: "bg-highlight text-highlight-foreground",
   whatsapp: "bg-whatsapp text-whatsapp-foreground",
-  dark: "bg-foreground text-background",
+  dark: "bg-brand text-brand-foreground",
 };
 
 export function ProductCard({
@@ -22,8 +21,6 @@ export function ProductCard({
   onOpen: (p: Product) => void;
   variant?: "compact" | "featured";
 }) {
-  const { settings } = useSettings();
-  const waUrl = whatsappUrl(buildProductMessage(product, settings), settings.whatsappNumber);
   const isFeatured = variant === "featured";
 
   const handleOpen = () => {
@@ -34,10 +31,6 @@ export function ProductCard({
       categoryName: product.categoryName,
     });
     onOpen(product);
-  };
-
-  const handleWhatsApp = () => {
-    trackWhatsApp(product, settings);
   };
 
   return (
@@ -112,15 +105,10 @@ export function ProductCard({
         </div>
 
         <div className="grid grid-cols-[1fr_auto] gap-2">
-          <a
-            href={waUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={handleWhatsApp}
-            className="inline-flex items-center justify-center gap-2 rounded-xl bg-action py-2.5 text-xs font-bold text-action-foreground transition-all hover:brightness-110"
-          >
-            <MessageCircle className="size-4" /> Pedir orcamento
-          </a>
+          <GamelAddToQuoteButton
+            product={product}
+            className="h-10 rounded-xl bg-action py-2.5 text-xs font-bold text-action-foreground transition-all hover:brightness-110"
+          />
           <button
             onClick={handleOpen}
             className="inline-flex items-center justify-center rounded-xl border border-border bg-surface px-3 text-surface-foreground transition-colors hover:bg-highlight"

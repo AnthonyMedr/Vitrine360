@@ -1,5 +1,5 @@
 import { Suspense, lazy, useMemo, useState } from "react";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { Search } from "lucide-react";
@@ -31,6 +31,9 @@ const EMPTY_CATEGORIES: Category[] = [];
 const EMPTY_PRODUCTS: Product[] = [];
 
 export const Route = createFileRoute("/catalogo")({
+  beforeLoad: () => {
+    throw redirect({ to: "/produtos" });
+  },
   loader: () => getPublicStorefront({}),
   head: ({ loaderData }) => ({
     meta: [

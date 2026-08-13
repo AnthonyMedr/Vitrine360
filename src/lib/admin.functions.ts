@@ -6,6 +6,12 @@ import { getDefaultStoreId } from "@/lib/admin-access";
 
 const ADMIN_LIKE_ROLES = ["admin", "infiniti_master", "store_admin"];
 
+function isLocalBootstrapAdmin(userId: string) {
+  return (
+    userId === "bootstrap-admin" || (!hasDatabaseAdminAccess() && userId === "dev-admin-local")
+  );
+}
+
 /**
  * Concede o papel de admin ao usuário autenticado APENAS se ainda não
  * existir nenhum admin no sistema. Útil para o primeiro acesso.
@@ -13,7 +19,7 @@ const ADMIN_LIKE_ROLES = ["admin", "infiniti_master", "store_admin"];
 export const claimAdminIfFirst = createServerFn({ method: "POST" })
   .middleware([requireAdminAuth])
   .handler(async ({ context }) => {
-    if (!hasDatabaseAdminAccess() && context.userId === "dev-admin-local") {
+    if (isLocalBootstrapAdmin(context.userId)) {
       return { claimed: true, bypass: true };
     }
 
@@ -36,7 +42,7 @@ export const claimAdminIfFirst = createServerFn({ method: "POST" })
 export const checkIsAdmin = createServerFn({ method: "GET" })
   .middleware([requireAdminAuth])
   .handler(async ({ context }) => {
-    if (!hasDatabaseAdminAccess() && context.userId === "dev-admin-local") {
+    if (isLocalBootstrapAdmin(context.userId)) {
       return { isAdmin: true, bypass: true };
     }
 
@@ -63,7 +69,7 @@ export const getAdminDashboard = createServerFn({ method: "POST" })
     }),
   )
   .handler(async ({ context, data }) => {
-    if (!hasDatabaseAdminAccess() && context.userId === "dev-admin-local") {
+    if (isLocalBootstrapAdmin(context.userId)) {
       const fromIso = data.from
         ? new Date(data.from).toISOString()
         : new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();

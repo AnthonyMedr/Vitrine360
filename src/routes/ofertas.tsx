@@ -1,5 +1,5 @@
 import { Suspense, lazy, useEffect, useMemo, useRef, useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { WifiOff } from "lucide-react";
@@ -54,6 +54,9 @@ const EMPTY_PRODUCTS: Product[] = [];
 const EMPTY_SECTIONS: PublicSection[] = [];
 
 export const Route = createFileRoute("/ofertas")({
+  beforeLoad: () => {
+    throw redirect({ to: "/produtos" });
+  },
   loader: () => getPublicStorefront({}),
   head: ({ loaderData }) => ({
     meta: [
@@ -176,7 +179,7 @@ function OfertasPage() {
     <div className="min-h-screen bg-background">
       <StorefrontSettingsSync storefront={storefrontQuery.data} />
       {!online && (
-        <div className="bg-foreground text-background text-[11px] sm:text-xs font-bold uppercase tracking-wider">
+        <div className="bg-brand text-brand-foreground text-[11px] sm:text-xs font-bold uppercase tracking-wider">
           <div className="max-w-7xl mx-auto px-4 py-1.5 flex items-center justify-center gap-2">
             <WifiOff className="size-3.5" />
             Sem internet: o catalogo continua funcionando com o cache local do totem.

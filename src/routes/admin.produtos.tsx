@@ -87,7 +87,7 @@ function ProductsAdminPage() {
       quickGuideTitle="Como usar esta tela"
       quickGuideItems={[
         "Crie ou edite o produto preenchendo nome, categoria, status e descricao curta.",
-        "Use a imagem principal e as relacoes de midia para controlar galeria, totem e vitrine.",
+        "Use a imagem principal e as relacoes de midia para controlar galeria e ambientacao do catalogo.",
         "Revise o preview antes de salvar para evitar slug, SEO ou status incorretos.",
         "Se o item nao puder aparecer publicamente, use inativo ou arquivado em vez de apagar.",
       ]}
@@ -581,7 +581,7 @@ function ProductFormModal({
                 </AdminField>
                 <AdminField
                   label="Relacoes de midia"
-                  hint="Selecione arquivos para galeria, ambientacao, tecnica, totem e vitrine."
+                  hint="Selecione arquivos para galeria, ambientacao e material tecnico."
                 >
                   <div className="max-h-80 space-y-2 overflow-auto border border-border bg-background p-3">
                     {mediaItems.map((item: any) => {
@@ -652,8 +652,6 @@ function ProductFormModal({
                               <option value="galeria">Galeria</option>
                               <option value="ambientacao">Ambientacao</option>
                               <option value="tecnica">Tecnica</option>
-                              <option value="totem">Totem</option>
-                              <option value="vitrine">Vitrine</option>
                             </select>
                             <input
                               type="number"

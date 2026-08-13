@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { useMutation } from "@tanstack/react-query";
 import { Home, Loader2, Wrench, Lightbulb } from "lucide-react";
@@ -42,7 +42,7 @@ export function RoomSimulator({ products = defaultProducts }: { products?: Produ
     .filter((x): x is typeof x & { product: Product } => Boolean(x.product));
 
   return (
-    <section data-testid="room-simulator-section" className="bg-foreground text-background">
+    <section data-testid="room-simulator-section" className="bg-brand text-brand-foreground">
       <div className="max-w-7xl mx-auto px-4 py-14">
         <div className="flex items-center gap-2 text-highlight text-xs uppercase tracking-widest font-black">
           <Home className="size-4" /> Simulador de ambientes

@@ -71,7 +71,7 @@ function CategoriesAdminPage() {
         "Use o status para esconder categorias sem apagar historico.",
         "Revise o slug e o preview antes de salvar para evitar links ruins.",
       ]}
-      quickGuideNote="Categorias organizam busca, catalogo, totem e areas promocionais. Se uma categoria nao deve aparecer, prefira inativa ou arquivada."
+      quickGuideNote="Categorias organizam busca, catalogo e areas promocionais. Se uma categoria nao deve aparecer, prefira inativa ou arquivada."
       actions={
         <button
           onClick={() =>

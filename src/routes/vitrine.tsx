@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { X } from "lucide-react";
 import { StoreLogo } from "@/components/brand/StoreLogo";
@@ -12,6 +12,9 @@ import { buildProductMessage, whatsappUrl } from "@/lib/whatsapp";
 import { getPublicStorefront } from "@/lib/commercial.functions";
 
 export const Route = createFileRoute("/vitrine")({
+  beforeLoad: () => {
+    throw redirect({ to: "/produtos" });
+  },
   loader: () => getPublicStorefront({}),
   head: () => ({
     meta: [
@@ -124,7 +127,7 @@ function VitrinePage() {
 
   if (slides.length === 0) {
     return (
-      <div className="grid min-h-screen place-items-center bg-foreground text-background">
+      <div className="grid min-h-screen place-items-center bg-brand text-brand-foreground">
         <StorefrontSettingsSync storefront={storefrontQuery.data} />
         <p>Nenhum slide configurado.</p>
       </div>

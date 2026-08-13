@@ -100,7 +100,7 @@ function AdminLayout() {
       <header className="border-b border-white/10 bg-brand text-brand-foreground shadow-card">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-3">
           <Link to="/admin" className="flex items-center gap-2 font-display text-3xl">
-            <ShieldCheck className="size-5 text-action" /> Vitrine360 Admin
+            <ShieldCheck className="size-5 text-action" /> GAMEL Backoffice
           </Link>
           <nav className="flex flex-wrap items-center gap-1 text-xs font-bold uppercase tracking-[0.2em]">
             {visibleNav.map(({ label, to, exact }) => (

@@ -8,7 +8,9 @@ import {
   useRouter,
 } from "@tanstack/react-router";
 import appCss from "../styles.css?url";
+import { Toaster } from "@/components/ui/sonner";
 import { brandConfig } from "@/config/brand";
+import { QuoteCartProvider } from "@/context/QuoteCartContext";
 import { SettingsProvider } from "@/context/SettingsContext";
 
 function NotFoundComponent() {
@@ -116,7 +118,10 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <SettingsProvider>
-        <Outlet />
+        <QuoteCartProvider>
+          <Outlet />
+          <Toaster richColors position="top-right" />
+        </QuoteCartProvider>
       </SettingsProvider>
     </QueryClientProvider>
   );

@@ -5,6 +5,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { Check, Lightbulb, MessageCircle, QrCode } from "lucide-react";
 import { FloatingWhatsApp } from "@/components/tabloide/FloatingWhatsApp";
 import { Footer } from "@/components/tabloide/Footer";
+import { GamelAddToQuoteButton } from "@/components/public/GamelQuoteCart";
 import { ProductCard } from "@/components/tabloide/ProductCard";
 import { ProductModal } from "@/components/tabloide/ProductModal";
 import { QRCode } from "@/components/tabloide/QRCode";
@@ -220,14 +221,18 @@ function ProdutoPage() {
             </div>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <GamelAddToQuoteButton
+                product={product}
+                className="h-14 rounded-xl bg-action px-6 py-4 font-black text-action-foreground shadow-card hover:brightness-110"
+              />
               <a
                 href={wa}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => trackWhatsApp(product, settings)}
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-action px-6 py-4 font-black text-action-foreground shadow-card hover:brightness-110"
+                className="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-surface px-6 py-4 font-bold text-surface-foreground transition-colors hover:bg-highlight"
               >
-                <MessageCircle className="size-5" /> Pedir orcamento
+                <MessageCircle className="size-5" /> WhatsApp
               </a>
               <details className="rounded-xl bg-surface">
                 <summary className="inline-flex cursor-pointer items-center gap-2 rounded-xl px-6 py-4 font-bold">
