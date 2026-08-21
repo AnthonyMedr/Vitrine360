@@ -1,5 +1,5 @@
 ﻿/* eslint-disable react-refresh/only-export-components */
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { brandConfig } from "@/config/brand";
 
 export type BadgeTone = "action" | "highlight" | "brand" | "dark" | "whatsapp";
@@ -308,18 +308,34 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     [settings.campaigns],
   );
 
+  const update = useCallback((patch: Partial<AppSettings>) => {
+    setSettings((current) => ({ ...current, ...patch }));
+  }, []);
+
+  const syncFromStorefront = useCallback((storefront: StorefrontSnapshot | null) => {
+    if (!storefront) return;
+
+    setSettings((current) => {
+      const next = mergeStorefrontSettings(current, storefront);
+      const changed = (Object.keys(next) as Array<keyof AppSettings>).some(
+        (key) => !Object.is(current[key], next[key]),
+      );
+
+      return changed ? next : current;
+    });
+  }, []);
+
+  const reset = useCallback(() => setSettings(DEFAULTS), []);
+
   const value = useMemo<Ctx>(
     () => ({
       settings,
-      update: (patch) => setSettings((current) => ({ ...current, ...patch })),
-      syncFromStorefront: (storefront) => {
-        if (!storefront) return;
-        setSettings((current) => mergeStorefrontSettings(current, storefront));
-      },
-      reset: () => setSettings(DEFAULTS),
+      update,
+      syncFromStorefront,
+      reset,
       activeCampaign,
     }),
-    [settings, activeCampaign],
+    [settings, update, syncFromStorefront, reset, activeCampaign],
   );
 
   return <SettingsCtx.Provider value={value}>{children}</SettingsCtx.Provider>;

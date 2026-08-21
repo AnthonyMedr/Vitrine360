@@ -481,12 +481,12 @@ function PublicProductCard({ product }: { product: Product }) {
   const productWhatsAppUrl = getGamelWhatsAppUrl(gamelWhatsAppMessages.product(product.name));
 
   return (
-    <Link
-      to="/produto/$slug"
-      params={{ slug: product.id }}
-      className="group flex h-full flex-col overflow-hidden rounded-lg border border-border/80 bg-white shadow-sm transition-all hover:border-primary/40 hover:shadow-md"
-    >
-      <div className="relative aspect-[1.18/1] overflow-hidden bg-white">
+    <article className="group flex h-full flex-col overflow-hidden rounded-lg border border-border/80 bg-white shadow-sm transition-all hover:border-primary/40 hover:shadow-md">
+      <Link
+        to="/produto/$slug"
+        params={{ slug: product.id }}
+        className="relative block aspect-[1.18/1] overflow-hidden bg-white"
+      >
         <img
           src={product.image}
           alt={product.name}
@@ -502,7 +502,7 @@ function PublicProductCard({ product }: { product: Product }) {
         <span className="absolute bottom-3 right-3 rounded-md border border-border bg-white/90 px-2 py-1 text-xs font-medium text-foreground">
           SKU {product.id.slice(0, 10).toUpperCase()}
         </span>
-      </div>
+      </Link>
 
       <div className="flex flex-1 flex-col p-3">
         <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-primary">GAMEL</p>
@@ -515,8 +515,10 @@ function PublicProductCard({ product }: { product: Product }) {
           ) : null}
         </div>
 
-        <h3 className="mt-3 line-clamp-2 min-h-10 text-[13px] font-semibold leading-5 text-foreground group-hover:text-primary">
-          {product.name}
+        <h3 className="mt-3 min-h-10 text-[13px] font-semibold leading-5 text-foreground group-hover:text-primary">
+          <Link to="/produto/$slug" params={{ slug: product.id }} className="line-clamp-2">
+            {product.name}
+          </Link>
         </h3>
         <p className="mt-2 line-clamp-3 text-xs leading-5 text-muted-foreground">
           {product.description || "Produto disponivel para consulta comercial e orcamento online."}
@@ -547,7 +549,7 @@ function PublicProductCard({ product }: { product: Product }) {
                 type="button"
                 variant="outline"
                 size="sm"
-                className="h-9 rounded-md border-whatsapp/30 text-whatsapp"
+                className="h-9 rounded-md border-whatsapp/30 text-whatsapp hover:border-whatsapp hover:bg-whatsapp hover:text-whatsapp-foreground"
               >
                 <a href={productWhatsAppUrl} target="_blank" rel="noopener noreferrer">
                   <MessageCircle className="mr-1.5 h-4 w-4 shrink-0" />
@@ -558,7 +560,7 @@ function PublicProductCard({ product }: { product: Product }) {
           </div>
         </div>
       </div>
-    </Link>
+    </article>
   );
 }
 

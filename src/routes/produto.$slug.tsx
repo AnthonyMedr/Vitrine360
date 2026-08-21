@@ -230,7 +230,7 @@ function ProdutoPage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => trackWhatsApp(product, settings)}
-                className="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-surface px-6 py-4 font-bold text-surface-foreground transition-colors hover:bg-highlight"
+                className="inline-flex items-center justify-center gap-2 rounded-xl border border-whatsapp/30 bg-surface px-6 py-4 font-bold text-whatsapp transition-colors hover:border-whatsapp hover:bg-whatsapp hover:text-whatsapp-foreground"
               >
                 <MessageCircle className="size-5" /> WhatsApp
               </a>
