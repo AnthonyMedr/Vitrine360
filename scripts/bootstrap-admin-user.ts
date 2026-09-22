@@ -1,4 +1,4 @@
-import { createId, hashPassword, initializeDb, readDb, waitForPendingDbWrites, writeDb } from "../server/db";
+import { createId, hashPassword, initializeDb, readDb, verifyPassword, waitForPendingDbWrites, writeDb } from "../server/db";
 
 function getArg(name: string) {
   const prefix = `--${name}=`;
@@ -38,6 +38,7 @@ const existing = db.users.find((user) => user.email.toLowerCase() === email);
 
 if (existing) {
   existing.role = "admin";
+  existing.is_active = true;
   existing.user_metadata = {
     ...existing.user_metadata,
     full_name: existing.user_metadata?.full_name || fullName,
@@ -46,7 +47,8 @@ if (existing) {
     can_start_assisted_sale: true,
     permission_profile_id: "administrador",
   };
-  if (resetPassword || !existing.password_hash || !existing.password_salt) {
+  const hasDefaultPassword = Boolean(existing.password_hash && existing.password_salt && verifyPassword(defaultPassword, existing));
+  if (resetPassword || !existing.password_hash || !existing.password_salt || (isProductionLike && hasDefaultPassword)) {
     const hashed = hashPassword(password);
     existing.password_hash = hashed.hash;
     existing.password_salt = hashed.salt;
@@ -73,6 +75,19 @@ if (existing) {
 const adminUser = db.users.find((user) => user.email.toLowerCase() === email);
 if (!adminUser) {
   throw new Error("Falha ao criar admin.");
+}
+
+// A fresh database is seeded with a local fixture account. In production the
+// configured administrator replaces it; no active admin may retain admin123.
+if (isProductionLike) {
+  db.users.forEach((user) => {
+    if (user.id === adminUser.id || user.role !== "admin" || !user.is_active) return;
+    if (verifyPassword(defaultPassword, user)) {
+      user.is_active = false;
+      user.session_token = null;
+      user.session_expires_at = null;
+    }
+  });
 }
 
 const seller = db.sellers.find((entry) => entry.user_id === adminUser.id);

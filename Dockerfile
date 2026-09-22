@@ -21,8 +21,11 @@ COPY --from=build --chown=node:node /app/server ./server
 COPY --from=build --chown=node:node /app/src ./src
 COPY --from=build --chown=node:node /app/prisma ./prisma
 COPY --from=build --chown=node:node /app/prisma.config.ts ./prisma.config.ts
+COPY --from=build --chown=node:node /app/scripts/bootstrap-admin-user.ts ./scripts/bootstrap-admin-user.ts
 
 USER node
 EXPOSE 3001
 
-CMD ["npm", "run", "start:production"]
+# Apply pending database migrations and make the configured administrator safe
+# before accepting traffic. Both operations are idempotent across redeploys.
+CMD ["sh", "-c", "npm run db:migrate:deploy && npm run admin:bootstrap -- --no-reset-password && exec npm run start:production"]
