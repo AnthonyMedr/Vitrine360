@@ -2,7 +2,9 @@ FROM node:24-alpine AS build
 
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm ci
+# Coolify may inject NODE_ENV=production during the image build. Explicitly
+# include development dependencies because Vite and Prisma CLI are build tools.
+RUN npm ci --include=dev
 COPY . .
 RUN npm run prisma:generate && npm run build
 
