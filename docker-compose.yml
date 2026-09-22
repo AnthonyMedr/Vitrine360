@@ -1,21 +1,164 @@
+name: vitrine360
+
 services:
   postgres:
-    image: postgres:16-alpine
-    container_name: vitrine360-postgres
+    image: postgres:17-alpine
     restart: unless-stopped
     environment:
-      POSTGRES_DB: vitrine360
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-    ports:
-      - "5433:5432"
+      POSTGRES_DB: ${POSTGRES_DB:-vitrine360}
+      POSTGRES_USER: ${POSTGRES_USER:-vitrine360}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Defina POSTGRES_PASSWORD no .env}
     volumes:
-      - vitrine360-postgres-data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d vitrine360"]
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
       interval: 5s
       timeout: 5s
       retries: 20
+    networks: [backend]
+
+  redis:
+    image: redis:7.4-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes", "--requirepass", "${REDIS_PASSWORD:?Defina REDIS_PASSWORD no .env}"]
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli -a '$${REDIS_PASSWORD}' ping | grep PONG"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD:?Defina REDIS_PASSWORD no .env}
+    networks: [backend]
+
+  minio:
+    image: quay.io/minio/minio:RELEASE.2025-10-15T17-29-55Z
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:?Defina MINIO_ROOT_USER no .env}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:?Defina MINIO_ROOT_PASSWORD no .env}
+    volumes:
+      - minio_data:/data
+    ports:
+      - "127.0.0.1:${MINIO_CONSOLE_PORT:-9001}:9001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks: [backend]
+
+  migrate:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: build
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: ${DATABASE_URL:?Defina DATABASE_URL no .env}
+    command: ["npm", "run", "db:migrate:deploy"]
+    networks: [backend]
+
+  import-data:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: build
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    environment:
+      APP_ENV: production
+      DB_PROVIDER: postgres
+      DATABASE_URL: ${DATABASE_URL:?Defina DATABASE_URL no .env}
+      POSTGRES_SSL: "false"
+    volumes:
+      - ./server/data:/app/server/data:ro
+    command: ["npm", "run", "db:sync:postgres", "--", "--if-empty"]
+    networks: [backend]
+
+  bootstrap-admin:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: build
+    depends_on:
+      import-data:
+        condition: service_completed_successfully
+    environment:
+      APP_ENV: production
+      DB_PROVIDER: postgres
+      DATABASE_URL: ${DATABASE_URL:?Defina DATABASE_URL no .env}
+      POSTGRES_SSL: "false"
+      ADMIN_EMAIL: ${ADMIN_EMAIL:?Defina ADMIN_EMAIL no .env}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?Defina ADMIN_PASSWORD no .env}
+      ADMIN_NAME: ${ADMIN_NAME:-Administrador}
+    command: ["npm", "run", "admin:bootstrap"]
+    networks: [backend]
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+      bootstrap-admin:
+        condition: service_completed_successfully
+    environment:
+      APP_ENV: production
+      NODE_ENV: production
+      API_PORT: 3001
+      APP_BASE_URL: ${APP_BASE_URL:-http://localhost:3001}
+      API_BASE_URL: ${API_BASE_URL:-http://localhost:3001}
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-http://localhost:3001}
+      TRUST_PROXY: ${TRUST_PROXY:-false}
+      SECURE_COOKIES: ${SECURE_COOKIES:-false}
+      APP_SECRET: ${APP_SECRET:?Defina APP_SECRET no .env}
+      AUTH_CSRF_SECRET: ${AUTH_CSRF_SECRET:?Defina AUTH_CSRF_SECRET no .env}
+      INTEGRATION_SECRETS_KEY: ${INTEGRATION_SECRETS_KEY:?Defina INTEGRATION_SECRETS_KEY no .env}
+      METRICS_TOKEN: ${METRICS_TOKEN:?Defina METRICS_TOKEN no .env}
+      DB_PROVIDER: postgres
+      DATABASE_URL: ${DATABASE_URL:?Defina DATABASE_URL no .env}
+      POSTGRES_SSL: "false"
+      POSTGRES_MAX_CONNECTIONS: ${POSTGRES_MAX_CONNECTIONS:-10}
+      QUEUE_PROVIDER: redis
+      REDIS_URL: ${REDIS_URL:?Defina REDIS_URL no .env}
+      RATE_LIMIT_REDIS_URL: ${REDIS_URL:?Defina REDIS_URL no .env}
+      STORAGE_PROVIDER: minio
+      STORAGE_ENDPOINT: http://minio:9000
+      STORAGE_REGION: us-east-1
+      STORAGE_BUCKET: ${STORAGE_BUCKET:-vitrine360-media}
+      STORAGE_ACCESS_KEY_ID: ${MINIO_ROOT_USER}
+      STORAGE_SECRET_ACCESS_KEY: ${MINIO_ROOT_PASSWORD}
+      STORAGE_FORCE_PATH_STYLE: "true"
+      STORAGE_AUTO_CREATE_BUCKET: "true"
+      STORAGE_UPLOAD_MAX_BYTES: ${STORAGE_UPLOAD_MAX_BYTES:-5242880}
+      STORAGE_PUBLIC_BASE_URL: ${STORAGE_PUBLIC_BASE_URL:-}
+      PAYMENT_PROVIDER: ${PAYMENT_PROVIDER:-manual}
+      FREIGHT_PROVIDER: ${FREIGHT_PROVIDER:-local-rules}
+      FISCAL_PROVIDER: ${FISCAL_PROVIDER:-manual}
+      ERP_PROVIDER: ${ERP_PROVIDER:-none}
+      EMAIL_PROVIDER: ${EMAIL_PROVIDER:-log}
+      ANALYTICS_PROVIDER: ${ANALYTICS_PROVIDER:-none}
+    ports:
+      - "${APP_PORT:-3001}:3001"
+    networks: [backend]
 
 volumes:
-  vitrine360-postgres-data:
+  postgres_data:
+  redis_data:
+  minio_data:
+
+networks:
+  backend:
+    driver: bridge

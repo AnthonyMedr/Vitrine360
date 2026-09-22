@@ -1,5 +1,6 @@
 # Logs
 logs
+.codex-logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -7,30 +8,31 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-.output
-.vinxi
-.tanstack/**
-.nitro
-*.local
-storage/
-playwright-report/
-test-results/
-tmp-home.png
-footer-check.png
-src/generated/prisma/
-
-# Environment files
+# Local secrets and runtime environment
 .env
 .env.*
 !.env.example
 !.env.*.example
 
-# Wrangler / Cloudflare
-.wrangler/
-.dev.vars
+node_modules
+server/generated/prisma/
+.vite/
+dist
+dist-ssr
+*.local
+/.tmp-*/
+/tmp/
+
+# Local runtime database sidecars and generated operational exports
+server/data/*.sqlite
+server/data/*.sqlite-shm
+server/data/*.sqlite-wal
+server/data/db.json
+server/data/uploads/
+docs/reports/runtime-backups/
+docs/reports/dev-server-logs/*.pid
+docs/reports/qa-visual-screenshots/*.png
+docs/reports/test-after-*.txt
 
 # Editor directories and files
 .vscode/*
@@ -42,4 +44,3 @@ src/generated/prisma/
 *.njsproj
 *.sln
 *.sw?
-Gamel-Metal/

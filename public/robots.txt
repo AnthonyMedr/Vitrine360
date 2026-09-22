@@ -1,6 +1,11 @@
 User-agent: *
 Allow: /
 Disallow: /admin
-Disallow: /totem
+Disallow: /carrinho
+Disallow: /checkout
+Disallow: /auth
+Disallow: /conta
+Disallow: /meus-pedidos
+Disallow: /rastrear
 
-Sitemap: /sitemap.xml
+Sitemap: https://www.gamelmetal.com/sitemap.xml

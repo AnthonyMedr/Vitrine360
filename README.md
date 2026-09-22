@@ -1,368 +1,1062 @@
-﻿# Vitrine360 - Central Comercial Digital
+<div align="center">
 
-Aplicacao web desenvolvida pela **InfiniTI Labs** para operacao comercial digital assistida, com catalogo interativo, campanhas, WhatsApp, QR Code, IA Comercial, simulador de ambientes, modo totem, vitrine em TV e painel administrativo.
+# 🏗️ GAMEL Metal Digital
 
-**Desenvolvido por InfiniTI Labs.**
+### A presença digital da GAMEL transformada em uma plataforma comercial.
 
-## Posicionamento oficial
+**Site institucional, catálogo inteligente, orçamento online e gestão de oportunidades em uma única experiência.**
 
-O Vitrine360 e uma **solucao comercial digital implantada, configurada, mantida e acompanhada pela InfiniTI Labs**.
+[![Website](https://img.shields.io/badge/website-gamelmetal.com-EF6C00?style=for-the-badge)](https://www.gamelmetal.com)
+[![CI](https://github.com/kelmanymarques-cmd/GAMEL-DIGITAL-360/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/kelmanymarques-cmd/GAMEL-DIGITAL-360/actions/workflows/ci.yml)
+![Status](https://img.shields.io/badge/status-RELEASE__CANDIDATE-F59E0B?style=for-the-badge)
+![Fase](https://img.shields.io/badge/fase-1-2563EB?style=for-the-badge)
+![Catálogo](https://img.shields.io/badge/cat%C3%A1logo-DIGITAL-16A34A?style=for-the-badge)
+![Orçamento](https://img.shields.io/badge/or%C3%A7amento-M1-7C3AED?style=for-the-badge)
+![E--commerce](https://img.shields.io/badge/e--commerce-CONGELADO-6B7280?style=for-the-badge)
 
-Nao e:
+</div>
 
-- SaaS de autoassinatura
-- plataforma de pagamento
-- checkout
-- gateway financeiro
-- e-commerce completo
-- ERP
-- CRM financeiro
+---
 
-Pagamentos, mensalidades, comodato, seguro, reajustes e cobranca ficam fora da plataforma e devem ser tratados por proposta comercial, contrato e operacao da InfiniTI.
+## 📌 Sobre o projeto
 
-## O que o projeto faz hoje
+O **GAMEL Metal Digital** é a plataforma oficial de presença digital e apoio comercial da **GAMEL / Garanhuns Metal**.
 
-- pagina inicial comercial
-- catalogo com busca, filtros e categorias
-- paginas de produto, categoria e campanha
-- ofertas e destaques promocionais
-- CTA por WhatsApp
-- QR Codes
-- recomendador de produtos com IA
-- simulador de ambientes com IA
-- modo totem
-- modo vitrine para TV/monitor
-- dashboard administrativo
-- CRUD operacional de produtos, categorias, campanhas, banners e configuracoes principais
-- biblioteca de midia com upload simples e relacoes operacionais principais
-- analytics, leads e exportacao CSV
-- sitemap, robots, manifest e service worker
-- dashboard administrativo guiado com KPIs, filtros, atalhos e orientacao de operacao
-- interface administrativa refinada com linguagem visual mais industrial, clara e operacional
-
-## Estado atual
-
-Classificacao atual do produto:
-
-**Solucao Comercial Digital Implantada / Produto Piloto Assistido**
-
-Classificacao atual do `/admin`:
-
-**Admin operacional avancado**
-
-Resumo honesto do estado:
-
-- o produto ja pode ser demonstrado e operado em piloto assistido
-- a base de gestao dinamica via PostgreSQL/Admin ja cobre produtos, categorias, campanhas, banners, papeis e configuracoes operacionais principais
-- o dashboard administrativo agora funciona como ponto de entrada guiado, com leitura rapida, atencao comercial e proximas acoes
-- os modulos principais do Admin ja seguem uma linguagem visual mais consistente, com foco em legibilidade, operacao e facilidade de uso
-- homepage, campanhas principais, ofertas, totem, vitrine, QR Codes administrativos e configuracoes-base ja usam a camada resolvida do storefront
-- ainda existem dependencias de fallback/local seed como contingencia, especialmente para ambiente sem banco oficial ou sem carga homologada
-- o que falta agora esta concentrado em homologacao comercial final, validacao em hardware real e ambiente oficial de producao
-
-## IA Comercial no roadmap
-
-Recursos de IA Comercial estao previstos no roadmap futuro do Vitrine360, incluindo recomendacao de produtos, apoio ao vendedor, simulador consultivo de ambientes e geracao assistida de textos comerciais.
-
-Importante:
-
-- esses recursos ainda nao fazem parte do escopo obrigatorio atual em sua forma completa
-- qualquer evolucao futura deve ter controle de uso, seguranca de chaves e integracao ao catalogo real da loja
-- a IA deve apoiar a operacao comercial, e nao substituir catalogo, Admin, WhatsApp ou atendimento humano
-
-## Stack
-
-- `React 19`
-- `TanStack Start`
-- `TanStack Router`
-- `TanStack Query`
-- `Vite 7`
-- `Tailwind CSS 4`
-- `PostgreSQL`
-- `Playwright`
-- `Node.js`
-
-## Estrutura principal
+Mais do que um site institucional, o projeto foi desenvolvido para criar uma jornada digital capaz de transformar:
 
 ```text
-.
-|-- public/
-|-- src/
-|   |-- components/
-|   |-- config/
-|   |-- context/
-|   |-- data/
-|   |-- hooks/
-|   |-- integrations/
-|   |   `-- postgres/
-|   |-- lib/
-|   `-- routes/
-|-- database/
-|   `-- migrations/
-|-- scripts/
-|-- storage/
-|   `-- media/
-|-- tests/e2e/
-|-- DOCUMENTO-PROJETO.md
-|-- GO-LIVE-CHECKLIST.md
-|-- PROJECT-SCOPE.md
-|-- ROADMAP.md
-|-- AUDIT-REPORT.md
-|-- EXECUTION-PLAN.md
-|-- ACTION-PLAN.md
-|-- package.json
-|-- playwright.config.ts
-|-- vite.config.ts
-`-- .env.example
+VISITA
+  ↓
+INTERESSE
+  ↓
+PRODUTO
+  ↓
+ORÇAMENTO
+  ↓
+OPORTUNIDADE
+  ↓
+ATENDIMENTO COMERCIAL
 ```
 
-## Modulos e rotas
+A plataforma conecta o cliente ao portfólio da GAMEL e fornece ao time comercial uma estrutura organizada para receber, acompanhar e trabalhar novas oportunidades.
 
-Rotas publicas:
+> A Fase 1 não é um e-commerce.
 
-- `/`
-- `/catalogo`
-- `/categoria/$slug`
-- `/produto/$slug`
-- `/ofertas`
-- `/campanha/$slug`
-- `/totem`
-- `/vitrine`
-- `/sitemap.xml`
+É uma **plataforma comercial digital**.
 
-Rotas administrativas:
+Seu objetivo principal é:
 
-- `/admin`
-- `/admin/login`
-- `/admin/produtos`
-- `/admin/categorias`
-- `/admin/campanhas`
-- `/admin/conteudo`
-- `/admin/midia`
-- `/admin/loja`
-- `/admin/totem`
-- `/admin/vitrine-tv`
-- `/admin/usuarios`
-- `/admin/relatorios`
-- `/admin/qrcodes`
-- `/admin/seo`
-- `/admin/seo-agendamentos`
-- `/admin/configuracoes-tecnicas`
+> **apresentar produtos, gerar interesse, captar oportunidades e aproximar o cliente da equipe comercial.**
 
-## Configuracao
+---
 
-Branding central:
+# 🎯 Visão do produto
 
-- `src/config/brand.ts`
+O GAMEL Metal Digital foi estruturado sobre quatro pilares:
 
-Camada de IA:
+```text
+PRESENÇA DIGITAL
+        +
+CATÁLOGO INTELIGENTE
+        +
+ORÇAMENTO ONLINE
+        +
+OPERAÇÃO COMERCIAL
+```
 
-- `src/lib/ai-provider.ts`
-- `src/lib/ai.functions.ts`
+A proposta é construir uma base digital capaz de crescer junto com a GAMEL sem obrigar a empresa a iniciar imediatamente uma operação complexa de e-commerce.
 
-Observacao:
+O projeto prioriza:
 
-- a base atual ja possui recursos de IA em modo operacional controlado para piloto assistido
-- esta etapa documental nao adiciona nenhuma nova integracao, dependencia ou custo automatico de IA
+* experiência simples para o cliente;
+* apresentação profissional da marca;
+* organização do portfólio;
+* facilidade para solicitar orçamento;
+* geração de leads;
+* integração com WhatsApp;
+* gestão administrativa;
+* rastreabilidade comercial;
+* evolução controlada da plataforma.
 
-Dados locais legados usados como seed/fallback:
+---
 
-- `src/data/products.ts`
-- `src/data/categories.ts`
-- `src/data/campaigns.ts`
+# 💡 Estratégia da Fase 1
 
-Migracao/estrutura comercial no PostgreSQL:
+A Fase 1 foi desenhada para responder uma pergunta simples:
 
-- `database/migrations/20260611130000_commercial_admin_foundation.sql`
-- `database/migrations/20260612110000_admin_commercial_expansion.sql`
-- `prisma/schema.prisma`
-- `prisma/migrations/`
+> **Como transformar o site da GAMEL em uma ferramenta que realmente ajude a vender?**
 
-## Variaveis de ambiente
+Por isso, a prioridade é:
 
-Consulte `.env.example`.
+```text
+CATÁLOGO
+    ↓
+INTERESSE
+    ↓
+ORÇAMENTO
+    ↓
+ATENDIMENTO
+    ↓
+NEGOCIAÇÃO
+```
 
-Para publicacao, use `.env.production.example` como referencia. O arquivo `.env.production` nao deve ser versionado.
+e não:
 
-Padrao esperado:
+```text
+CARRINHO
+    ↓
+CHECKOUT
+    ↓
+PAGAMENTO
+```
+
+O e-commerce completo poderá existir futuramente.
+
+Mas somente quando houver:
+
+```text
+necessidade comercial
++
+novo escopo
++
+estrutura operacional
++
+planejamento técnico
+```
+
+---
+
+# 🚦 Estado atual
+
+## `RELEASE CANDIDATE — FASE 1`
+
+O projeto possui atualmente:
+
+```text
+Site institucional
+        +
+Catálogo digital
+        +
+Produtos e categorias
+        +
+Carrinho de orçamento
+        +
+Geração de protocolo
+        +
+Integração WhatsApp
+        +
+Painel administrativo
+        +
+SEO básico
+        +
+LGPD base
+        +
+Testes obrigatórios
+```
+
+### Estado consolidado
+
+| Área                     | Status |
+| ------------------------ | :----: |
+| Site público             |    ✅   |
+| Catálogo                 |    ✅   |
+| Categorias               |    ✅   |
+| Produtos                 |    ✅   |
+| Carrinho de orçamento M1 |    ✅   |
+| Solicitação de orçamento |    ✅   |
+| Protocolo                |    ✅   |
+| Integração WhatsApp      |    ✅   |
+| Painel administrativo    |    ✅   |
+| SEO básico               |    ✅   |
+| Política de Privacidade  |    ✅   |
+| Testes obrigatórios      |    ✅   |
+| Homologação assistida    |    ⏳   |
+| Aceite formal            |    ⏳   |
+| Ambiente real            |    ⏳   |
+| Go-live                  |    ⏳   |
+| E-commerce               |   🔒   |
+
+O próximo estágio é:
+
+```text
+RELEASE CANDIDATE
+        ↓
+HOMOLOGAÇÃO ASSISTIDA
+        ↓
+ACEITE FORMAL
+        ↓
+PREPARAÇÃO DE PRODUÇÃO
+        ↓
+GO-LIVE ASSISTIDO
+        ↓
+OPERAÇÃO
+```
+
+---
+
+# ✨ Experiência do cliente
+
+A jornada principal foi criada para ser curta e objetiva.
+
+```mermaid
+flowchart LR
+    HOME["🏠 Home"]
+    CAT["📦 Catálogo"]
+    CATEGORY["🗂️ Categoria"]
+    PRODUCT["🔎 Produto"]
+    CART["📝 Orçamento"]
+    PROTOCOL["✅ Protocolo"]
+    WA["💬 WhatsApp"]
+    SALES["🤝 Comercial"]
+
+    HOME --> CAT
+    CAT --> CATEGORY
+    CATEGORY --> PRODUCT
+    PRODUCT --> CART
+    CART --> PROTOCOL
+    PROTOCOL --> WA
+    WA --> SALES
+```
+
+### Jornada
+
+1. O cliente acessa o site;
+2. conhece a GAMEL;
+3. navega pelo catálogo;
+4. encontra uma categoria;
+5. visualiza um produto;
+6. seleciona produtos de interesse;
+7. monta seu orçamento;
+8. informa os dados necessários;
+9. envia a solicitação;
+10. recebe um protocolo;
+11. pode continuar pelo WhatsApp;
+12. o time comercial recebe a oportunidade;
+13. inicia o atendimento.
+
+---
+
+# ✅ O que está implementado
+
+## 🌐 Site institucional
+
+A Fase 1 contempla:
+
+* Home;
+* Quem Somos;
+* página de contato;
+* localização;
+* WhatsApp;
+* Política de Privacidade;
+* apresentação institucional;
+* experiência responsiva;
+* SEO básico por rota.
+
+---
+
+# 📦 Catálogo Inteligente
+
+O catálogo é um dos principais ativos comerciais da plataforma.
+
+Ele permite organizar:
+
+* categorias;
+* produtos;
+* imagens;
+* aplicações;
+* características;
+* variações;
+* vitrines;
+* banners;
+* conteúdos comerciais.
+
+O objetivo não é apenas listar produtos.
+
+É ajudar o visitante a:
+
+```text
+DESCOBRIR
+   ↓
+ENTENDER
+   ↓
+SE INTERESSAR
+   ↓
+SOLICITAR
+```
+
+---
+
+# 🛒 M1 — Carrinho de Orçamento Essencial
+
+O **M1** introduz o carrinho de orçamento da plataforma.
+
+> ⚠️ Carrinho de orçamento não é carrinho de compras.
+
+Nenhum pagamento ou pedido comercial é criado através deste fluxo.
+
+### Funcionamento
+
+```text
+PRODUTO A ─┐
+PRODUTO B ─┼──→ CARRINHO DE ORÇAMENTO
+PRODUTO C ─┘
+                     ↓
+                 /orcamento
+                     ↓
+              DADOS DO CLIENTE
+                     ↓
+            VALIDAÇÃO SERVER-SIDE
+                     ↓
+               SOLICITAÇÃO
+                     ↓
+                 PROTOCOLO
+                     ↓
+          WHATSAPP + PAINEL ADMIN
+```
+
+---
+
+## 💾 Persistência
+
+O carrinho utiliza armazenamento local através de:
+
+```text
+gamel_quote_cart_v1
+```
+
+permitindo preservar a seleção do cliente durante a navegação.
+
+---
+
+## 🔐 Validação
+
+A criação da solicitação não depende exclusivamente das informações enviadas pelo navegador.
+
+O backend realiza validações relacionadas a:
+
+* produtos;
+* variações;
+* quantidades;
+* UF;
+* consentimento;
+* integridade da solicitação.
+
+---
+
+## 🔁 Idempotência
+
+O fluxo utiliza:
+
+```text
+idempotencyKey
+```
+
+para reduzir o risco de solicitações duplicadas durante reenvios ou problemas de conexão.
+
+---
+
+## 🛡️ Tratamento de falhas
+
+Em caso de falha na criação do orçamento:
+
+```text
+NÃO gerar protocolo falso
+        +
+NÃO apagar o carrinho
+        +
+PERMITIR nova tentativa
+```
+
+---
+
+## 🧾 Protocolo
+
+Solicitações válidas recebem identificação no padrão:
+
+```text
+GML-00000001
+```
+
+---
+
+# 💬 Integração com WhatsApp
+
+O WhatsApp faz parte da jornada comercial, mas não substitui o registro estruturado da oportunidade.
+
+Fluxo conceitual:
+
+```text
+SOLICITAÇÃO
+     ↓
+PROTOCOLO
+     ↓
+REGISTRO ADMIN
+     ↓
+WHATSAPP
+     ↓
+ATENDIMENTO HUMANO
+```
+
+A plataforma prepara a oportunidade.
+
+O time comercial conduz a negociação.
+
+---
+
+# 🖥️ Painel Administrativo
+
+O painel possui **5 perfis reais de permissão** (`administrador`, `comercial`, `catalogo_conteudo`, `marketing`, `visualizacao_diretoria`), cada um com navegação e painel inicial próprios — cada perfil só vê os módulos e ações que realmente pode executar.
+
+|  # | Módulo                                    | Responsabilidade                              | Quem vê                                          |
+| -: | ------------------------------------------ | ----------------------------------------------- | --------------------------------------------------- |
+| 01 | 🏠 **Início**                              | Painel inicial por perfil, com dados reais      | Todos                                              |
+| 02 | 📦 **Produtos**                            | Gestão do portfólio, curadoria visual, edição em lote | Administrador, Catálogo/Conteúdo             |
+| 03 | 🗂️ **Categorias / Catálogo**              | Estrutura comercial e taxonomia                 | Administrador, Catálogo/Conteúdo                   |
+| 04 | 🖼️ **Mídia / Imagens**                    | Ativos visuais                                  | Administrador, Catálogo/Conteúdo                   |
+| 05 | 📢 **Banners / Vitrines**                  | Destaques comerciais e conteúdo institucional    | Administrador, Catálogo/Conteúdo, Marketing        |
+| 06 | 📝 **Orçamentos / Operação**               | Solicitações, leads e atendimento comercial     | Administrador, Comercial                           |
+| 07 | 📊 **Relatórios**                          | Resumo executivo do negócio (somente leitura)   | Administrador, Comercial, Visualização/Diretoria   |
+| 08 | 👥 **Usuários / Permissões**               | Controle de acesso                              | Administrador                                      |
+| 09 | 🛡️ **Governança / Auditoria / Segurança** | Rastreabilidade e conformidade                  | Administrador                                      |
+
+---
+
+# 🎯 Orçamentos e Leads
+
+As solicitações podem ser acompanhadas através de:
+
+```text
+/admin/orcamentos
+```
+
+e individualmente através de:
+
+```text
+/admin/orcamentos/:id
+```
+
+O objetivo é permitir que a equipe comercial transforme a solicitação digital em uma oportunidade acompanhável.
+
+---
+
+# 🏗️ Linhas do catálogo
+
+O GAMEL Metal Digital foi preparado para trabalhar com um portfólio amplo.
+
+## 🪵 Acabamento e arquitetura
+
+* Ripados internos;
+* Ripados externos;
+* Chapas UV;
+* Tetos Laminados Vinílicos;
+* Pisos Vinílicos;
+* Forros PVC.
+
+## ☀️ Cobertura
+
+* Telhas de PVC;
+* Telhas de Fibrocimento;
+* Chapas de Policarbonato.
+
+## 🧱 Construção e complementos
+
+* ACM;
+* Perfis de Alumínio;
+* Drywall;
+* Acessórios.
+
+A arquitetura do catálogo deve permitir a inclusão de novas linhas sem reconstrução estrutural da plataforma.
+
+---
+
+# 🗺️ Rotas principais
+
+| Rota               | Finalidade                                |
+| ------------------ | ------------------------------------------ |
+| `/`                 | Home                                       |
+| `/produtos`         | Catálogo completo                          |
+| `/categoria/:slug`  | Categoria                                  |
+| `/produto/:slug`    | Produto                                    |
+| `/orcamento`        | Carrinho e orçamento                       |
+| `/sobre`            | Institucional (Quem Somos)                 |
+| `/contato`          | Contato e localização                      |
+| `/vendas-para-empresas` | Cotação B2B / obra                     |
+| `/politicas`        | Política de Privacidade e Termos de Uso    |
+| `/admin`            | Administração                              |
+
+---
+
+# 🔒 E-commerce congelado
+
+## `ECOMMERCE_FROZEN`
+
+A Fase 1 deliberadamente não contempla:
+
+* carrinho de compras;
+* checkout;
+* PIX;
+* cartão;
+* boleto;
+* pagamento online;
+* pedidos pagos;
+* área do cliente;
+* meus pedidos;
+* rastreamento;
+* estoque em tempo real;
+* integração ERP;
+* emissão fiscal;
+* frete automático;
+* integração com transportadoras;
+* WMS;
+* marketplace.
+
+Esses recursos permanecem fora do escopo atual.
+
+```text
+FASE 1
+│
+├── Site                     ✅
+├── Catálogo                 ✅
+├── Produto                  ✅
+├── Orçamento                ✅
+├── WhatsApp                 ✅
+├── Leads                    ✅
+├── Admin                    ✅
+│
+└── E-commerce               🔒
+    ├── Checkout
+    ├── Pagamento
+    ├── Pedido
+    ├── ERP
+    ├── Fiscal
+    └── Logística
+```
+
+---
+
+# 🧠 Decisão deliberada: orçamento antes do e-commerce
+
+A ausência de checkout não representa uma funcionalidade incompleta.
+
+É uma decisão de produto.
+
+Atualmente, o objetivo da plataforma é:
+
+> **aproximar cliente e GAMEL, qualificar o interesse e entregar uma oportunidade estruturada ao time comercial.**
+
+Ativar e-commerce completo introduziria novas responsabilidades:
+
+```text
+PAGAMENTO
++
+ESTOQUE
++
+PREÇO
++
+FRETE
++
+PEDIDO
++
+FISCAL
++
+ERP
++
+LOGÍSTICA
++
+PÓS-VENDA DIGITAL
+```
+
+Por isso, essa evolução permanece reservada para uma nova fase.
+
+---
+
+# 🛡️ Princípios do produto
+
+## 1. Comercial antes de complexo
+
+Primeiro:
+
+```text
+GERAR INTERESSE
+      ↓
+GERAR OPORTUNIDADE
+      ↓
+APOIAR O COMERCIAL
+```
+
+Depois aumentar a complexidade da plataforma.
+
+---
+
+## 2. Catálogo é um ativo comercial
+
+O catálogo não é apenas uma lista de SKUs.
+
+Ele faz parte da estratégia de:
+
+* posicionamento;
+* apresentação;
+* descoberta;
+* especificação;
+* conversão.
+
+---
+
+## 3. Menos atrito
+
+O cliente precisa conseguir:
+
+```text
+ENCONTRAR
+   ↓
+ENTENDER
+   ↓
+ESCOLHER
+   ↓
+SOLICITAR
+   ↓
+CONVERSAR
+```
+
+sem complexidade desnecessária.
+
+---
+
+## 4. Oportunidade rastreável
+
+Uma intenção comercial importante não deve existir apenas em uma conversa perdida.
+
+Ela deve gerar registro e contexto para acompanhamento.
+
+---
+
+## 5. Segurança desde a base
+
+Credenciais, usuários, permissões, dados e integrações devem ser tratados como requisitos de produto.
+
+---
+
+## 6. Administração sem depender do código
+
+Atividades operacionais recorrentes devem ser realizadas através do painel sempre que possível.
+
+---
+
+## 7. Evolução controlada
+
+Cada funcionalidade deve pertencer claramente a:
+
+```text
+CORREÇÃO
+MELHORIA
+EVOLUÇÃO
+NOVA FASE
+MUDANÇA DE ESCOPO
+```
+
+---
+
+# 🚀 Roadmap
+
+```mermaid
+flowchart LR
+    F1["Fase 1<br/>Site Comercial"]
+    F11["Fase 1.1<br/>Produção"]
+    F12["Fase 1.2<br/>Go-live"]
+    F2["Fase 2<br/>Operação Comercial"]
+    F3["Fase 3<br/>Growth"]
+    ECOM["Fase futura<br/>E-commerce"]
+
+    F1 --> F11
+    F11 --> F12
+    F12 --> F2
+    F2 --> F3
+    F3 --> ECOM
+```
+
+---
+
+## Fase 1 — Site Comercial
+
+```text
+Institucional
++
+Catálogo
++
+Produtos
++
+Orçamento
++
+WhatsApp
++
+Leads
++
+Admin
+```
+
+---
+
+## Fase 1.1 — Preparação de Produção
+
+Preparar:
+
+* ambiente real;
+* banco;
+* Redis;
+* storage;
+* e-mail;
+* domínio;
+* segurança;
+* usuários;
+* permissões;
+* analytics;
+* monitoramento.
+
+---
+
+## Fase 1.2 — Go-live Assistido
+
+Executar:
+
+* publicação;
+* smoke tests;
+* validação real;
+* monitoramento inicial;
+* acompanhamento;
+* ajustes pós-go-live.
+
+---
+
+## Fase 2 — Operação Comercial Assistida
+
+Possíveis evoluções:
+
+* responsável por lead;
+* histórico comercial;
+* status;
+* funil;
+* tarefas;
+* follow-up;
+* observações;
+* relatórios;
+* produtividade;
+* conversão.
+
+Exemplo:
+
+```text
+NOVO
+ ↓
+CONTATO
+ ↓
+QUALIFICADO
+ ↓
+PROPOSTA
+ ↓
+NEGOCIAÇÃO
+ ↓
+FECHADO
+```
+
+---
+
+## Fase 3 — Growth e Inteligência Comercial
+
+Possíveis evoluções:
+
+* SEO avançado;
+* campanhas;
+* eventos de conversão;
+* origem do lead;
+* produtos mais visualizados;
+* categorias mais acessadas;
+* produtos mais adicionados ao orçamento;
+* produtos mais orçados;
+* abandono;
+* conversão;
+* inteligência comercial.
+
+---
+
+## Fase futura — E-commerce
+
+Somente mediante novo escopo.
+
+```text
+CATÁLOGO
+   ↓
+CARRINHO
+   ↓
+CHECKOUT
+   ↓
+PAGAMENTO
+   ↓
+PEDIDO
+   ↓
+ESTOQUE
+   ↓
+ERP
+   ↓
+FISCAL
+   ↓
+LOGÍSTICA
+   ↓
+CLIENTE
+```
+
+---
+
+# ⚙️ Preparação para produção
+
+O deploy definitivo depende da configuração das variáveis reais de ambiente.
 
 ```env
-DATABASE_URL=postgresql://postgres:postgres@localhost:5433/vitrine360
-APP_BASE_URL=
-ADMIN_BOOTSTRAP_EMAIL=
-ADMIN_BOOTSTRAP_PASSWORD=
-ADMIN_BOOTSTRAP_TOKEN=
-VITE_ENABLE_DEV_ADMIN_BYPASS=0
-VITE_PUBLIC_SITE_URL=https://definir-dominio-oficial.exemplo.com
-
-AI_PROVIDER=openai-compatible
-AI_API_KEY=
-AI_BASE_URL=
-AI_MODEL=
+DATABASE_URL=
+REDIS_URL=
+RESEND_API_KEY=
+GA4_MEASUREMENT_ID=
+STORAGE_BUCKET=
+STORE_WHATSAPP=
 ```
 
-Importante:
+Também podem existir configurações adicionais para:
 
-- nunca exponha `credenciais administrativas` e `DATABASE_URL` no frontend
-- nao exponha chaves privadas de IA via `VITE_`
-- mantenha segredos apenas em server functions e ambiente servidor
+* domínio;
+* autenticação;
+* cookies;
+* sessões;
+* CORS;
+* e-mail;
+* storage;
+* logs;
+* observabilidade;
+* analytics;
+* segurança.
 
-## Como instalar e rodar
+---
 
-Fluxo principal suportado:
+# 🔐 Segredos
 
-```bash
-npm install
-npm run db:up
-npm run db:status
-npm run db:migrate
-npm run db:seed
-npm run dev
+Segredos reais nunca devem ser versionados.
+
+Não versionar:
+
+```env
+DATABASE_URL=postgresql://usuario:senha@host/database
+RESEND_API_KEY=re_xxxxxxxxxxxxxxxxx
 ```
 
-Comandos oficiais:
+As credenciais devem existir exclusivamente nos mecanismos seguros de configuração de cada ambiente.
 
-```bash
-npm run db:up
-npm run db:status
-npm run db:migrate
-npm run db:migrate:prod
-npm run db:seed
-npm run db:seed:prod
-npm run db:reset
-npm run prisma:generate
-npm run prisma:pull
-npm run prisma:migrate:dev
-npm run prisma:migrate:deploy
-npm run prisma:studio
-npm run pilot:content:init
-npm run pilot:content:apply
-npm run pilot:content:report
-npm run pilot:content:checklist
-npm run production:env:init
-npm run go-live:preflight
-npm run go-live:report
-npm run production:next
-npm run production:handoff
-npm run production:check
-npm run production:check:local
-npm run format
-npm run lint
-npm run build
-npm run preview
-npm run test:e2e:desktop
-npm run test:e2e:mobile
-npm run test:e2e
+---
+
+# ✅ Checklist de Go-live
+
+## Aplicação
+
+* [x] Site institucional;
+* [x] catálogo;
+* [x] categorias;
+* [x] produtos;
+* [x] carrinho de orçamento;
+* [x] protocolo;
+* [x] Admin;
+* [x] WhatsApp;
+* [x] SEO básico;
+* [x] LGPD base;
+* [x] testes obrigatórios.
+
+## Ambiente
+
+* [ ] variáveis de produção;
+* [ ] banco definitivo;
+* [ ] Redis;
+* [ ] storage;
+* [ ] e-mail transacional;
+* [ ] WhatsApp oficial;
+* [ ] domínio;
+* [ ] HTTPS;
+* [ ] CORS;
+* [ ] cookies e sessão;
+* [ ] analytics.
+
+## Segurança
+
+* [ ] usuários reais;
+* [ ] permissões;
+* [ ] segredos;
+* [ ] backup;
+* [ ] restore;
+* [ ] logs;
+* [ ] monitoramento;
+* [ ] validação final.
+
+## Operação
+
+* [ ] homologação assistida;
+* [ ] aceite formal;
+* [ ] treinamento;
+* [ ] smoke test;
+* [ ] go-live assistido;
+* [ ] monitoramento pós-publicação.
+
+---
+
+# 📚 Documentação
+
+A documentação principal está concentrada em:
+
+```text
+docs/gamel/
 ```
 
-Observacoes:
+## 📌 Fase 1
 
-- existe historico de uso com Bun, mas o fluxo padrao documentado desta base e `npm`
-- a execucao agora prioriza PostgreSQL real via `DATABASE_URL`
-- Prisma esta configurado como ORM progressivo: o schema e as migrations Prisma existem, mas as rotas atuais ainda usam majoritariamente a camada `pg` existente
-- use `npm run prisma:migrate:deploy` para aplicar migrations Prisma em ambientes ja configurados
-- use `npm run prisma:migrate:dev` apenas em desenvolvimento, quando quiser criar uma nova migration a partir de alteracoes no `prisma/schema.prisma`
-- quando o banco ainda nao estiver disponivel, a aplicacao entra em fallback controlado para manter desenvolvimento e testes locais
-- o ambiente local padrao sobe PostgreSQL em `localhost:5433` via `docker compose`
-- para `npm run db:up` funcionar no Windows, o Docker Desktop precisa estar em execucao
-- `npm run db:status` faz um preflight rapido do Docker e da conexao PostgreSQL local antes de migrar, subir app ou rodar checks
-- `npm run go-live:preflight` consolida diagnostico local, readiness local e readiness oficial em uma unica execucao
-- `npm run go-live:report` gera `GO-LIVE-STATUS.md` com um resumo compartilhavel do estado atual da publicacao
-- `npm run production:next` gera `PRODUCTION-NEXT-STEPS.md` com a sequencia priorizada e acionavel para fechar producao
-- `npm run production:handoff` executa preflight, relatorio e plano de proximos passos em uma passada so
-- uploads de midia persistem em `storage/media/` e sao servidos por `/api/public/media`
-- `npm run pilot:content:init` cria o arquivo base para homologacao comercial do piloto
-- `npm run pilot:content:apply` aplica no banco local os ajustes aprovados em `PILOTO-CONTENT-APPROVED.json`
-- o build possui limpeza automatica de `dist/` antes da compilacao para evitar preview quebrado por artefatos antigos
-- `npm run pilot:content:report` gera um snapshot markdown do conteudo atual do piloto a partir do banco local
-- `npm run pilot:content:checklist` gera `PILOTO-CONTENT-CHECKLIST.md` com a trilha de aprovacao comercial a partir do snapshot e do arquivo aprovado
+| Documento                                  | Finalidade         |
+| ------------------------------------------ | ------------------ |
+| `README.md`                                | Documentação geral |
+| `RELATORIO_PRONTIDAO_FASE1.md`             | Prontidão          |
+| `RELATORIO_HIGIENIZACAO_GERAL.md`          | Higienização       |
+| `AUDITORIA_COMPLETA_SITE_FASE1.md`         | Auditoria          |
+| `CHECKLIST_EXECUTIVO_HOMOLOGACAO_FASE1.md` | Homologação        |
+| `FEEDBACK_HOMOLOGACAO_FASE1.md`            | Feedback           |
+| `TERMO_HOMOLOGACAO_ACEITE_FASE1.md`        | Aceite             |
+| `RELATORIO_GERAL_TRABALHO_CODEX_E_CLAUDE.md` | **Relatório geral consolidado**: tudo que foi feito desde a construção inicial guiada por Codex até o trabalho de auditoria/correção com Claude Code |
 
-## Validacao de producao
+---
 
-Antes do Go-Live assistido:
+## 🛠️ Hardening e correções prioritárias
 
-```bash
-npm run production:env:init
-npm run go-live:preflight
-npm run production:check
+Documentos vivos, atualizados a cada rodada de correção — fonte única de verdade sobre o que já foi corrigido e o que ainda depende de decisão externa (infraestrutura, hospedagem, ambiente real).
+
+| Documento                                          | Finalidade                                              |
+| --------------------------------------------------- | ---------------------------------------------------------- |
+| `BACKLOG_HARDENING_PRODUCAO.md`                    | Backlog vivo de achados P0/P1/P2/P3 com status e evidência |
+| `PLANO_EXECUCAO_CORRECOES_PRIORITARIAS.md`         | Plano de execução por fase, com status de cada uma        |
+| `HANDOFF_DESENVOLVEDOR_GO_LIVE.md`                 | **Ponto de partida para quem for validar o Go-Live**: o que falta, o que já foi testado, preocupações de projeto construído por IA, e notas de arquitetura para o e-commerce multi-canal futuro |
+
+---
+
+## 🚀 Produção e Go-live
+
+| Documento                               | Finalidade  |
+| --------------------------------------- | ----------- |
+| `GO_LIVE_ENV_CHECKLIST.md`              | Ambiente    |
+| `VALIDACAO_AMBIENTE_SEGURO_PRODUCAO.md` | Segurança   |
+| `PLANO_GO_LIVE_ASSISTIDO_FASE1.md`      | Go-live     |
+| `USUARIOS_REAIS_PERMISSOES_FASE1.md`    | Permissões  |
+| `USUARIOS_REAIS_GO_LIVE.md`             | Usuários    |
+| `ADMIN_TREINAMENTO_OPERACIONAL.md`      | Treinamento |
+
+---
+
+## 🛒 M1
+
+| Documento                       | Finalidade    |
+| ------------------------------- | ------------- |
+| `AUDITORIA_M1_ATUAL.md`         | Auditoria     |
+| `M1_FLUXO_ATUAL_CONSOLIDADO.md` | Fluxo         |
+| `M1_CONTRATO_API.md`            | Contrato      |
+| `M1_MODELO_DADOS.md`            | Dados         |
+| `M1_MANUAL_ADMIN.md`            | Administração |
+| `M1_PLANO_ROLLBACK.md`          | Rollback      |
+| `M1_RELEASE_NOTES.md`           | Changelog vivo do M1 (PDF de comprovante, consentimento de marketing, etc.) |
+
+> Esta tabela e as anteriores cobrem os documentos de referência ativa. `docs/gamel/` tem também documentos históricos de checkpoints específicos (relatórios de execução, roteiros de homologação de uma data específica, etc.) — não listados individualmente aqui para não duplicar manutenção, mas todos com nome autoexplicativo.
+
+---
+
+## 🛣️ Evolução
+
+| Documento                           | Finalidade     |
+| ----------------------------------- | -------------- |
+| `ROADMAP_OFICIAL_POS_FASE1.md`      | Roadmap        |
+| `MATRIZ_CHECKS_FASES.md`            | Controles      |
+| `PROXIMAS_ACOES_POS_HOMOLOGACAO.md` | Próximas ações |
+| `ECOMMERCE_FUTURO_CONGELADO.md`     | Escopo futuro  |
+
+---
+
+# 📍 Caminho até produção
+
+Estado atual:
+
+```text
+DESENVOLVIMENTO         ✅
+REVISÃO                  ✅
+TESTES                    ✅
+RELEASE CANDIDATE         ✅
+HOMOLOGAÇÃO               ◀ PRÓXIMA ETAPA
+ACEITE                    ⏳
+PRODUÇÃO                  ⏳
+GO-LIVE                   ⏳
+OPERAÇÃO                  ⏳
 ```
 
-Para validar apenas o ambiente local atual:
+---
 
-```bash
-npm run production:check:local
+# 🧭 Visão de longo prazo
+
+A evolução do GAMEL Metal Digital pode transformar a plataforma progressivamente em um ecossistema comercial mais completo.
+
+```text
+PRESENÇA DIGITAL
+       ↓
+CATÁLOGO DIGITAL
+       ↓
+GERAÇÃO DE LEADS
+       ↓
+OPERAÇÃO COMERCIAL
+       ↓
+INTELIGÊNCIA
+       ↓
+AUTOMAÇÃO
+       ↓
+E-COMMERCE
 ```
 
-Esse comando valida:
+Cada etapa deve acontecer porque gera valor para a operação — e não simplesmente porque tecnicamente pode ser construída.
 
-- presenca de `DATABASE_URL`, `APP_BASE_URL` e `VITE_PUBLIC_SITE_URL`
-- status do `VITE_ENABLE_DEV_ADMIN_BYPASS`
-- conectividade com PostgreSQL
-- existencia das tabelas principais
-- contagem basica de loja, usuarios, produtos, categorias, campanhas e midia
-- disponibilidade do storage local em `storage/media`
+---
 
-Observacao:
+# 🤝 GAMEL + Tecnologia
 
-- `npm run production:env:init` cria `.env.production` a partir do template, se ele ainda nao existir
-- `npm run production:check` agora espera um arquivo `.env.production`
-- `npm run production:check:local` usa o `.env` do ambiente local
-- a validacao local aceita URLs localhost e nao trata o bootstrap administrativo local como pendencia de publicacao
-- se o PostgreSQL local nao estiver ativo, o checker agora informa `ECONNREFUSED` com a porta tentada e orienta revisar Docker/PostgreSQL
+O GAMEL Metal Digital conecta:
 
-## Testes
+```text
+PRODUTO
+  +
+CONTEÚDO
+  +
+TECNOLOGIA
+  +
+ATENDIMENTO
+  +
+COMERCIAL
+```
 
-Suites E2E atuais:
+para transformar a presença digital da empresa em uma ferramenta de crescimento.
 
-- `tests/e2e/smoke.spec.ts`
-- `tests/e2e/ai-recommender.spec.ts`
-- `tests/e2e/room-simulator.spec.ts`
-- `tests/e2e/display-modes.spec.ts`
+---
 
-Resultado mais recente validado:
+<div align="center">
 
-- `npm run lint` -> OK
-- `npm run build` -> OK
-- `npm run test:e2e` -> OK, `15` testes executados com `3` skips controlados no mobile
+## 🏗️ GAMEL Metal Digital
 
-Observacoes:
+### Produto certo.
 
-- `npm run test:e2e` executa desktop e mobile em sequencia para maior estabilidade local no Windows
-- os skips atuais no mobile sao intencionais para cenarios operacionais de tela grande e para o fluxo completo do simulador, ja cobertos por desktop e smoke responsivo
-- os testes rodam com fallback controlado da camada de IA, sem depender de credito real em automacao
+### Informação clara.
 
-## Pendencias conhecidas
+### Oportunidade conectada ao comercial.
 
-- homepage e configuracoes globais ainda nao estao 100% hidratadas pelo banco em todos os fluxos de personalizacao visual
-- sitemap ja usa a camada resolvida do storefront, mas ainda precisa de validacao final com dominio oficial
-- SEO dinamico por produto/categoria/campanha foi ligado nas rotas principais e ainda precisa de refinamento com JSON-LD mais completo
-- biblioteca de midia ainda nao cobre upload multiplo, drag and drop, galeria, ambientacoes e relacoes completas por contexto
-- banners e destaques ja contam com preview da midia selecionada, geracao assistida de slug e leitura mais clara do destino comercial
-- `/totem` e `/vitrine` ja consomem configuracoes operacionais principais do painel, mas ainda precisam de homologacao em hardware real e validacao com conteudo final
-- analytics e leads ainda precisam de validacao final em ambiente publicado, especialmente a fila local de eventos
-- PostgreSQL local ja esta operacional com migration e seed, mas a publicacao oficial ainda depende de `DATABASE_URL` de producao, dominio oficial e reducao gradual dos fallbacks locais
-- a camada de temas existe por tokens e configuracoes operacionais, mas ainda nao ha design system formal nem personalizacao visual robusta por cliente
+**Status atual: `RELEASE CANDIDATE — FASE 1`**
 
-## Documentos oficiais
+🌐 **[www.gamelmetal.com](http://www.gamelmetal.com)**
 
-- `README.md`
-- `GO-LIVE-CHECKLIST.md`
-- `GO-LIVE-RUNBOOK.md`
-- `PROJECT-SCOPE.md`
-- `TECHNICAL-AUDIT.md`
-- `UI-UX-AUDIT.md`
-- `PROJECT-STATUS-REPORT.md`
-- `ROADMAP.md`
-- `AUDIT-REPORT.md`
-- `EXECUTION-PLAN.md`
-- `ACTION-PLAN.md`
+<br/>
 
-## Direcao recomendada
+**GAMEL / Garanhuns Metal**
 
-1. configurar dominio e ambiente oficial
-2. homologar conteudo real do cliente piloto
-3. validar banco, analytics, IA e seguranca em producao
-4. concluir o Admin como centro de gestao comercial
-5. fechar o Go-Live assistido ponta a ponta
+*Tecnologia e desenvolvimento: InfiniTI Labs*
 
-**Desenvolvido por InfiniTI Labs.**
+</div>

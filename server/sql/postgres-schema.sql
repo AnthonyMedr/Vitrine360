@@ -1,0 +1,8 @@
+-- Compatibility pointer only.
+-- PostgreSQL schema ownership moved to Prisma Migrate.
+-- Apply the checked-in migrations with:
+--   npm run db:migrate:deploy
+--
+-- Source of truth:
+--   prisma/schema.prisma
+--   prisma/migrations/*/migration.sql

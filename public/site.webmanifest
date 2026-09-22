@@ -1,0 +1,21 @@
+{
+  "name": "GAMEL - Garanhuns Metal",
+  "short_name": "GAMEL",
+  "description": "Catalogo digital e orcamento online da GAMEL Metal.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#212121",
+  "icons": [
+    {
+      "src": "/assets/brand/gamel-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/brand/gamel-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
