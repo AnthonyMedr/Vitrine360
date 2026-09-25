@@ -1,15 +1,9 @@
 import { Link } from "react-router-dom";
 import { Award, Building2, MapPin, ShieldCheck, Star, Truck, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { brands } from "@/data/products";
+import { useBrands } from "@/hooks/useBrands";
+import { useProducts } from "@/hooks/useProducts";
 import { CATALOG_ROUTES } from "@/lib/catalogRoutes";
-
-const metrics = [
-  { value: "36", label: "produtos ativos no escopo nacional" },
-  { value: "Brasil", label: "catálogo preparado para cotação por CEP" },
-  { value: "B2C + B2B", label: "mix para cliente final, obra e revenda" },
-  { value: "Assistido", label: "lead acompanhado pela equipe comercial" },
-];
 
 const reviews = [
   {
@@ -27,6 +21,15 @@ const reviews = [
 ];
 
 export function MarketTrustSection() {
+  const { data: brands = [] } = useBrands();
+  const { data: products = [] } = useProducts({ limit: 1000 });
+  const metrics = [
+    { value: String(products.length), label: "produtos ativos no catálogo" },
+    { value: "Brasil", label: "catálogo preparado para cotação por CEP" },
+    { value: "B2C + B2B", label: "mix para cliente final, obra e revenda" },
+    { value: "Assistido", label: "lead acompanhado pela equipe comercial" },
+  ];
+
   return (
     <section className="pb-8">
       <div className="shell-home space-y-7">
@@ -75,8 +78,8 @@ export function MarketTrustSection() {
             </div>
             <div className="mt-6 flex flex-wrap gap-2">
               {brands.map((brand) => (
-                <span key={brand} className="rounded-full border border-border/70 bg-background/72 px-4 py-2 text-sm font-semibold text-foreground">
-                  {brand}
+                <span key={brand.id} className="rounded-full border border-border/70 bg-background/72 px-4 py-2 text-sm font-semibold text-foreground">
+                  {brand.name}
                 </span>
               ))}
             </div>

@@ -3027,6 +3027,18 @@ export function seedDb(): DatabaseShape {
   return cloneDb(seedDbTemplateCache);
 }
 
+export function emptyDb(): DatabaseShape {
+  const empty = seedDb() as DatabaseShape & Record<string, unknown>;
+  for (const [key, value] of Object.entries(empty)) {
+    if (Array.isArray(value)) empty[key] = [];
+  }
+  return empty;
+}
+
+function initialDbState() {
+  return appConfig.databaseAutoSeed ? seedDb() : emptyDb();
+}
+
 function normalizeOrderType(order: Record<string, unknown>): OrderType {
   if (order.order_type === "assisted" || order.is_assisted_sale === true) return "assisted";
   if (order.order_type === "pickup" || order.delivery_type === "pickup") return "pickup";
@@ -3055,7 +3067,11 @@ function normalizeSourceActor(orderType: OrderType, orderOrigin: OrderOrigin): S
   return "system";
 }
 
-export function migrateDb(db: DatabaseShape | Record<string, unknown>) {
+export interface MigrateDbOptions {
+  reconcileSeedData?: boolean;
+}
+
+export function migrateDb(db: DatabaseShape | Record<string, unknown>, options: MigrateDbOptions = {}) {
   let changed = false;
   const seeded = seedDb();
   const nextDb = db as DatabaseShape & {
@@ -3098,11 +3114,11 @@ export function migrateDb(db: DatabaseShape | Record<string, unknown>) {
   };
 
   if (!Array.isArray(nextDb.stores)) {
-    nextDb.stores = seeded.stores as unknown as typeof nextDb.stores;
+    nextDb.stores = [];
     changed = true;
   }
   if (!Array.isArray(nextDb.sellers)) {
-    nextDb.sellers = seeded.sellers as unknown as typeof nextDb.sellers;
+    nextDb.sellers = [];
     changed = true;
   }
   if (!Array.isArray(nextDb.payments)) {
@@ -3162,11 +3178,11 @@ export function migrateDb(db: DatabaseShape | Record<string, unknown>) {
     changed = true;
   }
   if (!Array.isArray(nextDb.deliveryZones)) {
-    nextDb.deliveryZones = seeded.deliveryZones as unknown as typeof nextDb.deliveryZones;
+    nextDb.deliveryZones = [];
     changed = true;
   }
   if (!Array.isArray(nextDb.freightCarriers)) {
-    nextDb.freightCarriers = seeded.freightCarriers as unknown as typeof nextDb.freightCarriers;
+    nextDb.freightCarriers = [];
     changed = true;
   }
   if (!Array.isArray(nextDb.authOtps)) {
@@ -3203,31 +3219,31 @@ export function migrateDb(db: DatabaseShape | Record<string, unknown>) {
   }
   const marketingSeeds = buildMarketingSeeds(new Date().toISOString());
   if (!Array.isArray(nextDb.ecommerceThemes)) {
-    nextDb.ecommerceThemes = marketingSeeds.ecommerceThemes as unknown as typeof nextDb.ecommerceThemes;
+    nextDb.ecommerceThemes = [];
     changed = true;
   }
   if (!Array.isArray(nextDb.marketingCampaigns)) {
-    nextDb.marketingCampaigns = marketingSeeds.marketingCampaigns as unknown as typeof nextDb.marketingCampaigns;
+    nextDb.marketingCampaigns = [];
     changed = true;
   }
   if (!Array.isArray(nextDb.marketingBanners)) {
-    nextDb.marketingBanners = marketingSeeds.marketingBanners as unknown as typeof nextDb.marketingBanners;
+    nextDb.marketingBanners = [];
     changed = true;
   }
   if (!Array.isArray(nextDb.marketingCards)) {
-    nextDb.marketingCards = marketingSeeds.marketingCards as unknown as typeof nextDb.marketingCards;
+    nextDb.marketingCards = [];
     changed = true;
   }
   if (!Array.isArray(nextDb.productShowcases)) {
-    nextDb.productShowcases = marketingSeeds.productShowcases as unknown as typeof nextDb.productShowcases;
+    nextDb.productShowcases = [];
     changed = true;
   }
   if (!Array.isArray(nextDb.campaignLandingPages)) {
-    nextDb.campaignLandingPages = marketingSeeds.campaignLandingPages as unknown as typeof nextDb.campaignLandingPages;
+    nextDb.campaignLandingPages = [];
     changed = true;
   }
   if (!Array.isArray(nextDb.contentSnippets)) {
-    nextDb.contentSnippets = marketingSeeds.contentSnippets as unknown as typeof nextDb.contentSnippets;
+    nextDb.contentSnippets = [];
     changed = true;
   }
   if (!Array.isArray(nextDb.marketingAssets)) {
@@ -3235,7 +3251,7 @@ export function migrateDb(db: DatabaseShape | Record<string, unknown>) {
     changed = true;
   }
   if (!Array.isArray(nextDb.integrationProviders)) {
-    nextDb.integrationProviders = marketingSeeds.integrationProviders as unknown as typeof nextDb.integrationProviders;
+    nextDb.integrationProviders = [];
     changed = true;
   }
   if (!Array.isArray(nextDb.integrationSecrets)) {
@@ -3246,6 +3262,7 @@ export function migrateDb(db: DatabaseShape | Record<string, unknown>) {
     nextDb.marketingEvents = [];
     changed = true;
   }
+  if (options.reconcileSeedData) {
   for (const seededTheme of marketingSeeds.ecommerceThemes) {
     if (!nextDb.ecommerceThemes.some((entry) => entry.slug === seededTheme.slug)) {
       nextDb.ecommerceThemes.push(seededTheme);
@@ -3389,6 +3406,7 @@ export function migrateDb(db: DatabaseShape | Record<string, unknown>) {
     }
     return nextLandingPage;
   }) as unknown as typeof nextDb.campaignLandingPages;
+  }
 
   nextDb.users = nextDb.users.map((user) => {
     const nextUser = { ...user } as typeof user & { password?: string };
@@ -3503,6 +3521,9 @@ export function migrateDb(db: DatabaseShape | Record<string, unknown>) {
     changed = true;
   }
 
+  // Legacy catalog reconciliation is opt-in. Normal startup migrations must
+  // never recreate deleted catalog rows or overwrite changes made in admin.
+  if (options.reconcileSeedData) {
   for (const seededCategory of seeded.categories) {
     const existingCategory = nextDb.categories.find((category) => category.id === seededCategory.id || category.slug === seededCategory.slug);
     if (existingCategory) {
@@ -3629,6 +3650,9 @@ export function migrateDb(db: DatabaseShape | Record<string, unknown>) {
     changed = true;
   }
 
+  }
+
+  if (options.reconcileSeedData) {
   for (const seededZone of seeded.deliveryZones) {
     if (!nextDb.deliveryZones.some((zone) => zone.id === seededZone.id)) {
       nextDb.deliveryZones.push(seededZone);
@@ -3642,6 +3666,7 @@ export function migrateDb(db: DatabaseShape | Record<string, unknown>) {
       nextDb.establishments.push(seededEstablishment);
       changed = true;
     }
+  }
   }
 
   nextDb.establishments = nextDb.establishments.map((establishmentRecord) => ({
@@ -3672,11 +3697,6 @@ export function migrateDb(db: DatabaseShape | Record<string, unknown>) {
     is_default_seller: typeof establishmentRecord.is_default_seller === "boolean" ? Boolean(establishmentRecord.is_default_seller) : false,
     created_at: String(establishmentRecord.created_at || new Date().toISOString()),
   }));
-
-  const seededCategoryIds = new Set(seeded.categories.map((category) => category.id));
-  const seededBrandIds = new Set(seeded.brands.map((brand) => brand.id));
-  const seededProductIds = new Set(seeded.products.map((product) => product.id));
-  const seededProductSlugs = new Set(seeded.products.map((product) => product.slug));
 
   nextDb.products = nextDb.products.map((productRecord) => {
     const product = productRecord as DbProduct & Record<string, unknown>;
@@ -3736,44 +3756,21 @@ export function migrateDb(db: DatabaseShape | Record<string, unknown>) {
           : "manual_review",
       image_review_notes: typeof product.image_review_notes === "string" ? product.image_review_notes : null,
     } satisfies DbProduct;
-    const isSeededProduct = seededProductIds.has(nextProduct.id) || seededProductSlugs.has(nextProduct.slug);
-    const belongsToSeededCategory = nextProduct.category_id ? seededCategoryIds.has(nextProduct.category_id) : false;
-    if (!isSeededProduct && !belongsToSeededCategory && nextProduct.is_active) {
-      nextProduct.is_active = false;
-      changed = true;
-    }
     return nextProduct;
-  });
-
-  const phase1AcceptedFamilyImageProductIds = new Set(["6", "7", "8"]);
-  nextDb.products = nextDb.products.map((product) => {
-    if (!phase1AcceptedFamilyImageProductIds.has(product.id)) return product;
-    const note = "Imagem de familia correta aceita para catalogo Fase 1. Substituir por foto real GAMEL quando disponivel. [metadata-ok]";
-    if (product.image_review_status !== "approved" || !String(product.image_review_notes || "").includes("Imagem de familia correta aceita")) {
-      changed = true;
-      return {
-        ...product,
-        image_review_status: "approved" as const,
-        image_review_notes: note,
-        image_alt_text: product.image_alt_text || `${product.name} - catalogo GAMEL`,
-      };
-    }
-    return product;
   });
 
   const activeCategoryIds = new Set(nextDb.products.filter((product) => product.is_active).map((product) => product.category_id).filter(Boolean));
   nextDb.categories = nextDb.categories.map((category) => {
     if (typeof category.is_active === "boolean") return category;
-    const shouldStayActive = seededCategoryIds.has(category.id) || activeCategoryIds.has(category.id);
+    const shouldStayActive = activeCategoryIds.has(category.id);
     changed = true;
     return { ...category, is_active: shouldStayActive };
   });
 
-  const activeBrandIds = new Set(nextDb.products.filter((product) => product.is_active).map((product) => product.brand_id).filter(Boolean));
   nextDb.brands = nextDb.brands.map((brand) => {
-    const shouldStayActive = seededBrandIds.has(brand.id) || activeBrandIds.has(brand.id);
-    if (brand.is_active !== shouldStayActive) changed = true;
-    return { ...brand, is_active: shouldStayActive };
+    if (typeof brand.is_active === "boolean") return brand;
+    changed = true;
+    return { ...brand, is_active: true };
   });
 
   nextDb.stores = nextDb.stores.map((storeRecord) => ({
@@ -4037,11 +4034,13 @@ export function migrateDb(db: DatabaseShape | Record<string, unknown>) {
   })) as unknown as typeof nextDb.authOtps;
 
   nextDb.fiscalProfiles = Array.isArray(nextDb.fiscalProfiles) ? nextDb.fiscalProfiles : [];
+  if (options.reconcileSeedData) {
   for (const seededProfile of seeded.fiscalProfiles) {
     if (!nextDb.fiscalProfiles.some((entry) => entry.id === seededProfile.id)) {
       nextDb.fiscalProfiles.push(seededProfile);
       changed = true;
     }
+  }
   }
   nextDb.fiscalProfiles = nextDb.fiscalProfiles.map((profileRecord) => ({
     id: String(profileRecord.id || createId()),
@@ -4065,11 +4064,13 @@ export function migrateDb(db: DatabaseShape | Record<string, unknown>) {
   }));
 
   nextDb.inventoryLots = Array.isArray(nextDb.inventoryLots) ? nextDb.inventoryLots : [];
+  if (options.reconcileSeedData) {
   for (const seededLot of seeded.inventoryLots) {
     if (!nextDb.inventoryLots.some((entry) => entry.id === seededLot.id)) {
       nextDb.inventoryLots.push(seededLot);
       changed = true;
     }
+  }
   }
   nextDb.inventoryLots = nextDb.inventoryLots.map((lotRecord) => ({
     id: String(lotRecord.id || createId()),
@@ -4570,7 +4571,7 @@ function bootstrapSqliteState() {
   getSqliteDb();
 
   if (!hasSqliteData()) {
-    let source = seedDb();
+    let source = initialDbState();
     if (fs.existsSync(dbPath)) {
       const raw = JSON.parse(fs.readFileSync(dbPath, "utf8")) as DatabaseShape;
       source = migrateDb(raw).db;
@@ -4607,12 +4608,12 @@ async function bootstrapPostgresState() {
     try {
       source = migrateDb(readSqlite()).db;
     } catch {
-      source = fs.existsSync(dbPath) ? migrateDb(JSON.parse(fs.readFileSync(dbPath, "utf8")) as DatabaseShape).db : seedDb();
+      source = fs.existsSync(dbPath) ? migrateDb(JSON.parse(fs.readFileSync(dbPath, "utf8")) as DatabaseShape).db : initialDbState();
     }
   } else if (fs.existsSync(dbPath)) {
     source = migrateDb(JSON.parse(fs.readFileSync(dbPath, "utf8")) as DatabaseShape).db;
   } else {
-    source = seedDb();
+    source = initialDbState();
   }
 
   await writePostgres(source);

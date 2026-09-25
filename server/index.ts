@@ -351,7 +351,7 @@ app.use((req, res, next) => {
   });
   next();
 });
-app.use((req, res, next) => {
+app.use("/api", (req, res, next) => {
   const normalizedOrigin = req.header("origin")?.toLowerCase();
   if (!normalizedOrigin || appConfig.corsOrigins.includes(normalizedOrigin)) {
     next();
@@ -360,6 +360,7 @@ app.use((req, res, next) => {
   res.status(403).json(buildError("Origin nao permitida pelo CORS"));
 });
 app.use(
+  "/api",
   cors({
     origin(origin, callback) {
       const normalizedOrigin = origin?.toLowerCase();
@@ -9184,10 +9185,10 @@ export async function startServer(portOverride = port) {
   }
   await initializeObjectStorage();
   return await new Promise<ReturnType<typeof app.listen>>((resolve, reject) => {
-    const server = app.listen(portOverride, () => {
+    const server = app.listen(portOverride, "0.0.0.0", () => {
       const address = server.address();
       const resolvedPort = typeof address === "object" && address ? address.port : portOverride;
-      console.log(`API ready on http://127.0.0.1:${resolvedPort}`);
+      console.log(`API ready on http://0.0.0.0:${resolvedPort}`);
       resolve(server);
     });
     server.once("error", (error) => {

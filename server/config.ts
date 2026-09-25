@@ -109,6 +109,10 @@ export const appConfig = {
   securityHeadersEnabled: parseBoolean(process.env.ENABLE_SECURITY_HEADERS, true),
   dbProvider: process.env.DB_PROVIDER || "sqlite",
   databaseUrl: normalizeConfigValue(process.env.DATABASE_URL),
+  databaseAutoSeed: parseBoolean(
+    process.env.DB_AUTO_SEED,
+    (process.env.APP_ENV || process.env.NODE_ENV || "development") === "test",
+  ),
   paymentProvider: process.env.PAYMENT_PROVIDER || "manual",
   freightProvider: process.env.FREIGHT_PROVIDER || "local-rules",
   fiscalProvider: process.env.FISCAL_PROVIDER || "manual",
@@ -290,6 +294,7 @@ export function getProductionConfigurationIssues() {
   const issues: string[] = [];
   if (appConfig.dbProvider !== "postgres") issues.push("DB_PROVIDER deve ser postgres");
   if (!hasValidServiceUrl(appConfig.databaseUrl, ["postgres:", "postgresql:"])) issues.push("DATABASE_URL deve ser uma URL PostgreSQL valida");
+  if (appConfig.databaseAutoSeed) issues.push("DB_AUTO_SEED deve ser false em producao");
   if (appConfig.queueProvider !== "redis") issues.push("QUEUE_PROVIDER deve ser redis");
   if (!hasValidServiceUrl(appConfig.redis.url, ["redis:", "rediss:"])) issues.push("REDIS_URL deve ser uma URL Redis valida");
   if (!appConfig.secureCookies && appConfig.appBaseUrl.startsWith("https://")) issues.push("SECURE_COOKIES deve ser true sob HTTPS");

@@ -4,9 +4,8 @@ import { ArrowRight, MessageCircle } from "lucide-react";
 import { Layout } from "@/components/layout/Layout";
 import { ProductCard } from "@/components/products/ProductCard";
 import { Button } from "@/components/ui/button";
-import { categories as seedCategories, products as seedProducts, type Category as SeedCategory, type Product as SeedProduct } from "@/data/products";
 import { useCategories } from "@/hooks/useCategories";
-import { useFeaturedProducts, type Product } from "@/hooks/useProducts";
+import { useFeaturedProducts } from "@/hooks/useProducts";
 import { usePublicMarketingState } from "@/hooks/useMarketing";
 import { buildCategoryPath } from "@/lib/catalogRoutes";
 import { STORE_INFO, WHATSAPP_MESSAGES, getWhatsAppUrl } from "@/constants/store";
@@ -55,55 +54,6 @@ const applicationHighlights = [
   "Coberturas em policarbonato",
 ];
 
-function fallbackCategory(category: SeedCategory) {
-  return {
-    id: category.id,
-    name: category.name,
-    slug: category.slug,
-    icon: category.icon,
-    description: category.description,
-    image_url: category.image,
-    sort_order: category.order,
-    is_active: true,
-  };
-}
-
-function fallbackProduct(product: SeedProduct): Product {
-  const category = seedCategories.find((item) => item.name === product.category) ?? seedCategories[0];
-  return {
-    id: product.id,
-    sku: product.sku,
-    name: product.name,
-    slug: product.slug,
-    description: product.description,
-    short_description: product.shortDescription,
-    application: product.application,
-    price: product.price,
-    original_price: product.originalPrice ?? null,
-    category_id: category?.id ?? null,
-    brand_id: null,
-    material: product.material,
-    diameter: product.diameter ?? null,
-    measures: product.diameter ?? product.technicalSpecs[0] ?? null,
-    weight: product.weightPerUnit ?? null,
-    unit: product.unitMeasure ?? "un",
-    stock: product.stock,
-    availability: product.quoteAvailable ? "sob_consulta" : "indisponivel",
-    delivery_type: "quote",
-    is_active: true,
-    is_featured: Boolean(product.featured),
-    rating: product.rating,
-    review_count: product.reviews,
-    image_url: product.images[0] ?? null,
-    images: product.images,
-    image_alt_text: product.name,
-    image_review_status: product.imageApproved ? "approved" : "manual_review",
-    created_at: new Date(0).toISOString(),
-    category: category ? fallbackCategory(category) : null,
-    brand: { id: product.brand.toLowerCase().replace(/\s+/g, "-"), name: product.brand, slug: product.brand.toLowerCase().replace(/\s+/g, "-"), is_active: true },
-  };
-}
-
 export default function Index() {
   const [activeHero, setActiveHero] = useState(0);
   const { data: categories } = useCategories();
@@ -132,12 +82,7 @@ export default function Index() {
     image_url: category.image_url || "/placeholder.svg",
     href: buildCategoryPath(category.slug),
   })), [categories]);
-  const displayProducts = featuredProducts?.length
-    ? featuredProducts
-    : (seedProducts.some((product) => product.featured || product.bestseller)
-        ? seedProducts.filter((product) => product.featured || product.bestseller)
-        : seedProducts.filter((product) => product.quoteAvailable)
-      ).slice(0, 8).map(fallbackProduct);
+  const displayProducts = featuredProducts ?? [];
   const hero = heroBanners[activeHero % heroBanners.length];
 
   useEffect(() => {

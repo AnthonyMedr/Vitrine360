@@ -12,77 +12,14 @@ import { FEATURE_FLAGS } from "@/config/featureFlags";
 import { useQuoteCart } from "@/contexts/QuoteCartContext";
 import { STORE_INFO, WHATSAPP_MESSAGES, getProductWhatsAppUrl } from "@/constants/store";
 import { setMetaContent } from "@/lib/seoMeta";
-import { categories as seedCategories, products as seedProducts, type Category as SeedCategory, type Product as SeedProduct } from "@/data/products";
 import { emit } from "@/data/events/eventBus";
 import { addToOutbox } from "@/data/events/outbox";
 import { getPageContext } from "@/data/events/utmTracking";
 import type { ProductViewedPayload } from "@/domain/types";
 import { useProduct, useProducts } from "@/hooks/useProducts";
-import type { Product } from "@/hooks/useProducts";
 import { buildCategoryPath, CATALOG_ROUTES } from "@/lib/catalogRoutes";
-import { getProductIdentityWarning, selectProductForSlug } from "@/lib/productIdentity";
 
 const mediaReviewStatuses = new Set(["manual_review", "suspect", "duplicate", "broken", "missing"]);
-
-function fallbackCategory(category: SeedCategory) {
-  return {
-    id: category.id,
-    name: category.name,
-    slug: category.slug,
-    icon: category.icon,
-    description: category.description,
-    image_url: category.image,
-    sort_order: category.order,
-    is_active: true,
-  };
-}
-
-function fallbackProduct(product: SeedProduct): Product {
-  const category = seedCategories.find((item) => item.name === product.category) ?? seedCategories[0];
-  const isNamedGamelProduct = Number(product.id) >= 23;
-  const isRipado = product.category === "Ripados internos e externos";
-  const skuPrefix = isNamedGamelProduct ? (isRipado ? "GML-RIP" : "GML-TLV") : "GML";
-
-  return {
-    id: product.id,
-    sku: product.sku,
-    name: product.name,
-    slug: product.slug,
-    description: product.description,
-    short_description: product.shortDescription,
-    long_description: product.description,
-    application: product.application,
-    price: product.price,
-    original_price: product.originalPrice ?? null,
-    category_id: category?.id ?? null,
-    brand_id: null,
-    material: product.material,
-    diameter: product.diameter ?? null,
-    measures: product.diameter ?? product.technicalSpecs[0] ?? null,
-    dimensions: product.diameter ?? null,
-    weight: product.weightPerUnit ?? null,
-    unit: product.unitMeasure ?? "un",
-    sale_type: product.saleType ?? "unidade",
-    unit_measure: product.unitMeasure ?? "un",
-    display_unit: product.displayUnit ?? product.unitMeasure ?? "un",
-    stock: product.stock,
-    availability: product.quoteAvailable ? "sob_consulta" : "indisponivel",
-    delivery_type: "quote",
-    is_on_request: true,
-    is_active: true,
-    is_featured: Boolean(product.featured),
-    rating: product.rating,
-    review_count: product.reviews,
-    image_url: product.images[0] ?? null,
-    images: product.images,
-    image_alt_text: product.name,
-    image_review_status: product.imageApproved ? "approved" : "manual_review",
-    image_review_notes: product.imageApproved ? "Imagem aprovada na planilha-mestre." : "Imagem aguardando aprovação.",
-    created_at: new Date(Date.now() - Number(product.id.replace(/\D/g, "")) * 60_000).toISOString(),
-    category: category ? fallbackCategory(category) : null,
-    brand: { id: "gamel-curadoria", name: product.brand, slug: "gamel-curadoria", is_active: true },
-  };
-}
 
 function splitProductHints(value: string | null | undefined) {
   return String(value || "")
@@ -100,18 +37,11 @@ export default function ProductDetail() {
   const [selectedImage, setSelectedImage] = useState(0);
   const quoteCart = useQuoteCart();
   const { toast } = useToast();
-  const fallbackProducts = useMemo(() => seedProducts.map(fallbackProduct), []);
-  const fallbackProductMatch = useMemo(() => fallbackProducts.find((item) => item.slug === currentSlug) ?? null, [currentSlug, fallbackProducts]);
-  const productSelection = useMemo(
-    () => selectProductForSlug({ slug: currentSlug, apiProduct, fallbackProduct: fallbackProductMatch }),
-    [apiProduct, currentSlug, fallbackProductMatch],
-  );
-  const product = productSelection.product;
-  const relatedPool = allProducts?.length ? allProducts : fallbackProducts;
+  const product = apiProduct;
 
   const relatedProducts = useMemo(
-    () => relatedPool.filter((item) => item.category_id === product?.category_id && item.id !== product?.id).slice(0, 6) || [],
-    [relatedPool, product?.category_id, product?.id],
+    () => (allProducts ?? []).filter((item) => item.category_id === product?.category_id && item.id !== product?.id).slice(0, 6),
+    [allProducts, product?.category_id, product?.id],
   );
 
   useEffect(() => {
@@ -129,13 +59,6 @@ export default function ProductDetail() {
     addToOutbox(emit("product.viewed", payload));
   }, [product]);
 
-  useEffect(() => {
-    if (!import.meta.env.DEV) return;
-    const warning = getProductIdentityWarning({ slug: currentSlug, apiProduct, fallbackProduct: fallbackProductMatch });
-    if (!warning) return;
-    console.warn("[GAMEL product identity]", warning);
-  }, [apiProduct, currentSlug, fallbackProductMatch]);
-
   useEffect(() => setSelectedImage(0), [product?.id]);
 
   useEffect(() => {
@@ -148,7 +71,7 @@ export default function ProductDetail() {
     setMetaContent('meta[name="twitter:image"]', absoluteUrl);
   }, [product]);
 
-  if (isLoading && !fallbackProductMatch) {
+  if (isLoading) {
     return (
       <Layout>
         <main className="container py-6">
@@ -162,7 +85,7 @@ export default function ProductDetail() {
     );
   }
 
-  if ((error && !fallbackProductMatch) || !product) {
+  if (error || !product) {
     return (
       <Layout>
         <main className="container py-16 text-center">

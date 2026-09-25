@@ -50,7 +50,7 @@ export async function readPrismaRuntimeState() {
 }
 
 export async function hasPrismaRuntimeData() {
-  return (await getPrismaClient().runtimeRecord.count({ where: { collection: "users" } })) > 0;
+  return (await getPrismaClient().runtimeRecord.count()) > 0;
 }
 
 export async function replacePrismaRuntimeState(

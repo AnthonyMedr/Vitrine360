@@ -11,10 +11,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Skeleton } from "@/components/ui/skeleton";
 import { WHATSAPP_MESSAGES, getWhatsAppUrl } from "@/constants/store";
-import { categories as seedCategories, products as seedProducts, type Category as SeedCategory, type Product as SeedProduct } from "@/data/products";
 import { useBrands } from "@/hooks/useBrands";
 import { useCategories, useCategory } from "@/hooks/useCategories";
-import { useProductsPaged, type Product } from "@/hooks/useProducts";
+import { useProductsPaged } from "@/hooks/useProducts";
 import { buildCategoryPath, CATALOG_ROUTES } from "@/lib/catalogRoutes";
 
 const diameters = ["160mm", "200mm", "250mm", "122x244cm", "184x950mm"];
@@ -87,72 +86,6 @@ const searchAliases: Record<string, string[]> = {
   policarbonato: ["policarbonato", "chapa", "cobertura", "translucido"],
 };
 
-function normalizeText(value: string | null | undefined) {
-  return String(value || "")
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "");
-}
-
-function fallbackCategory(category: SeedCategory) {
-  return {
-    id: category.id,
-    name: category.name,
-    slug: category.slug,
-    icon: category.icon,
-    description: category.description,
-    image_url: category.image,
-    sort_order: category.order,
-    is_active: true,
-  };
-}
-
-function fallbackProduct(product: SeedProduct): Product {
-  const category = seedCategories.find((item) => item.name === product.category) ?? seedCategories[0];
-  const isNamedGamelProduct = Number(product.id) >= 23;
-  const isRipado = product.category === "Ripados internos e externos";
-  const skuPrefix = isNamedGamelProduct ? (isRipado ? "GML-RIP" : "GML-TLV") : "GML";
-
-  return {
-    id: product.id,
-    sku: product.sku,
-    name: product.name,
-    slug: product.slug,
-    description: product.description,
-    short_description: product.shortDescription,
-    application: product.application,
-    price: product.price,
-    original_price: product.originalPrice ?? null,
-    category_id: category?.id ?? null,
-    brand_id: null,
-    material: product.material,
-    diameter: product.diameter ?? null,
-    measures: product.diameter ?? product.technicalSpecs[0] ?? null,
-    dimensions: product.diameter ?? null,
-    weight: product.weightPerUnit ?? null,
-    unit: product.unitMeasure ?? "un",
-    sale_type: product.saleType ?? "unidade",
-    unit_measure: product.unitMeasure ?? "un",
-    display_unit: product.displayUnit ?? product.unitMeasure ?? "un",
-    stock: product.stock,
-    availability: product.quoteAvailable ? "sob_consulta" : "indisponivel",
-    delivery_type: "quote",
-    is_on_request: true,
-    is_active: true,
-    is_featured: Boolean(product.featured),
-    rating: product.rating,
-    review_count: product.reviews,
-    image_url: product.images[0] ?? null,
-    images: product.images,
-    image_alt_text: product.name,
-    image_review_status: product.imageApproved ? "approved" : "manual_review",
-    image_review_notes: product.imageApproved ? "Imagem aprovada na planilha-mestre." : "Imagem aguardando aprovação.",
-    created_at: new Date(Date.now() - Number(product.id.replace(/\D/g, "")) * 60_000).toISOString(),
-    category: category ? fallbackCategory(category) : null,
-    brand: { id: "gamel-curadoria", name: product.brand, slug: "gamel-curadoria", is_active: true },
-  };
-}
-
 function scoreSuggestion(value: string, normalizedQuery: string) {
   const normalizedValue = value.toLowerCase();
   if (normalizedValue === normalizedQuery) return 100;
@@ -162,71 +95,15 @@ function scoreSuggestion(value: string, normalizedQuery: string) {
   return 0;
 }
 
-function filterFallbackProducts(input: {
-  products: Product[];
-  categorySlug?: string;
-  selectedCategories: string[];
-  selectedBrands: string[];
-  selectedAvailability: string[];
-  selectedDeliveryTypes: string[];
-  selectedSaleTypes: string[];
-  selectedUnitMeasures: string[];
-  selectedSubcategories: string[];
-  selectedDiameters: string[];
-  effectiveSearch: string;
-  isOffersRoute: boolean;
-  sortBy: SortOption;
-}) {
-  const terms = normalizeText(input.effectiveSearch).split(/\s+/).filter((term) => term.length >= 2);
-  const filtered = input.products.filter((product) => {
-    if (input.isOffersRoute && !product.is_featured) return false;
-    if (input.categorySlug && product.category?.slug !== input.categorySlug) return false;
-    if (input.selectedCategories.length > 0 && (!product.category?.name || !input.selectedCategories.includes(product.category.name))) return false;
-    if (input.selectedBrands.length > 0 && (!product.brand?.name || !input.selectedBrands.includes(product.brand.name))) return false;
-    if (input.selectedAvailability.length > 0 && (!product.availability || !input.selectedAvailability.includes(product.availability))) return false;
-    if (input.selectedDeliveryTypes.length > 0 && (!product.delivery_type || !input.selectedDeliveryTypes.includes(product.delivery_type))) return false;
-    if (input.selectedSaleTypes.length > 0 && (!product.sale_type || !input.selectedSaleTypes.includes(product.sale_type))) return false;
-    if (input.selectedUnitMeasures.length > 0 && (!product.unit_measure || !input.selectedUnitMeasures.includes(product.unit_measure))) return false;
-    if (input.selectedSubcategories.length > 0 && (!product.subcategory || !input.selectedSubcategories.includes(product.subcategory))) return false;
-    if (input.selectedDiameters.length > 0 && (!product.diameter || !input.selectedDiameters.includes(product.diameter))) return false;
-    if (terms.length > 0) {
-      const haystack = normalizeText([
-        product.name,
-        product.sku,
-        product.description,
-        product.short_description,
-        product.application,
-        product.subcategory,
-        product.category?.name,
-        product.brand?.name,
-        product.material,
-        product.diameter,
-      ].filter(Boolean).join(" "));
-      if (!terms.some((term) => haystack.includes(term))) return false;
-    }
-    return true;
-  });
-
-  return filtered.sort((a, b) => {
-    if (input.sortBy === "name_asc") return a.name.localeCompare(b.name);
-    if (input.sortBy === "rating") return Number(b.rating || 0) - Number(a.rating || 0);
-    return b.created_at.localeCompare(a.created_at);
-  });
-}
-
 export default function Products() {
   const { slug: categorySlug } = useParams<{ slug: string }>();
   const location = useLocation();
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
-  const { data: categories, isLoading: categoriesLoading } = useCategories();
+  const { data: categories, isLoading: categoriesLoading, isError: categoriesError } = useCategories();
   const { data: categoryFromSlug } = useCategory(categorySlug || "");
-  const { data: brands, isLoading: brandsLoading } = useBrands();
-  const fallbackCategories = useMemo(() => seedCategories.map(fallbackCategory), []);
-  const displayCategories = useMemo(
-    () => (categories?.length ? categories : fallbackCategories),
-    [categories, fallbackCategories],
-  );
+  const { data: brands, isLoading: brandsLoading, isError: brandsError } = useBrands();
+  const displayCategories = useMemo(() => categories ?? [], [categories]);
   const publicCategoryOptions = useMemo(() => displayCategories.map((category) => ({
     id: category.id,
     name: category.name,
@@ -259,6 +136,7 @@ export default function Products() {
   const {
     data: productsResponse,
     isLoading: productsLoading,
+    isError: productsError,
   } = useProductsPaged({
     categorySlug: resolvedCategoryFromSlug?.slug,
     category: selectedCategories,
@@ -277,42 +155,11 @@ export default function Products() {
     pageSize: 20,
   });
 
-  const fallbackProducts = useMemo(() => seedProducts.map(fallbackProduct), []);
-  const fallbackFilteredProducts = useMemo(() => filterFallbackProducts({
-    products: fallbackProducts,
-    categorySlug: resolvedCategoryFromSlug?.slug,
-    selectedCategories,
-    selectedBrands,
-    selectedAvailability,
-    selectedDeliveryTypes,
-    selectedSaleTypes,
-    selectedUnitMeasures,
-    selectedSubcategories,
-    selectedDiameters,
-    effectiveSearch,
-    isOffersRoute,
-    sortBy,
-  }), [
-    effectiveSearch,
-    fallbackProducts,
-    isOffersRoute,
-    resolvedCategoryFromSlug?.slug,
-    selectedAvailability,
-    selectedBrands,
-    selectedCategories,
-    selectedDeliveryTypes,
-    selectedDiameters,
-    selectedSaleTypes,
-    selectedSubcategories,
-    selectedUnitMeasures,
-    sortBy,
-  ]);
   const apiProducts = productsResponse?.items ?? [];
-  const shouldUseFallbackProducts = !productsLoading && apiProducts.length === 0 && fallbackFilteredProducts.length > 0;
-  const products = shouldUseFallbackProducts ? fallbackFilteredProducts.slice((currentPage - 1) * 20, currentPage * 20) : apiProducts;
-  const effectiveTotal = shouldUseFallbackProducts ? fallbackFilteredProducts.length : productsResponse?.total ?? products.length;
-  const effectiveTotalPages = shouldUseFallbackProducts ? Math.max(1, Math.ceil(fallbackFilteredProducts.length / 20)) : productsResponse?.totalPages ?? 1;
-  const effectivePage = shouldUseFallbackProducts ? Math.min(currentPage, effectiveTotalPages) : productsResponse?.page ?? currentPage;
+  const products = apiProducts;
+  const effectiveTotal = productsResponse?.total ?? products.length;
+  const effectiveTotalPages = productsResponse?.totalPages ?? 1;
+  const effectivePage = productsResponse?.page ?? currentPage;
   // Invalid category slugs must degrade to a safe catalog state instead of crashing or silently showing the wrong department.
   const hasInvalidCategorySlug = Boolean(categorySlug) && !categoriesLoading && !resolvedCategoryFromSlug;
   const heroTitle = resolvedCategoryFromSlug
@@ -323,7 +170,7 @@ export default function Products() {
         ? `Resultados para "${searchQuery}"`
         : "Catálogo digital GAMEL";
   const heroDescription = hasInvalidCategorySlug
-    ? "A categoria solicitada não foi encontrada. Mantive um fallback seguro para você voltar ao catálogo sem quebrar a navegação."
+    ? "A categoria solicitada não foi encontrada. Volte ao catálogo para continuar navegando."
     : isOffersRoute
       ? "Selecao de produtos destacados para consulta e atendimento especializado."
       : "Navegue por categorias, marca, aplicação, medida e tipo de atendimento. A Fase 1 opera como catálogo comercial com orçamento online.";
@@ -359,6 +206,7 @@ export default function Products() {
   }, [brands, products, publicCategoryOptions, searchQuery]);
 
   const isLoading = productsLoading || categoriesLoading || brandsLoading;
+  const hasCatalogError = productsError || categoriesError || brandsError;
   const spotlightCategories = useMemo(() => displayCategories.slice(0, 5), [displayCategories]);
   const noResultsSuggestions = useMemo(() => {
     const categorySuggestions = spotlightCategories.map((category) => category.name.toLowerCase());
@@ -900,12 +748,26 @@ export default function Products() {
                   </div>
                 ))}
               </div>
+            ) : hasCatalogError ? (
+              <div className="rounded-lg border border-destructive/30 bg-white py-16 text-center shadow-sm">
+                <p className="eyebrow">Catálogo temporariamente indisponível</p>
+                <p className="mt-2 font-display text-3xl font-bold text-foreground">Não foi possível carregar os produtos</p>
+                <p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-muted-foreground">
+                  Tente novamente em instantes. Se o problema continuar, nossa equipe pode ajudar pelo WhatsApp.
+                </p>
+                <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
+                  <Button variant="outline" size="sm" onClick={() => window.location.reload()}>Tentar novamente</Button>
+                  <Button asChild variant="whatsapp" size="sm">
+                    <a href={getWhatsAppUrl(WHATSAPP_MESSAGES.contact)} target="_blank" rel="noopener noreferrer">Pedir ajuda comercial</a>
+                  </Button>
+                </div>
+              </div>
             ) : hasInvalidCategorySlug ? (
               <div className="rounded-lg border border-border/80 bg-white py-16 text-center shadow-sm">
                 <p className="eyebrow">Categoria indisponivel</p>
                 <p className="mt-2 font-display text-3xl font-bold text-foreground">Não encontrei essa categoria</p>
                 <p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-muted-foreground">
-                  O link pode estar antigo ou o slug pode ter mudado. Mantive um fallback seguro para você continuar navegando no catálogo.
+                  O link pode estar antigo ou o slug pode ter mudado. Volte ao catálogo para continuar navegando.
                 </p>
                 <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
                   <Button asChild variant="outline" size="sm">
