@@ -22,8 +22,6 @@ COPY --from=build --chown=node:node /app/src ./src
 COPY --from=build --chown=node:node /app/prisma ./prisma
 COPY --from=build --chown=node:node /app/prisma.config.ts ./prisma.config.ts
 COPY --from=build --chown=node:node /app/scripts/bootstrap-admin-user.ts ./scripts/bootstrap-admin-user.ts
-COPY --from=build --chown=node:node /app/scripts/seed-catalog.ts ./scripts/seed-catalog.ts
-COPY --from=build --chown=node:node /app/scripts/migrate-product-media-to-object-storage.ts ./scripts/migrate-product-media-to-object-storage.ts
 
 USER node
 EXPOSE 3001

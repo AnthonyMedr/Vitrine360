@@ -15,8 +15,6 @@
     "db:migrate:deploy": "prisma migrate deploy",
     "db:migrate:status": "prisma migrate status",
     "db:studio": "prisma studio",
-    "db:seed:catalog": "tsx scripts/seed-catalog.ts",
-    "storage:migrate:product-media": "tsx scripts/migrate-product-media-to-object-storage.ts",
     "infra:up": "docker compose up -d --build",
     "infra:down": "docker compose down",
     "build": "vite build",
