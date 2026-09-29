@@ -42,8 +42,9 @@ export function BannerDraftForm({
       </div>
       <div className="grid gap-2">
         <Label>Imagem desktop</Label>
+        <p className="text-xs leading-5 text-muted-foreground">Recomendado: 1920 × 840 px (proporção aproximada 2,29:1), WEBP.</p>
         <Input value={draft.desktop_image} onChange={(event) => onChange({ desktop_image: event.target.value })} placeholder="/images/gamel/banners/... ou envie um arquivo" />
-        {draft.desktop_image ? <img src={draft.desktop_image} alt="" className="h-16 w-auto rounded border object-cover" /> : null}
+        {draft.desktop_image ? <img src={draft.desktop_image} alt="" className="aspect-[2.29/1] w-full rounded border object-cover" /> : null}
         <label className="flex w-fit cursor-pointer items-center gap-2 text-xs text-muted-foreground hover:text-foreground">
           <Upload className="h-3.5 w-3.5" />
           {uploadingField === "desktop_image" ? "Enviando..." : "Enviar imagem (JPG/PNG/WEBP, até 5MB)"}
@@ -52,8 +53,9 @@ export function BannerDraftForm({
       </div>
       <div className="grid gap-2">
         <Label>Imagem mobile</Label>
+        <p className="text-xs leading-5 text-muted-foreground">Recomendado: 1080 × 1350 px (proporção 4:5), WEBP. Mantenha textos e elementos importantes no centro.</p>
         <Input value={draft.mobile_image} onChange={(event) => onChange({ mobile_image: event.target.value })} placeholder="/images/gamel/banners/... ou envie um arquivo" />
-        {draft.mobile_image ? <img src={draft.mobile_image} alt="" className="h-16 w-auto rounded border object-cover" /> : null}
+        {draft.mobile_image ? <img src={draft.mobile_image} alt="" className="aspect-[4/5] max-h-72 w-full rounded border object-cover" /> : null}
         <label className="flex w-fit cursor-pointer items-center gap-2 text-xs text-muted-foreground hover:text-foreground">
           <Upload className="h-3.5 w-3.5" />
           {uploadingField === "mobile_image" ? "Enviando..." : "Enviar imagem (JPG/PNG/WEBP, até 5MB)"}

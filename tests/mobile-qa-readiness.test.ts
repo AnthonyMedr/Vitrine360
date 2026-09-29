@@ -17,16 +17,18 @@ function createProjectFixture() {
     ["/contato", "Contact"],
     ["/sobre", "About"],
     ["/carrinho", "FutureEcommerce"],
-    ["/admin", "AdminTeamHome"],
+    ["/admin", "admin-dashboards/AdminHomeAdministrador"],
   ];
   writeFileSync(
     path.join(root, "src", "App.tsx"),
     routes.map(([route, component]) => `<Route path="${route}" element={${component}} />`).join("\n"),
     "utf8",
   );
-  const responsiveSource = "<main className=\"grid shell-home sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 form\">WhatsApp ProductCard whatsapp orcamento stand by GAMEL Orcamentos Prioridades</main>";
+  const responsiveSource = "<main className=\"grid shell-home sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 form\">WhatsApp ProductCard whatsapp orcamento stand by GAMEL Orcamentos Prioridades priorities</main>";
   for (const [, component] of routes) {
-    writeFileSync(path.join(root, "src", "pages", `${component}.tsx`), responsiveSource, "utf8");
+    const componentPath = path.join(root, "src", "pages", `${component}.tsx`);
+    mkdirSync(path.dirname(componentPath), { recursive: true });
+    writeFileSync(componentPath, responsiveSource, "utf8");
   }
   return root;
 }

@@ -88,7 +88,7 @@ export default function AdminProductCreate() {
       title="Novo produto"
       description="Cadastro mínimo para criar o produto. Imagens, especificações técnicas, SEO e publicação são preenchidos na tela de edição em seguida."
     >
-      <form onSubmit={createProduct} className="max-w-2xl space-y-4 rounded-lg border bg-background p-6">
+      <form onSubmit={createProduct} className="max-w-2xl space-y-4 rounded-lg border bg-background p-4 sm:p-6">
         <div className="grid gap-2">
           <Label htmlFor="new-product-name">Nome do produto *</Label>
           <Input id="new-product-name" value={draft.name} onChange={(event) => setDraft((current) => ({ ...current, name: event.target.value }))} required minLength={3} />
@@ -132,7 +132,7 @@ export default function AdminProductCreate() {
           <Textarea id="new-product-description" value={draft.short_description} onChange={(event) => setDraft((current) => ({ ...current, short_description: event.target.value }))} />
         </div>
         <p className="text-xs text-muted-foreground">O produto começa inativo (rascunho) — você publica depois de completar imagem e cadastro na tela de edição.</p>
-        <Button type="submit" disabled={saving || !draft.name.trim() || !draft.price.trim()}>Criar e continuar cadastro</Button>
+        <Button type="submit" className="w-full sm:w-auto" disabled={saving || !draft.name.trim() || !draft.price.trim()}>Criar e continuar cadastro</Button>
       </form>
     </AdminWorkspaceShell>
   );

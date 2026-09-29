@@ -488,7 +488,7 @@ export default function Products() {
 
   return (
     <Layout>
-      <div className="container py-5">
+      <div className="container py-4 sm:py-5">
         <nav className="mb-3 flex items-center gap-1.5 text-xs text-muted-foreground">
           <Link to="/" className="hover:text-primary hover:underline">
             Inicio
@@ -519,7 +519,7 @@ export default function Products() {
           <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
               <p className="eyebrow">Catálogo profissional</p>
-              <h1 className="mt-2 font-display text-3xl font-bold text-secondary md:text-4xl">{heroTitle}</h1>
+              <h1 className="mt-2 break-words font-display text-[clamp(2rem,9vw,2.5rem)] font-bold leading-none text-secondary">{heroTitle}</h1>
               <p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">{heroDescription}</p>
               {resolvedCategoryFromSlug?.description && (
                 <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground">{resolvedCategoryFromSlug.description}</p>
@@ -571,7 +571,7 @@ export default function Products() {
                 </button>
               ))}
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex w-full items-center gap-2 sm:w-auto">
               <Select
                 value={sortBy}
                 onValueChange={(value) => {
@@ -585,7 +585,7 @@ export default function Products() {
                   }
                 }}
               >
-                <SelectTrigger className="h-9 w-[180px] rounded-lg border-border/70 bg-white text-sm shadow-sm">
+                <SelectTrigger className="h-10 w-full rounded-lg border-border/70 bg-white text-sm shadow-sm sm:h-9 sm:w-[180px]">
                   <SelectValue placeholder="Ordenar" />
                 </SelectTrigger>
                 <SelectContent>

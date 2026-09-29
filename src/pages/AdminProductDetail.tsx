@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState, type ChangeEvent, type Dispatch, type SetStateAction } from "react";
 import { Link, Navigate, useParams, useSearchParams } from "react-router-dom";
-import { PauseCircle, RefreshCw, Save } from "lucide-react";
+import { ImagePlus, PauseCircle, RefreshCw, Save, Star, Trash2 } from "lucide-react";
 import { useAdmin } from "@/hooks/useAdmin";
 import { useAdminCapabilities } from "@/hooks/useAdminCapabilities";
 import { useAdminResource } from "@/hooks/useAdminResource";
@@ -57,6 +57,7 @@ type ProductDraft = {
   unit_measure: string;
   material: string;
   image_url: string;
+  images: string[];
   image_alt_text: string;
   image_review_status: NonNullable<LocalProduct["image_review_status"]> | "manual_review";
   image_review_notes: string;
@@ -93,6 +94,7 @@ const emptyDraft: ProductDraft = {
   unit_measure: "un",
   material: "",
   image_url: "",
+  images: [],
   image_alt_text: "",
   image_review_status: "manual_review",
   image_review_notes: "",
@@ -130,11 +132,12 @@ function buildProductDraft(product: LocalProduct): ProductDraft {
     unit_measure: product.unit_measure ?? product.unit ?? "un",
     material: product.material ?? "",
     image_url: product.image_url ?? "",
+    images: normalizeProductImages(product.image_url, product.images),
     image_alt_text: product.image_alt_text ?? product.name ?? "",
     image_review_status: product.image_review_status ?? "manual_review",
     image_review_notes: product.image_review_notes ?? "",
     short_description: product.short_description ?? "",
-    description: product.description ?? "",
+    description: product.long_description ?? product.description ?? "",
     application: product.application ?? "",
     ncm: product.ncm ?? "",
     cest: product.cest ?? "",
@@ -197,6 +200,10 @@ export default function AdminProductDetail() {
   const [draftProductId, setDraftProductId] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
+  const productImages = useMemo(
+    () => normalizeProductImages(draft.image_url, draft.images).filter((url) => !isPlaceholderProductImage(url)),
+    [draft.image_url, draft.images],
+  );
 
   useEffect(() => {
     if (!product || draftProductId === product.id) return;
@@ -260,31 +267,73 @@ export default function AdminProductDetail() {
   }
 
   async function handleImageFileSelect(event: ChangeEvent<HTMLInputElement>) {
-    const file = event.target.files?.[0];
+    const files = Array.from(event.target.files ?? []);
     event.target.value = "";
-    if (!file) return;
+    if (files.length === 0) return;
+    const availableSlots = 8 - productImages.length;
+    if (availableSlots <= 0 || files.length > availableSlots) {
+      toast({
+        title: "Limite de imagens",
+        description: `Cada produto pode ter até 8 imagens. Restam ${Math.max(availableSlots, 0)} espaço(s).`,
+        variant: "destructive",
+      });
+      return;
+    }
     const allowed = ["image/jpeg", "image/png", "image/webp"];
-    if (!allowed.includes(file.type) && !/\.(jpe?g|png|webp)$/i.test(file.name)) {
+    const invalidFormat = files.find((file) => !allowed.includes(file.type) && !/\.(jpe?g|png|webp)$/i.test(file.name));
+    if (invalidFormat) {
       toast({ title: "Formato não suportado", description: "Envie um arquivo JPG, PNG ou WEBP.", variant: "destructive" });
       return;
     }
-    if (file.size > 5 * 1024 * 1024) {
+    const oversized = files.find((file) => file.size > 5 * 1024 * 1024);
+    if (oversized) {
       toast({ title: "Arquivo muito grande", description: "O limite é 5MB por imagem.", variant: "destructive" });
       return;
     }
     setUploadingImage(true);
     try {
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("slug", draft.slug || draft.name || "produto");
-      const result = await apiFetch<{ url: string }>("/api/admin/products/image-upload", { method: "POST", body: formData });
-      setDraft((current) => ({ ...current, image_url: result.url }));
-      toast({ title: "Imagem enviada", description: "Clique em Salvar para aplicar ao produto." });
+      const uploadedUrls: string[] = [];
+      for (const file of files) {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("slug", draft.slug || draft.name || "produto");
+        const result = await apiFetch<{ url: string }>("/api/admin/products/image-upload", { method: "POST", body: formData });
+        uploadedUrls.push(result.url);
+      }
+      setDraft((current) => {
+        const currentImages = normalizeProductImages(current.image_url, current.images).filter((url) => !isPlaceholderProductImage(url));
+        const images = Array.from(new Set([...currentImages, ...uploadedUrls])).slice(0, 8);
+        const hasRealPrimary = current.image_url && !isPlaceholderProductImage(current.image_url);
+        return { ...current, image_url: hasRealPrimary ? current.image_url : uploadedUrls[0], images };
+      });
+      toast({
+        title: files.length === 1 ? "Imagem enviada" : `${files.length} imagens enviadas`,
+        description: "Revise a imagem principal e clique em Salvar mídia/publicação.",
+      });
     } catch (error) {
       toast({ title: "Falha no upload", description: error instanceof Error ? error.message : "Tente novamente.", variant: "destructive" });
     } finally {
       setUploadingImage(false);
     }
+  }
+
+  function selectPrimaryImage(url: string) {
+    setDraft((current) => ({
+      ...current,
+      image_url: url,
+      images: [url, ...normalizeProductImages(current.image_url, current.images).filter((image) => image !== url)],
+    }));
+  }
+
+  function removeProductImage(url: string) {
+    setDraft((current) => {
+      const images = normalizeProductImages(current.image_url, current.images).filter((image) => image !== url);
+      return {
+        ...current,
+        image_url: current.image_url === url ? images[0] ?? "" : current.image_url,
+        images,
+      };
+    });
   }
 
   async function saveCommercial() {
@@ -315,11 +364,13 @@ export default function AdminProductDetail() {
       unit: draft.unit_measure,
       material: draft.material.trim() || null,
       image_url: draft.image_url.trim() || null,
+      images: normalizeProductImages(draft.image_url, draft.images),
       image_alt_text: draft.image_alt_text.trim() || null,
       image_review_status: draft.image_review_status,
       image_review_notes: draft.image_review_notes.trim() || null,
       short_description: draft.short_description.trim() || null,
       description: draft.description.trim() || null,
+      long_description: draft.description.trim() || null,
       application: draft.application.trim() || null,
       related_product_ids: draft.related_product_ids
         .split(",")
@@ -665,7 +716,7 @@ export default function AdminProductDetail() {
               <div className="space-y-3">
                 <div className="overflow-hidden rounded-xl border bg-muted/20">
                   {draft.image_url ? (
-                    <img src={draft.image_url} alt={draft.image_alt_text || draft.name} className="aspect-square w-full object-cover" />
+                    <img src={draft.image_url} alt={draft.image_alt_text || draft.name} className="aspect-square w-full object-contain p-2" />
                   ) : (
                     <div className="flex aspect-square items-center justify-center text-sm text-muted-foreground">Sem imagem principal</div>
                   )}
@@ -677,19 +728,72 @@ export default function AdminProductDetail() {
                   <Badge variant="outline">{draft.image_review_status}</Badge>
                 </div>
                 <div>
-                  <Label htmlFor="image-upload-input">Enviar imagem (JPG, PNG ou WEBP, até 5MB)</Label>
+                  <Label htmlFor="image-upload-input">Adicionar imagens (JPG, PNG ou WEBP, até 5MB cada)</Label>
                   <input
                     id="image-upload-input"
                     type="file"
+                    multiple
                     accept="image/jpeg,image/png,image/webp"
                     onChange={handleImageFileSelect}
-                    disabled={uploadingImage || !capabilities.canAny(["catalog.edit", "products.media_manage"])}
+                    disabled={uploadingImage || productImages.length >= 8 || !capabilities.canAny(["catalog.edit", "products.media_manage"])}
                     className="mt-1.5 block w-full text-sm file:mr-3 file:rounded-md file:border-0 file:bg-primary file:px-3 file:py-2 file:text-sm file:font-medium file:text-primary-foreground hover:file:bg-primary/90"
                   />
-                  {uploadingImage ? <p className="mt-1 text-xs text-muted-foreground">Enviando...</p> : null}
+                  <p className="mt-1.5 text-xs text-muted-foreground">
+                    {uploadingImage ? "Enviando..." : `${productImages.length}/8 imagens. Você pode selecionar vários arquivos de uma vez.`}
+                  </p>
                 </div>
               </div>
               <div className="grid gap-4 md:grid-cols-2">
+                <div className="md:col-span-2">
+                  <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+                    <div>
+                      <Label>Galeria do produto</Label>
+                      <p className="mt-1 text-xs text-muted-foreground">A imagem marcada com estrela aparece primeiro na vitrine.</p>
+                    </div>
+                    <Badge variant="outline">{productImages.length}/8</Badge>
+                  </div>
+                  {productImages.length > 0 ? (
+                    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+                      {productImages.map((image, index) => {
+                        const isPrimary = image === draft.image_url;
+                        return (
+                          <div key={image} className={`relative overflow-hidden rounded-lg border bg-white ${isPrimary ? "border-primary ring-2 ring-primary/20" : "border-border"}`}>
+                            <div className="aspect-square bg-muted/20 p-2">
+                              <img src={image} alt={`${draft.image_alt_text || draft.name || "Produto"} ${index + 1}`} className="h-full w-full object-contain" />
+                            </div>
+                            <div className="flex items-center justify-between gap-1 border-t p-1.5">
+                              <Button
+                                type="button"
+                                variant={isPrimary ? "secondary" : "ghost"}
+                                size="sm"
+                                className="h-8 min-w-0 flex-1 px-2 text-xs"
+                                onClick={() => selectPrimaryImage(image)}
+                                disabled={isPrimary}
+                              >
+                                <Star className={`mr-1 h-3.5 w-3.5 ${isPrimary ? "fill-current text-primary" : ""}`} />
+                                {isPrimary ? "Principal" : "Destacar"}
+                              </Button>
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="icon"
+                                className="h-8 w-8 shrink-0 text-destructive hover:text-destructive"
+                                onClick={() => removeProductImage(image)}
+                                aria-label={`Remover imagem ${index + 1}`}
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <div className="flex min-h-28 items-center justify-center rounded-lg border border-dashed bg-muted/20 px-4 text-center text-sm text-muted-foreground">
+                      <span><ImagePlus className="mx-auto mb-2 h-5 w-5" />Adicione ao menos uma imagem para publicar o produto.</span>
+                    </div>
+                  )}
+                </div>
                 <Field label="Imagem principal" value={draft.image_url} onChange={(value) => updateDraft(setDraft, "image_url", value)} />
                 <Field label="Alt text" value={draft.image_alt_text} onChange={(value) => updateDraft(setDraft, "image_alt_text", value)} />
                 <div>
@@ -862,6 +966,16 @@ function toNullableNumber(value: string) {
 function isPlaceholderProductImage(value: string) {
   const normalized = value.trim().toLowerCase();
   return normalized.length === 0 || normalized === "/" || normalized.includes("placeholder.svg") || normalized.includes("placeholder");
+}
+
+function normalizeProductImages(primary: string | null | undefined, images: string[] | null | undefined) {
+  return Array.from(
+    new Set(
+      [primary, ...(Array.isArray(images) ? images : [])]
+        .map((value) => String(value || "").trim())
+        .filter(Boolean),
+    ),
+  ).slice(0, 8);
 }
 
 function getReviewQueuePriority(item: CatalogImageAuditItem): ReviewQueuePriority {

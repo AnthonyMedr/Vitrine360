@@ -212,11 +212,11 @@ export function WorkspaceMetric({
 export function WorkspaceSection({ title, children, action }: { title: string; children: ReactNode; action?: ReactNode }) {
   return (
     <section className="content-auto rounded-xl border bg-card">
-      <div className="flex flex-col gap-3 border-b px-5 py-4 md:flex-row md:items-center md:justify-between">
+      <div className="flex flex-col gap-3 border-b px-4 py-4 sm:px-5 md:flex-row md:items-center md:justify-between">
         <h2 className="font-display text-lg font-semibold">{title}</h2>
         {action}
       </div>
-      <div className="p-5">{children}</div>
+      <div className="p-4 sm:p-5">{children}</div>
     </section>
   );
 }

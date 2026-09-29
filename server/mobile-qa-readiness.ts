@@ -23,7 +23,7 @@ export const MOBILE_QA_FLOWS: MobileQaFlow[] = [
   { area: "CTA WhatsApp", route: "/contato", source: "src/pages/Contact.tsx", requiredEvidence: ["whatsapp", "WhatsApp"] },
   { area: "Quem Somos", route: "/sobre", source: "src/pages/About.tsx", requiredEvidence: ["grid", "md:", "GAMEL"] },
   { area: "E-commerce futuro em stand by", route: "/carrinho", source: "src/pages/FutureEcommerce.tsx", requiredEvidence: ["Fase futura", "orcamento"] },
-  { area: "Admin equipe", route: "/admin", source: "src/pages/AdminTeamHome.tsx", requiredEvidence: ["grid", "md:", "Prioridades"] },
+  { area: "Admin equipe", route: "/admin", source: "src/pages/admin-dashboards/AdminHomeAdministrador.tsx", requiredEvidence: ["grid", "md:", "priorities"] },
 ];
 
 function readTextIfExists(filePath: string) {

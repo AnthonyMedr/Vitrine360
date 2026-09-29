@@ -800,6 +800,17 @@ function isPlaceholderProductImage(value: string | null | undefined) {
   return normalized.length === 0 || normalized === "/" || normalized.includes("placeholder.svg") || normalized.includes("placeholder");
 }
 
+function normalizeProductImageList(primary: string | null | undefined, images: unknown) {
+  const values = Array.isArray(images) ? images : [];
+  return Array.from(
+    new Set(
+      [primary, ...values]
+        .map((value) => String(value || "").trim())
+        .filter(Boolean),
+    ),
+  ).slice(0, 8);
+}
+
 function hasRealProductImage(item: { image_url?: string | null; images?: string[] | null }) {
   return !isPlaceholderProductImage(item.image_url) || Boolean((item.images ?? []).some((image) => !isPlaceholderProductImage(image)));
 }
@@ -4110,7 +4121,7 @@ async function handleAdminCreateProduct(req: express.Request, res: express.Respo
     const slugBase = slugify(String(body.slug || body.name));
     const uniqueSlug = db.products.some((item) => item.slug === slugBase) ? `${slugBase}-${Date.now().toString().slice(-4)}` : slugBase;
     const imageUrl = body.image_url?.toString().trim() || "/placeholder.svg";
-    const images = Array.isArray(body.images) && body.images.length > 0 ? body.images.map((item) => String(item)) : [imageUrl];
+    const images = normalizeProductImageList(imageUrl, body.images);
     const requestedActive = body.is_active ?? true;
     const hasRealImage = !isPlaceholderProductImage(imageUrl) || images.some((item) => !isPlaceholderProductImage(item));
     if (requestedActive && !hasRealImage) {
@@ -4261,7 +4272,7 @@ async function handleAdminUpdateProduct(req: express.Request, res: express.Respo
     if (typeof body.stock !== "undefined" && Number.isFinite(Number(body.stock))) product.stock = Math.max(Number(body.stock), 0);
     if (typeof body.is_active !== "undefined") product.is_active = Boolean(body.is_active);
     if (typeof body.is_featured !== "undefined") product.is_featured = Boolean(body.is_featured);
-    if (typeof body.image_url !== "undefined") product.image_url = body.image_url?.toString().trim() || product.image_url;
+    if (typeof body.image_url !== "undefined") product.image_url = body.image_url?.toString().trim() || null;
     if (typeof body.image_alt_text !== "undefined") product.image_alt_text = body.image_alt_text?.toString().trim() || null;
     if (
       typeof body.image_review_status !== "undefined" &&
@@ -4338,7 +4349,9 @@ async function handleAdminUpdateProduct(req: express.Request, res: express.Respo
     if (typeof body.rating !== "undefined" && Number.isFinite(Number(body.rating))) product.rating = Number(body.rating);
     if (typeof body.review_count !== "undefined" && Number.isFinite(Number(body.review_count))) product.review_count = Math.max(Number(body.review_count), 0);
     if (Array.isArray(body.related_product_ids)) product.related_product_ids = body.related_product_ids.map((item) => String(item));
-    if (Array.isArray(body.images) && body.images.length > 0) product.images = body.images.map((item) => String(item));
+    if (Array.isArray(body.images) || typeof body.image_url !== "undefined") {
+      product.images = normalizeProductImageList(product.image_url, Array.isArray(body.images) ? body.images : product.images);
+    }
     const hasRealImage = !isPlaceholderProductImage(product.image_url) || (Array.isArray(product.images) && product.images.some((item) => !isPlaceholderProductImage(item)));
     if (product.is_active && !hasRealImage) {
       return { status: 400, payload: buildError("Produto ativo precisa de imagem real antes de publicar no catalogo.") };

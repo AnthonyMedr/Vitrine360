@@ -21,7 +21,7 @@ function buildPng(width: number, height: number) {
   ]);
 }
 
-test("admin product registration persists a draft and its uploaded image", async () => {
+test("admin product registration persists multiple uploaded images and multiline description", async () => {
   process.env.STORAGE_PROVIDER = "local";
   const server = await createTestServer();
   try {
@@ -51,17 +51,39 @@ test("admin product registration persists a draft and its uploaded image", async
     assert.equal(uploadResponse.status, 201);
     const uploaded = await uploadResponse.json() as { url: string };
 
+    const secondForm = new FormData();
+    secondForm.append("file", new Blob([buildPng(900, 700)], { type: "image/png" }), "produto-detalhe.png");
+    secondForm.append("slug", created.slug);
+    const secondUploadResponse = await fetch(`${server.baseUrl}/api/admin/products/image-upload`, {
+      method: "POST",
+      headers: { "x-csrf-token": admin.csrfToken, cookie: admin.cookieHeader },
+      body: secondForm,
+    });
+    assert.equal(secondUploadResponse.status, 201);
+    const secondUploaded = await secondUploadResponse.json() as { url: string };
+
+    const description = "Primeiro parágrafo.\n\nSegundo parágrafo com detalhes técnicos.";
+
     const updateResponse = await fetch(`${server.baseUrl}/api/admin/products/${created.id}`, {
       method: "PATCH",
       headers: jsonHeaders,
-      body: JSON.stringify({ image_url: uploaded.url, image_alt_text: "Produto QA cadastrado", image_review_status: "approved" }),
+      body: JSON.stringify({
+        image_url: uploaded.url,
+        images: [uploaded.url, secondUploaded.url],
+        description,
+        image_alt_text: "Produto QA cadastrado",
+        image_review_status: "approved",
+      }),
     });
     assert.equal(updateResponse.status, 200);
 
     const listResponse = await fetch(`${server.baseUrl}/api/admin/products`, { headers: { cookie: admin.cookieHeader } });
     assert.equal(listResponse.status, 200);
-    const products = await listResponse.json() as Array<{ id: string; image_url: string | null }>;
-    assert.equal(products.find((product) => product.id === created.id)?.image_url, uploaded.url);
+    const products = await listResponse.json() as Array<{ id: string; image_url: string | null; images: string[]; description: string | null }>;
+    const savedProduct = products.find((product) => product.id === created.id);
+    assert.equal(savedProduct?.image_url, uploaded.url);
+    assert.deepEqual(savedProduct?.images, [uploaded.url, secondUploaded.url]);
+    assert.equal(savedProduct?.description, description);
   } finally {
     await server.close();
   }

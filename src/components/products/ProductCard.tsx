@@ -102,8 +102,8 @@ function ProductCardComponent({ product, compact = false }: ProductCardProps) {
           {product.delivery_type ? <Badge variant="secondary" className="rounded-md">{formatCommercialLabel(product.delivery_type)}</Badge> : null}
         </div>
 
-        <h3 className="mt-3 line-clamp-2 min-h-10 text-[13px] font-semibold leading-5 text-foreground group-hover:text-primary">{product.name}</h3>
-        <p className="mt-2 line-clamp-3 text-xs leading-5 text-muted-foreground">{product.short_description || product.description || "Produto disponível para consulta comercial e orçamento online."}</p>
+        <h3 className="mt-3 line-clamp-2 min-h-10 break-words text-[13px] font-semibold leading-5 text-foreground group-hover:text-primary">{product.name}</h3>
+        <p className="mt-2 line-clamp-3 whitespace-pre-line break-words text-xs leading-5 text-muted-foreground">{product.short_description || product.description || "Produto disponível para consulta comercial e orçamento online."}</p>
         {!compact ? (
           <div className="mt-3 rounded-md bg-muted/35 px-3 py-2">
             <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">Aplicacao indicada</p>

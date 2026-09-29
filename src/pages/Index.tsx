@@ -23,6 +23,7 @@ const heroSlides = [
     title: "Materiais para acabamento com orientação comercial especializada.",
     text: "Consulte tetos laminados vinílicos, pisos, ripados, chapas UV, policarbonato e telhas PVC em um catálogo preparado para sua obra.",
     image: "/images/gamel/banners/v4/banner-catalogo-gamel-v4.webp",
+    mobileImage: "/images/gamel/banners/v4/banner-catalogo-gamel-v4.webp",
     alt: "Showroom moderno de acabamentos e materiais GAMEL.",
     cta: "Ver produtos",
     href: "/produtos",
@@ -32,6 +33,7 @@ const heroSlides = [
     title: "Envie sua lista de materiais e receba retorno da equipe GAMEL.",
     text: "O site organiza produto, quantidade, cidade e contato para acelerar a resposta comercial sem prometer preço automatico nesta fase.",
     image: "/images/gamel/banners/v4/banner-orcamento-gamel-v4.webp",
+    mobileImage: "/images/gamel/banners/v4/banner-orcamento-gamel-v4.webp",
     alt: "Mesa de atendimento comercial com amostras de materiais e orçamento GAMEL.",
     cta: "Solicitar orçamento",
     href: "/orcamento",
@@ -41,6 +43,7 @@ const heroSlides = [
     title: "Soluções de acabamento para projetos residenciais e comerciais.",
     text: "Atendimento para clientes, profissionais e empresas que precisam validar produto, medida e disponibilidade com suporte humano.",
     image: "/images/gamel/banners/v4/banner-institucional-gamel-v4.webp",
+    mobileImage: "/images/gamel/banners/v4/banner-institucional-gamel-v4.webp",
     alt: "Materiais para obras e acabamentos organizados em showroom GAMEL.",
     cta: "Falar com a GAMEL",
     href: "/contato",
@@ -69,6 +72,7 @@ export default function Index() {
       eyebrow: "GAMEL",
       text: banner.subtitle || "",
       image: banner.desktop_image || heroSlides[0].image,
+      mobileImage: banner.mobile_image || banner.desktop_image || heroSlides[0].mobileImage,
       alt: banner.alt_text || banner.title || banner.name,
       cta: banner.cta_label || "Ver produtos",
       href: banner.cta_url || "/produtos",
@@ -94,28 +98,30 @@ export default function Index() {
 
   return (
     <Layout>
-      <main className="shell-home py-8">
-        <section className="relative min-h-[560px] overflow-hidden rounded-lg bg-[#050505] text-white">
+      <main className="shell-home py-4 sm:py-6 lg:py-8">
+        <section className="relative min-h-[520px] overflow-hidden rounded-lg bg-[#050505] text-white sm:min-h-[560px]">
           {heroBanners.map((slide, index) => (
-            <img
-              key={slide.title}
-              src={slide.image}
-              alt={slide.alt}
-              className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${index === activeHero % heroBanners.length ? "opacity-[.62]" : "opacity-0"}`}
-            />
+            <picture key={slide.title}>
+              <source media="(max-width: 767px)" srcSet={slide.mobileImage} />
+              <img
+                src={slide.image}
+                alt={slide.alt}
+                className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${index === activeHero % heroBanners.length ? "opacity-[.62]" : "opacity-0"}`}
+              />
+            </picture>
           ))}
           <div className="absolute inset-0 bg-gradient-to-r from-black via-black/78 to-black/20" />
           <div className="absolute inset-0 opacity-30 [background-image:linear-gradient(90deg,rgba(255,255,255,.08)_1px,transparent_1px),linear-gradient(180deg,rgba(255,255,255,.08)_1px,transparent_1px)] [background-size:42px_42px]" />
-          <div className="relative flex min-h-[560px] flex-col justify-center px-6 py-12 md:px-10 lg:py-16">
+          <div className="relative flex min-h-[520px] flex-col justify-center px-4 py-9 sm:min-h-[560px] sm:px-6 sm:py-12 md:px-10 lg:py-16">
             <div className="max-w-4xl">
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#ff6417]">{hero.eyebrow}</p>
-              <h1 className="mt-5 font-display text-5xl leading-none md:text-7xl">{hero.title}</h1>
-              <p className="mt-6 max-w-2xl text-base leading-8 text-white/76">{hero.text}</p>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <Button asChild size="lg" className="rounded-md bg-[#ff6417] text-white hover:bg-[#e9560b]">
+              <h1 className="mt-4 max-w-3xl break-words font-display text-[clamp(2.6rem,11vw,4.5rem)] leading-[0.92] sm:mt-5">{hero.title}</h1>
+              <p className="mt-5 max-w-2xl text-sm leading-7 text-white/80 sm:mt-6 sm:text-base sm:leading-8">{hero.text}</p>
+              <div className="mt-7 flex flex-col gap-3 min-[420px]:flex-row min-[420px]:flex-wrap sm:mt-8">
+                <Button asChild size="lg" className="w-full rounded-md bg-[#ff6417] text-white hover:bg-[#e9560b] min-[420px]:w-auto">
                   <Link to={hero.href}>{hero.cta}</Link>
                 </Button>
-                <Button asChild size="lg" variant="outline" className="rounded-md border-white/20 bg-white/8 text-white hover:bg-white/14 hover:text-white">
+                <Button asChild size="lg" variant="outline" className="w-full rounded-md border-white/20 bg-white/8 text-white hover:bg-white/14 hover:text-white min-[420px]:w-auto">
                   <Link to="/orcamento">
                     Solicitar orcamento
                     <ArrowRight className="ml-2 h-4 w-4" />
@@ -154,10 +160,10 @@ export default function Index() {
         </section>
 
         <section className="mt-10">
-          <div className="mb-5 flex items-end justify-between gap-4">
+          <div className="mb-5 flex flex-col items-start justify-between gap-2 sm:flex-row sm:items-end sm:gap-4">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Categorias</p>
-              <h2 className="font-display text-4xl">Linhas em destaque</h2>
+              <h2 className="font-display text-3xl sm:text-4xl">Linhas em destaque</h2>
             </div>
             <Link to="/produtos" className="text-sm font-semibold text-primary hover:underline">Ver catalogo</Link>
           </div>
@@ -182,10 +188,10 @@ export default function Index() {
         </section>
 
         <section className="mt-10 rounded-lg bg-white px-5 py-8 shadow-sm ring-1 ring-border/80 md:px-7">
-          <div className="mb-5 flex items-end justify-between gap-4">
+          <div className="mb-5 flex flex-col items-start justify-between gap-2 sm:flex-row sm:items-end sm:gap-4">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Produtos</p>
-              <h2 className="font-display text-4xl">Produtos para consulta</h2>
+              <h2 className="font-display text-3xl sm:text-4xl">Produtos para consulta</h2>
               <p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">Uma vitrine inicial para orientar o pedido de cotação. Preços, estoque e condições comerciais sao confirmados pela equipe.</p>
             </div>
             <Link to="/produtos" className="text-sm font-semibold text-primary hover:underline">Abrir catalogo</Link>
@@ -198,7 +204,7 @@ export default function Index() {
         <section className="mt-10 grid gap-4 lg:grid-cols-[1fr_0.75fr]">
           <div className="rounded-lg border border-border/80 bg-white p-6 shadow-sm">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Como funciona</p>
-            <h2 className="mt-2 font-display text-4xl">Orcamento online em fluxo simples.</h2>
+            <h2 className="mt-2 font-display text-3xl sm:text-4xl">Orcamento online em fluxo simples.</h2>
             <div className="mt-5 grid gap-3 md:grid-cols-3">
               {["Escolha produtos ou categoria", "Envie dados de contato e quantidade", "A equipe comercial retorna pelo canal escolhido"].map((step, index) => (
                 <div key={step} className="rounded-md bg-muted/45 p-4 text-sm leading-6 text-muted-foreground">
@@ -210,7 +216,7 @@ export default function Index() {
           </div>
           <div className="rounded-lg bg-[#1f1f1f] p-6 text-white shadow-sm">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#ff6417]">Atendimento</p>
-            <h2 className="mt-2 font-display text-4xl">Prefere falar direto?</h2>
+            <h2 className="mt-2 font-display text-3xl sm:text-4xl">Prefere falar direto?</h2>
             <p className="mt-3 text-sm leading-7 text-white/68">Acione o WhatsApp comercial com uma mensagem pronta de interesse.</p>
             <Button asChild className="mt-5 rounded-md bg-[#ff6417] text-white hover:bg-[#e9560b]">
               <a href={getWhatsAppUrl(WHATSAPP_MESSAGES.default)} target="_blank" rel="noopener noreferrer">

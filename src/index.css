@@ -7,7 +7,7 @@
 @layer base {
   :root {
     --shell-max-width: 1500px;
-    --shell-gutter: 1.5rem;
+    --shell-gutter: clamp(1.5rem, 4vw, 3rem);
     --shell-reading-width: 1240px;
 
     --background: 34 38% 96%;
@@ -136,6 +136,19 @@
     text-rendering: optimizeLegibility;
   }
 
+  img,
+  video,
+  iframe {
+    max-width: 100%;
+  }
+
+  input,
+  textarea,
+  select,
+  button {
+    max-width: 100%;
+  }
+
   :focus-visible {
     outline: 2px solid hsl(var(--ring));
     outline-offset: 3px;
@@ -144,6 +157,12 @@
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Bebas Neue', sans-serif;
     letter-spacing: 0.02em;
+  }
+}
+
+@media (max-width: 360px) {
+  :root {
+    --shell-gutter: 1rem;
   }
 }
 

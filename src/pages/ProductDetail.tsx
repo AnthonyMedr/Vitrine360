@@ -152,7 +152,7 @@ export default function ProductDetail() {
     <Layout>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productStructuredData).replace(/</g, "\\u003c") }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbStructuredData).replace(/</g, "\\u003c") }} />
-      <main className="container py-5">
+      <main className="container py-4 sm:py-6">
         <nav className="mb-4 flex items-center gap-1.5 overflow-x-auto whitespace-nowrap text-xs text-muted-foreground">
           <Link to="/" className="hover:text-primary hover:underline">Inicio</Link>
           <ChevronRight className="h-3 w-3 shrink-0" />
@@ -165,7 +165,7 @@ export default function ProductDetail() {
           ) : null}
         </nav>
 
-        <section className="grid gap-6 lg:grid-cols-[0.92fr_1.08fr]">
+        <section className="grid gap-4 sm:gap-6 lg:grid-cols-[0.92fr_1.08fr]">
           <div className="space-y-3">
             <div className="relative aspect-square overflow-hidden rounded-lg border border-border/80 bg-white shadow-sm">
               {mediaUnderReview ? (
@@ -189,20 +189,20 @@ export default function ProductDetail() {
           </div>
 
           <div className="space-y-4">
-            <div className="rounded-lg border border-border/80 bg-white p-5 shadow-sm">
+            <div className="rounded-lg border border-border/80 bg-white p-4 shadow-sm sm:p-5">
               {product.brand?.name ? <p className="text-sm font-semibold text-primary">{product.brand.name}</p> : null}
-              <h1 className="mt-2 font-display text-4xl leading-none text-secondary md:text-6xl">{product.name}</h1>
+              <h1 className="mt-2 break-words font-display text-[clamp(2.25rem,8vw,3.75rem)] leading-[0.95] text-secondary">{product.name}</h1>
               <div className="mt-4 flex flex-wrap gap-2">
                 {categoryName ? <Badge variant="outline">{categoryName}</Badge> : null}
                 {product.sku ? <Badge variant="secondary">SKU {product.sku}</Badge> : null}
                 <Badge className="bg-primary text-primary-foreground">Orcamento sob consulta</Badge>
               </div>
-              <p className="mt-5 text-sm leading-7 text-muted-foreground">
+              <p className="mt-5 whitespace-pre-line break-words text-sm leading-7 text-muted-foreground">
                 {product.long_description || product.description || product.short_description || "Produto preparado para atendimento comercial e orçamento online."}
               </p>
             </div>
 
-            <div className="rounded-lg border border-primary/20 bg-primary/5 p-5">
+            <div className="rounded-lg border border-primary/20 bg-primary/5 p-4 sm:p-5">
               <p className="font-semibold text-foreground">Consulta comercial</p>
               <p className="mt-2 text-sm leading-7 text-muted-foreground">
                 Preço, disponibilidade, estoque, frete e prazo devem ser confirmados pela equipe da GAMEL antes de qualquer fechamento.
@@ -238,7 +238,7 @@ export default function ProductDetail() {
               </div>
             </div>
 
-            <div className="rounded-lg border border-border/80 bg-white p-5 shadow-sm">
+            <div className="rounded-lg border border-border/80 bg-white p-4 shadow-sm sm:p-5">
               <p className="text-sm font-semibold text-foreground">Como este produto ajuda no projeto</p>
               <div className="mt-3 flex flex-wrap gap-2">
                 {(applicationHints.length ? applicationHints : ["Obras", "Acabamentos", "Projetos comerciais"]).map((hint) => (
@@ -274,39 +274,39 @@ export default function ProductDetail() {
           </div>
         </section>
 
-        <section id="aplicações" className="mt-6 rounded-lg border border-border/80 bg-white p-5 shadow-sm">
+        <section id="aplicações" className="mt-6 rounded-lg border border-border/80 bg-white p-4 shadow-sm sm:p-5">
           <Tabs defaultValue="description">
-            <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="description">Descrição</TabsTrigger>
-              <TabsTrigger value="specs">Especificacoes</TabsTrigger>
-              <TabsTrigger value="applications">Aplicacoes</TabsTrigger>
+            <TabsList className="flex h-auto w-full justify-start overflow-x-auto p-1">
+              <TabsTrigger value="description" className="min-h-10 min-w-28 shrink-0">Descrição</TabsTrigger>
+              <TabsTrigger value="specs" className="min-h-10 min-w-32 shrink-0">Especificacoes</TabsTrigger>
+              <TabsTrigger value="applications" className="min-h-10 min-w-28 shrink-0">Aplicacoes</TabsTrigger>
             </TabsList>
-            <TabsContent value="description" className="mt-5 text-sm leading-7 text-muted-foreground">
+            <TabsContent value="description" className="mt-5 whitespace-pre-line break-words text-sm leading-7 text-muted-foreground">
               {product.long_description || product.description || "Produto cadastrado para consulta e orçamento comercial."}
             </TabsContent>
             <TabsContent value="specs" className="mt-5">
-              <div className="overflow-hidden rounded-lg border">
-                <table className="w-full text-sm">
+              <div className="overflow-x-auto rounded-lg border">
+                <table className="w-full min-w-[300px] text-sm">
                   <tbody>
                     {technicalRows.map((row) => (
                       <tr key={row.label} className="border-b last:border-b-0">
                         <td className="w-1/3 bg-muted/50 px-3 py-3 font-medium text-muted-foreground">{row.label}</td>
-                        <td className="px-3 py-3">{row.value}</td>
+                        <td className="break-words px-3 py-3">{row.value}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
             </TabsContent>
-            <TabsContent value="applications" className="mt-5 text-sm leading-7 text-muted-foreground">
+            <TabsContent value="applications" className="mt-5 whitespace-pre-line break-words text-sm leading-7 text-muted-foreground">
               {product.application || "Uso em obra, reforma, acabamento, manutencao ou projeto comercial, conforme validação da equipe GAMEL."}
             </TabsContent>
           </Tabs>
         </section>
 
         {relatedProducts.length > 0 ? (
-          <section className="mt-6 rounded-lg border border-border/80 bg-white p-5 shadow-sm">
-            <div className="mb-5 flex items-end justify-between gap-4">
+          <section className="mt-6 rounded-lg border border-border/80 bg-white p-4 shadow-sm sm:p-5">
+            <div className="mb-5 flex flex-col items-start justify-between gap-2 sm:flex-row sm:items-end sm:gap-4">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Relacionados</p>
                 <h2 className="font-display text-3xl">Produtos destá linha</h2>
