@@ -11,7 +11,6 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
-import { catalogCategoryCovers, catalogImagePlan, catalogOptionalPackages, catalogPlannedAssets } from "@/data/catalogImagePlan";
 
 type MediaAsset = {
   id: string;
@@ -212,32 +211,6 @@ export default function AdminMediaLibrary() {
               description="Use o campo acima para enviar imagens que serão reutilizadas em banners, categorias e outros lugares do site."
             />
           ) : null}
-        </WorkspaceSection>
-
-        <WorkspaceSection title="Plano mestre de imagens V4">
-          <AdminOperationalToolbar
-            title="Cobertura planejada do catálogo"
-            description="Manifesto nominal importado da planilha V4. Imagens de produto e variação exigem fonte original/aprovada; ambientações devem respeitar a referência exata do item."
-            resultLabel={`${catalogPlannedAssets.length} assets obrigatórios`}
-          />
-          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-            <WorkspaceMetric label="Produtos planejados" value={catalogImagePlan.length} />
-            <WorkspaceMetric label="Assets obrigatórios" value={catalogPlannedAssets.length} tone="warn" />
-            <WorkspaceMetric label="Capas de categoria" value={catalogCategoryCovers.length} tone="warn" />
-            <WorkspaceMetric label="Embalagens opcionais" value={catalogOptionalPackages.length} />
-          </div>
-          <div className="mt-4 grid gap-3 lg:grid-cols-2">
-            {catalogImagePlan.map((item) => (
-              <AdminQueueCard
-                key={item.productId}
-                title={item.product}
-                description={`${item.category} · ${item.requiredAssets} arquivo(s) obrigatório(s)`}
-                tone={item.status.toLowerCase() === "pendente" ? "warn" : "neutral"}
-                eyebrow={<><Badge variant="outline">{item.productId}</Badge><Badge variant="outline">{item.status}</Badge></>}
-                meta={<div className="space-y-1 text-xs leading-5"><p><strong>Ambientação:</strong> {item.recommendedEnvironment}</p><p><strong>Detalhes:</strong> {item.technicalDetails}</p><p><strong>Variações:</strong> {item.variations || "confirmar"}</p></div>}
-              />
-            ))}
-          </div>
         </WorkspaceSection>
 
         <WorkspaceSection title="Fila de revisão visual">
